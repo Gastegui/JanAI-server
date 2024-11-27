@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.User;
-import com.pbl.demo.model.UserRepository;
+import com.pbl.demo.model.users.UserRepository;
+import com.pbl.demo.model.users.Users;
+
 import jakarta.websocket.server.PathParam;
 
 
@@ -39,16 +40,15 @@ public class Controller {
      */
     @GetMapping(value = "/show", produces = { "application/json", "application/xml" })
     @ResponseBody
-    public ResponseEntity<List<User>> getUserss() {
+    public ResponseEntity<List<Users>> getUserss() {
 
-        List<User> Users_list = user_repository.findAll();
+        List<Users> Users_list = user_repository.findAll();
 
         if (Users_list.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(Users_list, HttpStatus.OK);
         }
-
     }
 
     /**
@@ -59,9 +59,9 @@ public class Controller {
      *         Users does not exist in the database)
      */
     @GetMapping(value = "/select/{id}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<User> getUsers(@PathVariable int id) {
+    public ResponseEntity<Users> getUsers(@PathVariable int id) {
 
-        Optional<User> Users = user_repository.findById(id);
+        Optional<Users> Users = user_repository.findById(id);
 
         if (Users.isPresent()) {
             return new ResponseEntity<>(Users.get(), HttpStatus.OK);
@@ -104,7 +104,7 @@ public class Controller {
      */
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<Users> addUser(@RequestBody Users user) {
 
         //user.setUserId(0);
         /*user.setActivity("MALE");
@@ -117,14 +117,13 @@ public class Controller {
         user.setPremium(null);
         user.setWaist(0);*/
         
-        Optional<User> found_Users = user_repository.findByUsername(user.getUsername());
+        Optional<Users> found_Users = user_repository.findByUsername(user.getUsername());
         if (found_Users.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             user_repository.save(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         }
-
     }
 
     /**
@@ -136,7 +135,7 @@ public class Controller {
      */
     @PutMapping(value = "/modify/{id}", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<User> putUsers(@PathVariable int id, @RequestBody User user) {
+    public ResponseEntity<Users> putUsers(@PathVariable int id, @RequestBody Users user) {
 
         user.setActivity("MALE");
         user.setBirthdate(null);
@@ -144,15 +143,15 @@ public class Controller {
         user.setGender(null);
         user.setHeight(0);
         user.setNeck(0);
-        user.setPassword(null);
+        user.setUserPass(null);
         user.setPremium(null);
         user.setWaist(0);
 
-        Optional<User> found_User = user_repository.findById(id);
+        Optional<Users> found_User = user_repository.findById(id);
 
         if (found_User.isPresent()) {
 
-            found_User.get().setName(user.getName());
+            found_User.get().setUname(user.getUname());
             found_User.get().setSecondName(user.getSecondName());
             found_User.get().setUsername(user.getUsername());
             found_User.get().setEmail(user.getEmail());
@@ -166,7 +165,6 @@ public class Controller {
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     /**
@@ -177,9 +175,9 @@ public class Controller {
      *         Users does not exist in the database)
      */
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable int id) {
+    public ResponseEntity<Users> deleteUser(@PathVariable int id) {
 
-        Optional<User> found_Users = user_repository.findById(id);
+        Optional<Users> found_Users = user_repository.findById(id);
 
         if (found_Users.isPresent()) {
 
@@ -212,8 +210,6 @@ public class Controller {
         }
 
     }*/
-
-
 }
 
 
