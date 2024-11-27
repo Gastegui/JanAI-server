@@ -19,8 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.users.UserRepository;
-import com.pbl.demo.model.users.Users;
+import com.pbl.demo.model.users.*;
+import com.pbl.demo.model.food.*;
+import com.pbl.demo.model.foodClass.*;
+import com.pbl.demo.model.foodGroup.*;
+import com.pbl.demo.model.foodType.*;
+import com.pbl.demo.model.hasIngredients.*;
+import com.pbl.demo.model.ingredients.*;
+import com.pbl.demo.model.restrictions.*;
+import com.pbl.demo.model.weightGoals.*;
+
 
 import jakarta.websocket.server.PathParam;
 
@@ -99,7 +107,7 @@ public class Controller {
 
     /**
      * @brief This method adds a new Users to the database.
-     * @param Users the Users object in XML or JSON format.
+     * @param Food the Users object in XML or JSON format.
      * @return an HTTP response with an OK HTTP status.
      */
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
@@ -129,7 +137,7 @@ public class Controller {
     /**
      * @brief This method modifies the information about an Users stored in the
      *        database.
-     * @param Users the Users object in XML or JSON format.
+     * @param Food the Users object in XML or JSON format.
      * @return an HTTP response (OK if the Users is found, not found if the
      *         Users does not exist in the database)
      */
