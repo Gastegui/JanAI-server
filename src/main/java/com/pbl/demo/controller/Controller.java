@@ -99,23 +99,12 @@ public class Controller {
 
     /**
      * @brief This method adds a new Users to the database.
-     * @param Users the Users object in XML or JSON format.
+     * @param FoodClass the Users object in XML or JSON format.
      * @return an HTTP response with an OK HTTP status.
      */
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
     public ResponseEntity<Users> addUser(@RequestBody Users user) {
-
-        //user.setUserId(0);
-        /*user.setActivity("MALE");
-        user.setBirthdate(null);
-        user.setEmail("anje@gmail.com");
-        user.setGender(null);
-        user.setHeight(0);
-        user.setNeck(0);
-        user.setPassword(null);
-        user.setPremium(null);
-        user.setWaist(0);*/
         
         Optional<Users> found_Users = user_repository.findByUsername(user.getUsername());
         if (found_Users.isPresent()) {
@@ -129,7 +118,7 @@ public class Controller {
     /**
      * @brief This method modifies the information about an Users stored in the
      *        database.
-     * @param Users the Users object in XML or JSON format.
+     * @param FoodClass the Users object in XML or JSON format.
      * @return an HTTP response (OK if the Users is found, not found if the
      *         Users does not exist in the database)
      */
@@ -137,7 +126,7 @@ public class Controller {
             "application/json", "application/xml" })
     public ResponseEntity<Users> putUsers(@PathVariable int id, @RequestBody Users user) {
 
-        user.setActivity("MALE");
+        /*user.setActivity("MALE");
         user.setBirthdate(null);
         user.setEmail("anje@gmail.com");
         user.setGender(null);
@@ -145,7 +134,7 @@ public class Controller {
         user.setNeck(0);
         user.setUserPass(null);
         user.setPremium(null);
-        user.setWaist(0);
+        user.setWaist(0);*/
 
         Optional<Users> found_User = user_repository.findById(id);
 
