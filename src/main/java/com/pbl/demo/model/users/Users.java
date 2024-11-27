@@ -15,8 +15,8 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    int userId;
+    int userID;
+
     String uname;
     String secondName;
     String gender;
@@ -35,10 +35,10 @@ public class Users {
     public Users(){
     }
 
-    public Users(int userId, String uname, String secondName, String gender, Date birthdate, int height,
+    public Users(int userID, String uname, String secondName, String gender, Date birthdate, int height,
             String username, String email, String userPass, String activity, Boolean premium, String objective,
             double neck, double waist, double hips) {
-        this.userId = userId;
+        this.userID = userID;
         this.uname = uname;
         this.secondName = secondName;
         this.gender = gender;
@@ -74,12 +74,12 @@ public class Users {
         this.hips = hips;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getUname() {
