@@ -46,11 +46,11 @@ create table hasIngredients(
     PRIMARY KEY (foodID, ingredientID)
 );
 
-create table users(
+create table user_data(
 	userID bigint PRIMARY KEY,
     uname char(255) NOT NULL,
     secondName char(255),
-    gender enum("MALE","FEMALE") NOT NULL,
+    gender enum("M","F") NOT NULL,
     age int NOT NULL, -- years
     height int NOT NULL, -- cm
     username char(255) UNIQUE NOT NULL,
@@ -77,24 +77,6 @@ create table users(
     dailyCalorieIntakeHarrisBenedict float, -- kcal/day
     dailyCalorieIntakeKatchMcArdle float -- kcal/day
 );
-INSERT INTO user_data VALUES(1, 'Luken', 'M', 20, 183, 85, 90, 30, null, 80, 18, 'Light', 'lose weight', null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO user_data VALUES(2, 'Anje', 'M', 20, 173, 75, 90, 30, null, 80, 18, 'Active', 'lose weight', null, null, null, null, null, null, null, null, null, null, null, null, null);
-
-CREATE TABLE user_data_temp (
-    userID BIGINT PRIMARY KEY,
-    bmrMifflin FLOAT, -- kcal
-    bmrHarrisBenedict FLOAT, -- kcal
-    bmrKatchMcArdle FLOAT, -- kcal
-    tdeeMifflin FLOAT, -- kcal
-    tdeeHarrisBenedict FLOAT, -- kcal
-    tdeeKatchMcArdle FLOAT, -- kcal
-    bodyFat FLOAT, -- %
-    totalWeightLoss FLOAT, -- kg
-    weeklyDeficit FLOAT, -- kcal
-    dailyCalorieIntakeMifflin FLOAT, -- kcal/day
-    dailyCalorieIntakeHarrisBenedict FLOAT, -- kcal/day
-    dailyCalorieIntakeKatchMcArdle FLOAT -- kcal/day
-);
 
 create table weightGoals(
 	weightGoalsID bigint,
@@ -104,7 +86,7 @@ create table weightGoals(
     durationToAchieveGoalWeight int, -- weeks
     registerDate date,
     PRIMARY KEY (weightGoalsID),
-    FOREIGN KEY (userID) REFERENCES users(userID)
+    FOREIGN KEY (userID) REFERENCES user_data(userID)
 );
 
 create table restrictions(
@@ -116,15 +98,9 @@ create table restrictions(
     classID bigint,
     ingredientID bigint,
     PRIMARY KEY (restrictionID),
-    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (userID) REFERENCES user_data(userID),
     FOREIGN KEY (groupID) REFERENCES foodGroup(groupID),
     FOREIGN KEY (typeID) REFERENCES foodType(typeID),
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
-
-/*
-select * from user_data;
-select * from user_data_temp;
-CALL update_calorie_values();
-*/
