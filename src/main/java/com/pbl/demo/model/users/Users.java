@@ -15,22 +15,22 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int userID;
+    private int userID;
 
-    String uname;
-    String secondName;
-    String gender;
-    Date birthdate;
-    int height;
-    String username;
-    String email;
-    String userPass;
-    String activity;
-    Boolean premium;
-    String objective;
-    double neck;
-    double waist;
-    double hips;
+    private String uname;
+    private String secondName;
+    private String gender;
+    private Date birthdate;
+    private int height;
+    private String username;
+    private String email;
+    private String userPass;
+    private String activity;
+    private Boolean premium;
+    private String objective;
+    private double neck;
+    private double waist;
+    private double hips;
 
     public Users(){
     }

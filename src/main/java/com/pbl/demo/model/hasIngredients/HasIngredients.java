@@ -12,8 +12,8 @@ import jakarta.persistence.Table;
 @Table(name = "hasIngredients")
 public class HasIngredients {
 
-    int foodID;
-    int ingredientID;
+    private int foodID;
+    private int ingredientID;
     
 
     public HasIngredients(){

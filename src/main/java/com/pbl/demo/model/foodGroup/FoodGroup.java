@@ -1,9 +1,16 @@
 package com.pbl.demo.model.foodGroup;
 
+import java.util.List;
+
+import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.ingredients.Ingredients;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -17,6 +24,9 @@ public class FoodGroup {
 
     private int typeID;
     private String groupName;
+
+    @OneToMany(mappedBy = "Ingredients", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingredients> ingredients;
 
     public FoodGroup(){
     }

@@ -1,10 +1,16 @@
 package com.pbl.demo.model.foodClass;
 
 
+import java.util.List;
+
+import com.pbl.demo.model.foodType.FoodType;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -15,9 +21,11 @@ public class FoodClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
-    int classID;
-    String className;
+    private int classID;
+    private String className;
     
+    @OneToMany(mappedBy = "FoodType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodType> restrictions;
 
     public FoodClass(){
     }
