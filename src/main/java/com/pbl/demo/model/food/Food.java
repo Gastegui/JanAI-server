@@ -1,11 +1,22 @@
 package com.pbl.demo.model.food;
 
+import java.util.HashSet;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+import jakarta.persistence.CascadeType;
+
+
+import com.pbl.demo.model.hasIngredients.HasIngredients;
 
 @Entity
 @Table(name = "food")
@@ -16,6 +27,9 @@ public class Food {
     private int foodID;
 
     private String foodName;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HasIngredients> foodTypes;
 
     public Food(){
     }

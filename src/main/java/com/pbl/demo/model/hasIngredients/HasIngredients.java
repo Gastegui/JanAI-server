@@ -5,48 +5,65 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import com.pbl.demo.model.food.Food;
+import com.pbl.demo.model.ingredients.Ingredients;
 
 
 @Entity
 @Table(name = "hasIngredients")
 public class HasIngredients {
 
-    int foodID;
-    int ingredientID;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
+
+    @ManyToOne
+    @JoinColumn(name = "foodID")
+    private Food food;
+
+    @ManyToOne
+    @JoinColumn(name = "ingredientID")
+    private Ingredients ingredients;
 
     public HasIngredients(){
     }
-    
 
-    public HasIngredients(int foodID, int ingredientID) {
-        this.foodID = foodID;
-        this.ingredientID = ingredientID;
+    public HasIngredients(int ID, Food food, Ingredients ingredients) {
+        this.ID = ID;
+        this.food = food;
+        this.ingredients = ingredients;
     }
 
-
-    public int getFoodID() {
-        return foodID;
+    public HasIngredients(Food food, Ingredients ingredients) {
+        this.food = food;
+        this.ingredients = ingredients;
     }
 
-
-    public void setFoodID(int foodID) {
-        this.foodID = foodID;
+    public int getID() {
+        return ID;
     }
 
-
-    public int getIngredientID() {
-        return ingredientID;
+    public void setID(int iD) {
+        ID = iD;
     }
 
-
-    public void setIngredientID(int ingredientID) {
-        this.ingredientID = ingredientID;
+    public Food getFood() {
+        return food;
     }
 
+    public void setFood(Food food) {
+        this.food = food;
+    }
 
-    
+    public Ingredients getIngredients() {
+        return ingredients;
+    }
 
-
+    public void setIngredients(Ingredients ingredients) {
+        this.ingredients = ingredients;
+    }
 }

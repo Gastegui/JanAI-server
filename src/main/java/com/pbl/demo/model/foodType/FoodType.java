@@ -1,11 +1,17 @@
 package com.pbl.demo.model.foodType;
 
 import java.util.Date;
+import java.util.List;
 
+import com.pbl.demo.model.restrictions.Restrictions;
+import com.pbl.demo.model.foodGroup.FoodGroup;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -17,26 +23,23 @@ public class FoodType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
     int typeId;
-    int classID;
+    //int classID;
     String typeName;
     
-    
+    @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodGroup> foodGroups;
 
     public FoodType(){
     }
 
-    
-
     public FoodType(int typeId, int classID, String typeName) {
         this.typeId = typeId;
-        this.classID = classID;
+        //this.classID = classID;
         this.typeName = typeName;
     }
 
-
-
     public FoodType(int classID, String typeName) {
-        this.classID = classID;
+        //this.classID = classID;
         this.typeName = typeName;
     }
 
@@ -54,7 +57,7 @@ public class FoodType {
 
 
 
-    public int getClassID() {
+    /*public int getClassID() {
         return classID;
     }
 
@@ -62,7 +65,7 @@ public class FoodType {
 
     public void setClassID(int classID) {
         this.classID = classID;
-    }
+    }*/
 
 
 
