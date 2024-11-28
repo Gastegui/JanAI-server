@@ -3,8 +3,6 @@ package com.pbl.demo.model.users;
 import java.util.Date;
 import java.util.List;
 
-import com.pbl.demo.model.hasIngredients.HasIngredients;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import com.pbl.demo.model.restrictions.*;
+import com.pbl.demo.model.restrictions.Restrictions;
 
 
 @Entity
@@ -39,7 +37,7 @@ public class Users {
     double waist;
     double hips;
 
-    @OneToMany(mappedBy = "restrictions", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
     public Users(){

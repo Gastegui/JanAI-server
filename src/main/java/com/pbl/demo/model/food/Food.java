@@ -1,6 +1,5 @@
 package com.pbl.demo.model.food;
 
-import java.util.HashSet;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -10,9 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
 import jakarta.persistence.CascadeType;
 
 

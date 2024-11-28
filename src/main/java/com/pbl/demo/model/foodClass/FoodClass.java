@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
+import com.pbl.demo.model.foodType.FoodType;
 
 @Entity
 @Table(name = "foodClass")
@@ -19,12 +20,15 @@ public class FoodClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int classID;
+    private int classID;
 
-    String className;
+    private String className;
     
-    @OneToMany(mappedBy = "restrictions", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "foodClass", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
+
+    @OneToMany(mappedBy = "foodClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodType> foodType;
 
     public FoodClass(){
     }

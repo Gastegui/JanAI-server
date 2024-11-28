@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.ingredients.Ingredients;
 
 @Entity
 @Table(name = "foodGroup")
@@ -23,27 +24,27 @@ public class FoodGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupID;
 
-    //private int typeID;
     private String groupName;
 
-    @OneToMany(mappedBy = "restrictions", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
     @ManyToOne
-    @JoinColumn(name = "typeId")
+    @JoinColumn(name = "typeID")
     private FoodType foodType;
+
+    @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingredients> ingredients;
 
     public FoodGroup(){
     }
 
-    public FoodGroup(int groupID, int typeID, String groupName) {
+    public FoodGroup(int groupID, String groupName) {
         this.groupID = groupID;
-        //this.typeID = typeID;
         this.groupName = groupName;
     }
 
-    public FoodGroup(int typeID, String groupName) {
-        //this.typeID = typeID;
+    public FoodGroup(String groupName) {
         this.groupName = groupName;
     }
 
@@ -54,14 +55,6 @@ public class FoodGroup {
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }
-
-    /*public int getTypeID() {
-        return typeID;
-    }
-
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
-    }*/
 
     public String getGroupName() {
         return groupName;
