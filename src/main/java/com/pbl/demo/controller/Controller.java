@@ -48,7 +48,7 @@ public class Controller {
      */
     @GetMapping(value = "/show", produces = { "application/json", "application/xml" })
     @ResponseBody
-    public ResponseEntity<List<Users>> getUserss() {
+    public ResponseEntity<List<Users>> getUsers() {
 
         List<Users> Users_list = user_repository.findAll();
 
@@ -79,31 +79,18 @@ public class Controller {
 
     }
 
-    /*@GetMapping(value = "/usersBydirector", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<User>> getUsersByDirector(@RequestParam String director) {
+    @GetMapping(value = "/usersByUsername", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Users> getUsersByName(@RequestParam String username) {
 
-        List<User> users = user_repository.findByUserDirector(director);
+        Optional<Users> users = user_repository.findByUsername(username);
 
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return new ResponseEntity<>(users, HttpStatus.OK);
+            return new ResponseEntity(users, HttpStatus.OK);
         }
 
     }
-
-    @GetMapping(value = "/usersByTitle", produces = { "application/json", "application/xml" })
-    public ResponseEntity<User> getUserByTitle(@RequestParam String title) {
-
-        Optional<User> user = user_repository.findByUserTitle(title);
-
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }*/
 
     /**
      * @brief This method adds a new Users to the database.
@@ -185,28 +172,6 @@ public class Controller {
         }
 
     }
-
-    /**
-     * @brief This method deletes an Users stored in the
-     *        database.
-     * @param id Users id specified as query param.
-     * @return an HTTP response (OK if the Users is found, not found if the
-     *         Users does not exist in the database)
-     */
-    /*@DeleteMapping(value = "/deleteUsersRequestParam")
-    public ResponseEntity<User> deleteUsersRequestParam(@RequestParam int id) {
-
-        Optional<User> found_Users = user_repository.findById(id);
-
-        if (found_Users.isPresent()) {
-
-            user_repository.delete(found_Users.get());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }*/
 }
 
 
