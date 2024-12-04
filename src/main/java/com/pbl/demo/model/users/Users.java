@@ -20,22 +20,22 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int userID;
+    private int userID;
 
-    String uname;
-    String secondName;
-    String gender;
-    Date birthdate;
-    int height;
-    String username;
-    String email;
-    String userPass;
-    String activity;
-    Boolean premium;
-    String objective;
-    double neck;
-    double waist;
-    double hips;
+    private String uname;
+    private String secondName;
+    private String gender;
+    private int age;
+    private int height;
+    private String username;
+    private String email;
+    private String userPass;
+    private String activity;
+    private Boolean premium;
+    private String objective;
+    private float neck;
+    private float waist;
+    private float hips;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
@@ -43,14 +43,14 @@ public class Users {
     public Users(){
     }
 
-    public Users(int userID, String uname, String secondName, String gender, Date birthdate, int height,
+    public Users(int userID, String uname, String secondName, String gender, int age, int height,
             String username, String email, String userPass, String activity, Boolean premium, String objective,
-            double neck, double waist, double hips) {
+            float neck, float waist, float hips) {
         this.userID = userID;
         this.uname = uname;
         this.secondName = secondName;
         this.gender = gender;
-        this.birthdate = birthdate;
+        this.age = age;
         this.height = height;
         this.username = username;
         this.email = email;
@@ -63,13 +63,13 @@ public class Users {
         this.hips = hips;
     }
 
-    public Users(String uname, String secondName, String gender, Date birthdate, int height, String username,
-            String email, String userPass, String activity, Boolean premium, String objective, double neck,
-            double waist, double hips) {
+    public Users(String uname, String secondName, String gender, int age, int height, String username,
+            String email, String userPass, String activity, Boolean premium, String objective, float neck,
+            float waist, float hips) {
         this.uname = uname;
         this.secondName = secondName;
         this.gender = gender;
-        this.birthdate = birthdate;
+        this.age = age;
         this.height = height;
         this.username = username;
         this.email = email;
@@ -114,12 +114,12 @@ public class Users {
         this.gender = gender;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public int getHeight() {
@@ -178,27 +178,27 @@ public class Users {
         this.objective = objective;
     }
 
-    public double getNeck() {
+    public float getNeck() {
         return neck;
     }
 
-    public void setNeck(double neck) {
+    public void setNeck(float neck) {
         this.neck = neck;
     }
 
-    public double getWaist() {
+    public float getWaist() {
         return waist;
     }
 
-    public void setWaist(double waist) {
+    public void setWaist(float waist) {
         this.waist = waist;
     }
 
-    public double getHips() {
+    public float getHips() {
         return hips;
     }
 
-    public void setHips(double hips) {
+    public void setHips(float hips) {
         this.hips = hips;
     }
 }
