@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,52 +35,79 @@ import jakarta.websocket.server.PathParam;
 
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 public class LoginController {
 
     @Autowired
     UserRepository user_repository;
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
+    
     /**
-     * @brief This method returns the list of Userss in XML and JSON format.
-     * @return an HTTP response (OK if there are Userss in the database, not found
-     *         if there are
-     *         not Userss)
+     * @brief This method validates whether or not the login credentials provided
+     * correspond to a registered user.
+     * @return an HTTP response (OK if there is a user registered and if the
+     * password provided is correct)
      */
-    @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
-    @ResponseBody
-    public ResponseEntity<List<Users>> getUserss() {
+    @PostMapping("/login")
+    public ResponseEntity<String> authenticate(@RequestBody LoginRequest loginRequest) {
+        Optional<Users> userOpt = user_repository.findByUsername(loginRequest.getUsername());
 
-        List<Users> Users_list = user_repository.findAll();
-
-        if (Users_list.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return new ResponseEntity<>(Users_list, HttpStatus.OK);
+        if (userOpt.isPresent()) {
+            Users user = userOpt.get();
+            if (passwordEncoder.matches(loginRequest.getPassword(), user.getUserPass())) {
+                // Successful login
+                return ResponseEntity.ok("Login successful");
+            }
         }
+
+        // Failed login
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
-    /**
-     * @brief This method returns the information about an Users in XML and JSON
-     *        formats.
-     * @param id identifier of the Users as query param.
-     * @return an HTTP response (OK if the Users is found, not found if the
-     *         Users does not exist in the database)
-     */
-    @GetMapping(value = "/select/{id}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<Users> getUsers(@RequestParam Users loguser) {
 
-        Optional<Users> user = user_repository.findByUsername(loguser.getUsername());
-        String password = loguser.getUserPass();
+    // /**
+    //  * @brief This method returns the list of Userss in XML and JSON format.
+    //  * @return an HTTP response (OK if there are Userss in the database, not found
+    //  *         if there are
+    //  *         not Userss)
+    //  */
+    // @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
+    // @ResponseBody
+    // public ResponseEntity<List<Users>> getUserss() {
+
+    //     List<Users> userList = user_repository.findAll();
+
+    //     if (userList.isEmpty()) {
+    //         return ResponseEntity.notFound().build();
+    //     } else {
+    //         return new ResponseEntity<>(userList, HttpStatus.OK);
+    //     }
+    // }
+
+    // /**
+    //  * @brief This method returns the information about an Users in XML and JSON
+    //  *        formats.
+    //  * @param id identifier of the Users as query param.
+    //  * @return an HTTP response (OK if the Users is found, not found if the
+    //  *         Users does not exist in the database)
+    //  */
+    // @GetMapping(value = "/select/{id}", produces = { "application/json", "application/xml" })
+    // public ResponseEntity<Users> getUsers(@RequestParam Users loguser) {
+
+    //     Optional<Users> user = user_repository.findByUsername(loguser.getUsername());
+    //     String password = loguser.getUserPass();
         
-        if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            //Errore bezala ezarri username or password was incorrect
-            return ResponseEntity.notFound().build();
-        }
+    //     if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
+    //         return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    //     } else {
+    //         //Errore bezala ezarri username or password was incorrect
+    //         return ResponseEntity.notFound().build();
+    //     }
 
-    }
+    // }
 
     /*@GetMapping(value = "/usersBydirector", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<User>> getUsersByDirector(@RequestParam String director) {
