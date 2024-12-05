@@ -31,7 +31,7 @@ create table foodGroup(
 );
 
 create table ingredients(
-	ingredientID bigint auto_increment,
+	ingredientID bigint,
     ingName char(255),
     groupID bigint,
     PRIMARY KEY (ingredientID),
@@ -76,23 +76,36 @@ create table hasIngredients(
     PRIMARY KEY (foodID, ingredientID)
 );
 
-create table users(
-	userID bigint auto_increment,
+create table user_data(
+	userID bigint PRIMARY KEY,
     uname char(255) NOT NULL,
     secondName char(255),
-    gender enum("MALE","FEMALE") NOT NULL,
-    age bigint NOT NULL,
-    height int NOT NULL,
+    gender enum("M","F") NOT NULL,
+    age int NOT NULL, -- years
+    height int NOT NULL, -- cm
     username char(255) UNIQUE NOT NULL,
     email char(255) UNIQUE NOT NULL,
     userPass char(255) NOT NULL,
-    activity enum("1-2","3-4","5-6","7"),
+    activityLevel enum("Sedentary","Light","Moderate","Active","Very Active"),
     premium boolean NOT NULL,
     objective enum("Lose weight", "Gain weight", "Keep fit"),
-    neck double,
-    waist double,
-    hips double,
-    PRIMARY KEY (userID)
+    neck float, -- cm
+    waist float, -- cm
+    hips float, -- cm
+    finalDailyCalorieIntake float, -- kcal/day
+    -- Variables only for the LLM
+    bmrMifflin float, -- kcal
+    bmrHarrisBenedict float, -- kcal
+    bmrKatchMcArdle float, -- kcal
+    tdeeMifflin float, -- kcal
+    tdeeHarrisBenedict float, -- kcal
+    tdeeKatchMcArdle float, -- kcal
+    bodyFat float, -- %
+    totalWeightLoss float, -- kg
+    weeklyDeficit float, -- kcal
+    dailyCalorieIntakeMifflin float, -- kcal/day
+    dailyCalorieIntakeHarrisBenedict float, -- kcal/day
+    dailyCalorieIntakeKatchMcArdle float -- kcal/day
 );
 
 create table foodList(
@@ -101,36 +114,33 @@ create table foodList(
     consumption_date date,
     meal char(255),
     PRIMARY KEY (foodID, userID),
-    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (userID) REFERENCES user_data(userID),
     FOREIGN KEY (foodID) REFERENCES food(foodID)
 );
 
 create table weightGoals(
 	weightGoalsID bigint,
     userID bigint, # FOREIGN KEY TO USER TABLE
-    cur_weight double NOT NULL,
-    goal_weight double NOT NULL,
-    goalDate date,
+    weight float NOT NULL, -- kg
+    goalWeight float NOT NULL, -- kg
+    durationToAchieveGoalWeight int, -- weeks
     registerDate date,
     PRIMARY KEY (weightGoalsID),
-    FOREIGN KEY (userID) REFERENCES users(userID)
+    FOREIGN KEY (userID) REFERENCES user_data(userID)
 );
 
 create table restrictions(
 	restrictionID bigint,
-    restrictedFood varchar(255),
+    restrictedName varchar(255),
     userID bigint,
     groupID bigint,
     typeID bigint,
     classID bigint,
     ingredientID bigint,
     PRIMARY KEY (restrictionID),
-    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (userID) REFERENCES user_data(userID),
     FOREIGN KEY (groupID) REFERENCES foodGroup(groupID),
     FOREIGN KEY (typeID) REFERENCES foodType(typeID),
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
-
-#select * from users;
-#delete from users;
