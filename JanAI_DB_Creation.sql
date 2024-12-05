@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS JANAI;
-CREATE DATABASE IF NOT EXISTS JANAI;
-USE JANAI;
+drop database if exists JanAI;
+create database if not exists JanAI;
+use JanAI;
 
 create table food(
 	foodID bigint,
@@ -31,11 +31,41 @@ create table foodGroup(
 );
 
 create table ingredients(
-	ingredientID bigint,
+	ingredientID bigint auto_increment,
     ingName char(255),
     groupID bigint,
     PRIMARY KEY (ingredientID),
     FOREIGN KEY (groupID) REFERENCES foodGroup(groupID)
+);
+
+create table administrator(
+	adminID bigint auto_increment,
+    uname char(255),
+    surname char(255),
+    username char(255) UNIQUE NOT NULL,
+    email char(255) UNIQUE NOT NULL,
+    userPass char(255) NOT NULL,
+    PRIMARY KEY (adminID)
+);
+
+create table campaign(
+	campaignID bigint,
+    campName char(255),
+    adminID bigint,
+    town char(255),
+    company char(255),
+    PRIMARY KEY (campaignID),
+    FOREIGN KEY (adminID) REFERENCES administrator(adminID)
+);
+
+create table ingredientsInCampaign(
+	campaignID bigint,
+    ingredientID bigint,
+    init_date date,
+    end_date date,
+    PRIMARY KEY (campaignID, ingredientID),
+    FOREIGN KEY (campaignID) REFERENCES campaign(campaignID),
+    FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
 
 create table hasIngredients(
@@ -46,47 +76,44 @@ create table hasIngredients(
     PRIMARY KEY (foodID, ingredientID)
 );
 
-create table user_data(
-	userID bigint PRIMARY KEY,
+create table users(
+	userID bigint auto_increment,
     uname char(255) NOT NULL,
     secondName char(255),
-    gender enum("M","F") NOT NULL,
-    age int NOT NULL, -- years
-    height int NOT NULL, -- cm
+    gender enum("MALE","FEMALE") NOT NULL,
+    age bigint NOT NULL,
+    height int NOT NULL,
     username char(255) UNIQUE NOT NULL,
     email char(255) UNIQUE NOT NULL,
     userPass char(255) NOT NULL,
-    activityLevel enum("Sedentary","Light","Moderate","Active","Very Active"),
+    activity enum("1-2","3-4","5-6","7"),
     premium boolean NOT NULL,
     objective enum("Lose weight", "Gain weight", "Keep fit"),
-    neck float, -- cm
-    waist float, -- cm
-    hips float, -- cm
-    finalDailyCalorieIntake float, -- kcal/day
-    -- Variables only for the LLM
-    bmrMifflin float, -- kcal
-    bmrHarrisBenedict float, -- kcal
-    bmrKatchMcArdle float, -- kcal
-    tdeeMifflin float, -- kcal
-    tdeeHarrisBenedict float, -- kcal
-    tdeeKatchMcArdle float, -- kcal
-    bodyFat float, -- %
-    totalWeightLoss float, -- kg
-    weeklyDeficit float, -- kcal
-    dailyCalorieIntakeMifflin float, -- kcal/day
-    dailyCalorieIntakeHarrisBenedict float, -- kcal/day
-    dailyCalorieIntakeKatchMcArdle float -- kcal/day
+    neck double,
+    waist double,
+    hips double,
+    PRIMARY KEY (userID)
+);
+
+create table foodList(
+	foodID bigint,
+    userID bigint,
+    consumption_date date,
+    meal char(255),
+    PRIMARY KEY (foodID, userID),
+    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (foodID) REFERENCES food(foodID)
 );
 
 create table weightGoals(
 	weightGoalsID bigint,
     userID bigint, # FOREIGN KEY TO USER TABLE
-    weight float NOT NULL, -- kg
-    goalWeight float NOT NULL, -- kg
-    durationToAchieveGoalWeight int, -- weeks
+    cur_weight double NOT NULL,
+    goal_weight double NOT NULL,
+    goalDate date,
     registerDate date,
     PRIMARY KEY (weightGoalsID),
-    FOREIGN KEY (userID) REFERENCES user_data(userID)
+    FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
 create table restrictions(
@@ -98,9 +125,12 @@ create table restrictions(
     classID bigint,
     ingredientID bigint,
     PRIMARY KEY (restrictionID),
-    FOREIGN KEY (userID) REFERENCES user_data(userID),
+    FOREIGN KEY (userID) REFERENCES users(userID),
     FOREIGN KEY (groupID) REFERENCES foodGroup(groupID),
     FOREIGN KEY (typeID) REFERENCES foodType(typeID),
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
+
+#select * from users;
+#delete from users;
