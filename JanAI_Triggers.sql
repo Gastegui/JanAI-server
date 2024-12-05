@@ -20,7 +20,7 @@ BEGIN
     DECLARE v_dailyCalorieIntakeHarrisBenedict FLOAT;
     DECLARE v_dailyCalorieIntakeKatchMcArdle FLOAT;
 
-    -- Obtener datos del usuario desde user_data
+    -- Obtener datos del usuario desde userData
     DECLARE v_gender CHAR(1);
     DECLARE v_height FLOAT;
     DECLARE v_age INT;
@@ -32,7 +32,7 @@ BEGIN
 
     SELECT gender, height, age, waist, neck, hips, bodyFat, activityLevel
     INTO v_gender, v_height, v_age, v_waist, v_neck, v_hips, v_bodyFatPercentage, v_activityLevel
-    FROM user_data
+    FROM userData
     WHERE userID = NEW.userID;
 
     -- Cálculo del porcentaje de grasa corporal
@@ -92,8 +92,8 @@ BEGIN
     SET v_dailyCalorieIntakeHarrisBenedict = v_tdeeHarrisBenedict - (v_weeklyDeficit / 7);
     SET v_dailyCalorieIntakeKatchMcArdle = v_tdeeKatchMcArdle - (v_weeklyDeficit / 7);
 
-    -- Actualizar los datos del usuario directamente en user_data
-    UPDATE user_data
+    -- Actualizar los datos del usuario directamente en userData
+    UPDATE userData
     SET
         bodyFat = v_body_fat,
         bmrMifflin = v_bmrMifflin,

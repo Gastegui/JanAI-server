@@ -56,7 +56,7 @@ INSERT INTO hasIngredients VALUES
   (3, 3);
 
 -- Insert data into user_data table
-INSERT INTO user_data VALUES
+INSERT INTO userData VALUES
 (1, 'Luken', 'Iriondo', 'M', 20, '183', 'iamLudok', 'luken.iriondo@alumni.mondragon.edu', 'angry', 'Light', false, 
 'Lose weight', 30, 90, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
 (2, 'Anje', 'Maiztegi', 'M', 19, '173', 'anje13', 'ange.maiztegui@alumni.mondragon.edu', 'angry', 'Active', false, 
@@ -86,7 +86,7 @@ select * from administrator;
 select * from campaign;
 select * from ingredientsInCampaign;
 select * from hasIngredients;
-select * from user_data;
+select * from userData;
 select * from foodList;
 select * from weightGoals;
 select * from restrictions;

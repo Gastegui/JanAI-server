@@ -76,7 +76,7 @@ create table hasIngredients(
     PRIMARY KEY (foodID, ingredientID)
 );
 
-create table user_data(
+create table userData(
 	userID bigint PRIMARY KEY,
     uname char(255) NOT NULL,
     secondName char(255),
@@ -114,7 +114,7 @@ create table foodList(
     consumption_date date,
     meal char(255),
     PRIMARY KEY (foodID, userID),
-    FOREIGN KEY (userID) REFERENCES user_data(userID),
+    FOREIGN KEY (userID) REFERENCES userData(userID),
     FOREIGN KEY (foodID) REFERENCES food(foodID)
 );
 
@@ -126,7 +126,7 @@ create table weightGoals(
     durationToAchieveGoalWeight int, -- weeks
     registerDate date,
     PRIMARY KEY (weightGoalsID),
-    FOREIGN KEY (userID) REFERENCES user_data(userID)
+    FOREIGN KEY (userID) REFERENCES userData(userID)
 );
 
 create table restrictions(
@@ -138,7 +138,7 @@ create table restrictions(
     classID bigint,
     ingredientID bigint,
     PRIMARY KEY (restrictionID),
-    FOREIGN KEY (userID) REFERENCES user_data(userID),
+    FOREIGN KEY (userID) REFERENCES userData(userID),
     FOREIGN KEY (groupID) REFERENCES foodGroup(groupID),
     FOREIGN KEY (typeID) REFERENCES foodType(typeID),
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
