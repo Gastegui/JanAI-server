@@ -1,6 +1,5 @@
 package com.pbl.demo.model.users;
 
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -10,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import com.pbl.demo.model.restrictions.Restrictions;
 
@@ -36,6 +36,9 @@ public class Users {
     private float neck;
     private float waist;
     private float hips;
+
+    @Transient //This won't be saved in the database
+    private String confirmPassword;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
@@ -200,5 +203,13 @@ public class Users {
 
     public void setHips(float hips) {
         this.hips = hips;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
