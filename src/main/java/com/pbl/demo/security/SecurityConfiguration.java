@@ -29,10 +29,27 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityConfiguration{
     
     //TO-DO, security filtrua ezarri behar, gauza handirik ez, logeatuta eta logeatu gabe, eta admin
-    /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+                .authorizeHttpRequests(authentication -> authentication
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/**").hasAnyRole("ADMIN", "NORMAL")
+                        .anyRequest().authenticated())
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .successHandler(loginSuccessHandler())
+                        .failureHandler(authenticationFailureHandler())
+                        .defaultSuccessUrl("/", true)
+                        .permitAll())
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(logoutHandler())
+                        .logoutSuccessHandler(logoutSuccessHandler())
+                        );
+        return http.build();
+    }
 
-    }*/
     private AuthenticationSuccessHandler loginSuccessHandler(){
         return new AuthenticationSuccessHandler() {
 
