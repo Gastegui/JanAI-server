@@ -1,6 +1,6 @@
 package com.pbl.demo.mail;
 
-import java.util.HashMap;
+/*import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -112,3 +112,4 @@ public class PasswordRecoveryService {
             + "</html>";
     }
 }
+*/

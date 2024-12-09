@@ -47,16 +47,24 @@ public class LoginController {
      *         not Userss)
      */
     @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
-    @ResponseBody
-    public ResponseEntity<List<UserData>> getUserss() {
+    public ResponseEntity<UserData> getUserss(@RequestParam String username, @RequestParam String userPass) {
 
-        List<UserData> Users_list = user_repository.findAll();
+        Optional<UserData> user = user_repository.findByUsername(username);
 
-        if (Users_list.isEmpty()) {
+        if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return new ResponseEntity<>(Users_list, HttpStatus.OK);
-        }
+            if(user.get().getUserPass().equals(userPass))
+            {
+                return new ResponseEntity(user, HttpStatus.OK);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+            
+        }///ALDATU BEHAR DA FUNTZIO HAU, IZATEZ SPRING SECURITY-K EIN BEHAR DAU
+
+        
     }
 
     /**
