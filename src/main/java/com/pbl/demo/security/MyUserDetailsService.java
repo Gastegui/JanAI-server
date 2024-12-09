@@ -9,15 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.pbl.demo.model.users.UserRepository;
+import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.userData.UserDataRepository;
 
 import jakarta.servlet.http.HttpSession;
 
-import com.pbl.demo.model.users.Users;
-
 public class MyUserDetailsService implements UserDetailsService{
     @Autowired
-    private UserRepository userRepo;
+    private UserDataRepository userRepo;
 
     @Autowired
     private HttpSession session;
@@ -29,11 +28,11 @@ public class MyUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String dbUsername, dbPass, dbRole;
 
-        Optional<Users> optUser = userRepo.findByUsername(username);
+        Optional<UserData> optUser = userRepo.findByUsername(username);
         if(!optUser.isPresent()){
             throw new UsernameNotFoundException("User wasn't found or doesn't exist");
         }
-        Users user = optUser.get();
+        UserData user = optUser.get();
         dbUsername = user.getUsername();
         dbPass = user.getUserPass();
         dbRole = "A";

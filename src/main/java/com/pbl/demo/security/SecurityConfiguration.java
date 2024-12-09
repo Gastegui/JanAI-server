@@ -33,6 +33,16 @@ public class SecurityConfiguration{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
     }*/
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests((authz) -> 
+                authz.anyRequest().permitAll()
+            );
+
+        return http.build();
+    }
     private AuthenticationSuccessHandler loginSuccessHandler(){
         return new AuthenticationSuccessHandler() {
 

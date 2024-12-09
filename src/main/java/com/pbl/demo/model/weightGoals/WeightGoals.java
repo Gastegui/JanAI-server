@@ -2,10 +2,15 @@ package com.pbl.demo.model.weightGoals;
 
 import java.util.Date;
 
+import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.userData.UserData;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -15,9 +20,13 @@ public class WeightGoals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private int weightGoalsID;
-    private int userID;
+
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private UserData userData;
+
+    
     private Double cur_weight;
     private Double goal_weight;
     private Date goalDate;
@@ -28,10 +37,14 @@ public class WeightGoals {
 
     
 
-    public WeightGoals(int weightGoalsID, int userID, Double cur_weight, Double goal_weight, Date goalDate,
+    
+
+
+
+    public WeightGoals(int weightGoalsID, UserData userData, Double cur_weight, Double goal_weight, Date goalDate,
             Date registerDate) {
         this.weightGoalsID = weightGoalsID;
-        this.userID = userID;
+        this.userData = userData;
         this.cur_weight = cur_weight;
         this.goal_weight = goal_weight;
         this.goalDate = goalDate;
@@ -40,13 +53,17 @@ public class WeightGoals {
 
 
 
-    public WeightGoals(int userID, Double cur_weight, Double goal_weight, Date goalDate, Date registerDate) {
-        this.userID = userID;
+    public WeightGoals(UserData userData, Double cur_weight, Double goal_weight, Date goalDate, Date registerDate) {
+        this.userData = userData;
         this.cur_weight = cur_weight;
         this.goal_weight = goal_weight;
         this.goalDate = goalDate;
         this.registerDate = registerDate;
     }
+
+
+
+
 
 
 
@@ -62,15 +79,7 @@ public class WeightGoals {
 
 
 
-    public int getUserID() {
-        return userID;
-    }
-
-
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+    
 
 
 
@@ -118,6 +127,26 @@ public class WeightGoals {
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
+    }
+
+
+
+
+
+
+
+    public UserData getUserData() {
+        return userData;
+    }
+
+
+
+
+
+
+
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 
 

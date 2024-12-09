@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.users.*;
 import com.pbl.demo.model.food.*;
 import com.pbl.demo.model.foodClass.*;
 import com.pbl.demo.model.foodGroup.*;
@@ -27,6 +26,7 @@ import com.pbl.demo.model.foodType.*;
 import com.pbl.demo.model.hasIngredients.*;
 import com.pbl.demo.model.ingredients.*;
 import com.pbl.demo.model.restrictions.*;
+import com.pbl.demo.model.userData.*;
 import com.pbl.demo.model.weightGoals.*;
 
 
@@ -38,7 +38,7 @@ import jakarta.websocket.server.PathParam;
 public class LoginController {
 
     @Autowired
-    UserRepository user_repository;
+    UserDataRepository user_repository;
 
     /**
      * @brief This method returns the list of Userss in XML and JSON format.
@@ -48,9 +48,9 @@ public class LoginController {
      */
     @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
     @ResponseBody
-    public ResponseEntity<List<Users>> getUserss() {
+    public ResponseEntity<List<UserData>> getUserss() {
 
-        List<Users> Users_list = user_repository.findAll();
+        List<UserData> Users_list = user_repository.findAll();
 
         if (Users_list.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -67,9 +67,9 @@ public class LoginController {
      *         Users does not exist in the database)
      */
     @GetMapping(value = "/select/{id}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<Users> getUsers(@RequestParam Users loguser) {
+    public ResponseEntity<UserData> getUsers(@RequestParam UserData loguser) {
 
-        Optional<Users> user = user_repository.findByUsername(loguser.getUsername());
+        Optional<UserData> user = user_repository.findByUsername(loguser.getUsername());
         String password = loguser.getUserPass();
         
         if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
@@ -114,9 +114,9 @@ public class LoginController {
      */
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Users> addUser(@RequestBody Users user) {
+    public ResponseEntity<UserData> addUser(@RequestBody UserData user) {
         
-        Optional<Users> found_Users = user_repository.findByUsername(user.getUsername());
+        Optional<UserData> found_Users = user_repository.findByUsername(user.getUsername());
         if (found_Users.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -134,7 +134,7 @@ public class LoginController {
      */
     @PutMapping(value = "/modify/{id}", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Users> putUsers(@PathVariable int id, @RequestBody Users user) {
+    public ResponseEntity<UserData> putUsers(@PathVariable int id, @RequestBody UserData user) {
 
         /*user.setActivity("MALE");
         user.setBirthdate(null);
@@ -146,7 +146,7 @@ public class LoginController {
         user.setPremium(null);
         user.setWaist(0);*/
 
-        Optional<Users> found_User = user_repository.findById(id);
+        Optional<UserData> found_User = user_repository.findById(id);
 
         if (found_User.isPresent()) {
 
@@ -154,7 +154,7 @@ public class LoginController {
             found_User.get().setSecondName(user.getSecondName());
             found_User.get().setUsername(user.getUsername());
             found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivity(user.getActivity());
+            found_User.get().setActivityLevel(user.getActivityLevel());
             found_User.get().setGender(user.getGender());
             found_User.get().setNeck(user.getNeck());
             found_User.get().setWaist(user.getWaist());
@@ -174,9 +174,9 @@ public class LoginController {
      *         Users does not exist in the database)
      */
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Users> deleteUser(@PathVariable int id) {
+    public ResponseEntity<UserData> deleteUser(@PathVariable int id) {
 
-        Optional<Users> found_Users = user_repository.findById(id);
+        Optional<UserData> found_Users = user_repository.findById(id);
 
         if (found_Users.isPresent()) {
 

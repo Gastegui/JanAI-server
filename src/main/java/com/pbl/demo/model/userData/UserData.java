@@ -1,4 +1,4 @@
-package com.pbl.demo.model.users;
+package com.pbl.demo.model.userData;
 
 import java.util.Date;
 import java.util.List;
@@ -12,11 +12,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
+import com.pbl.demo.model.weightGoals.WeightGoals;
 
 
 @Entity
-@Table(name = "users")
-public class Users {
+@Table(name = "userData")
+public class UserData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,21 +31,24 @@ public class Users {
     private String username;
     private String email;
     private String userPass;
-    private String activity;
+    private String activityLevel;
     private Boolean premium;
     private String objective;
     private float neck;
     private float waist;
     private float hips;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
-    public Users(){
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WeightGoals> weightGoals;
+
+    public UserData(){
     }
 
-    public Users(int userID, String uname, String secondName, String gender, int age, int height,
-            String username, String email, String userPass, String activity, Boolean premium, String objective,
+    public UserData(int userID, String uname, String secondName, String gender, int age, int height,
+            String username, String email, String userPass, String activityLevel, Boolean premium, String objective,
             float neck, float waist, float hips) {
         this.userID = userID;
         this.uname = uname;
@@ -55,7 +59,7 @@ public class Users {
         this.username = username;
         this.email = email;
         this.userPass = userPass;
-        this.activity = activity;
+        this.activityLevel = activityLevel;
         this.premium = premium;
         this.objective = objective;
         this.neck = neck;
@@ -63,8 +67,8 @@ public class Users {
         this.hips = hips;
     }
 
-    public Users(String uname, String secondName, String gender, int age, int height, String username,
-            String email, String userPass, String activity, Boolean premium, String objective, float neck,
+    public UserData(String uname, String secondName, String gender, int age, int height, String username,
+            String email, String userPass, String activityLevel, Boolean premium, String objective, float neck,
             float waist, float hips) {
         this.uname = uname;
         this.secondName = secondName;
@@ -74,7 +78,7 @@ public class Users {
         this.username = username;
         this.email = email;
         this.userPass = userPass;
-        this.activity = activity;
+        this.activityLevel = activityLevel;
         this.premium = premium;
         this.objective = objective;
         this.neck = neck;
@@ -118,6 +122,22 @@ public class Users {
         return age;
     }
 
+    public List<Restrictions> getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestrictions(List<Restrictions> restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    public List<WeightGoals> getweightGoals() {
+        return weightGoals;
+    }
+
+    public void setweightGoals(List<WeightGoals> weightGoals) {
+        this.weightGoals = weightGoals;
+    }
+
     public void setAge(int age) {
         this.age = age;
     }
@@ -154,12 +174,12 @@ public class Users {
         this.userPass = userPass;
     }
 
-    public String getActivity() {
-        return activity;
+    public String getActivityLevel() {
+        return activityLevel;
     }
 
-    public void setActivity(String activity) {
-        this.activity = activity;
+    public void setActivityLevel(String activityLevel) {
+        this.activityLevel = activityLevel;
     }
 
     public Boolean getPremium() {
