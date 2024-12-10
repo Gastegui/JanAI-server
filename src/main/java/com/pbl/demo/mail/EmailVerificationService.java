@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.pbl.demo.model.users.UserRepository;
-import com.pbl.demo.model.users.Users;
+import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.model.userData.UserData;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 @Service
 public class EmailVerificationService {
     @Autowired
-    private UserRepository userRepo;
+    private UserDataRepository userRepo;
 
     @Autowired
     private EmailService emailService;
@@ -23,7 +23,7 @@ public class EmailVerificationService {
     private HttpSession session;
 
 
-    public void sendVerificationCode(Users user){
+    public void sendVerificationCode(UserData user){
         Integer verificationCode = generateVerificationCode();
 
         try {
@@ -39,7 +39,7 @@ public class EmailVerificationService {
 
     public boolean verifyEmail(Integer introducedCode){
         Integer sentCode = (Integer) session.getAttribute("sentCode");
-        Users userToRegister = (Users) session.getAttribute("userToRegister");
+        UserData userToRegister = (UserData) session.getAttribute("userToRegister");
 
         if(sentCode == null || userToRegister == null){
             session.setAttribute("error", "There is no email to verify");

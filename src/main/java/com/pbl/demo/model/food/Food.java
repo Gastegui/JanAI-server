@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 import jakarta.persistence.CascadeType;
 
-
+import com.pbl.demo.model.foodList.FoodList;
 import com.pbl.demo.model.hasIngredients.HasIngredients;
 
 @Entity
@@ -26,6 +26,9 @@ public class Food {
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HasIngredients> foodTypes;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodList> foodList;
 
     public Food(){
     }

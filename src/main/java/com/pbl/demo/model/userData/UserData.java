@@ -1,4 +1,4 @@
-package com.pbl.demo.model.users;
+package com.pbl.demo.model.userData;
 
 import java.util.List;
 
@@ -9,40 +9,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pbl.demo.model.restrictions.Restrictions;
 
 
-@Data
 @Entity
-@Table(name = "users")
-public class Users {
+@Table(name = "userData")
+public class UserData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
 
-    @JsonProperty("uname")
     private String uname;
-
-    @JsonProperty("secondName")
     private String secondName;
-
-
     private String gender;
     private int age;
     private int height;
     private String username;
-
-    @JsonProperty("email")
     private String email;
-
-    @JsonProperty("userPass")
     private String userPass;
-
     private String activity;
     private Boolean premium;
     private String objective;
@@ -50,17 +36,13 @@ public class Users {
     private float waist;
     private float hips;
 
-    @Transient //This won't be saved in the database
-    @JsonProperty("confirmPassword")
-    private String confirmPassword;
-
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
-    public Users(){
+    public UserData(){
     }
 
-    public Users(int userID, String uname, String secondName, String gender, int age, int height,
+    public UserData(int userID, String uname, String secondName, String gender, int age, int height,
             String username, String email, String userPass, String activity, Boolean premium, String objective,
             float neck, float waist, float hips) {
         this.userID = userID;
@@ -80,7 +62,7 @@ public class Users {
         this.hips = hips;
     }
 
-    public Users(String uname, String secondName, String gender, int age, int height, String username,
+    public UserData(String uname, String secondName, String gender, int age, int height, String username,
             String email, String userPass, String activity, Boolean premium, String objective, float neck,
             float waist, float hips) {
         this.uname = uname;
@@ -106,7 +88,7 @@ public class Users {
     public void setUserID(int userID) {
         this.userID = userID;
     }
-    
+
     public String getUname() {
         return uname;
     }
@@ -217,13 +199,5 @@ public class Users {
 
     public void setHips(float hips) {
         this.hips = hips;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 }

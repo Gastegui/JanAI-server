@@ -30,26 +30,20 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityConfiguration{
     
     //TO-DO, security filtrua ezarri behar, gauza handirik ez, logeatuta eta logeatu gabe, eta admin
+    /*@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+    }*/
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-                .authorizeHttpRequests(authentication -> authentication
-                        .anyRequest().permitAll())
-                .csrf(csrf -> csrf.disable())
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .successHandler(loginSuccessHandler())
-                        .failureHandler(authenticationFailureHandler())
-                        .defaultSuccessUrl("/", true)
-                        .permitAll())
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler(logoutHandler())
-                        .logoutSuccessHandler(logoutSuccessHandler())
-                        );
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests((authz) -> 
+                authz.anyRequest().permitAll()
+            );
+
         return http.build();
     }
-
     private AuthenticationSuccessHandler loginSuccessHandler(){
         return new AuthenticationSuccessHandler() {
 

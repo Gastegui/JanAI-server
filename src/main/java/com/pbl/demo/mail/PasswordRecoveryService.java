@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pbl.demo.model.users.UserRepository;
-import com.pbl.demo.model.users.Users;
+import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.model.userData.UserData;
 
 import jakarta.mail.MessagingException;
 
@@ -18,7 +18,7 @@ public class PasswordRecoveryService {
       @Autowired
     private EmailService emailService;
     @Autowired
-    private UserRepository userRepository;
+    private UserDataRepository userRepository;
 
 
     private static HashMap<String, String> verificationTokens = new HashMap<>();
@@ -63,8 +63,8 @@ public class PasswordRecoveryService {
     public boolean updatePassword(String token, String newPassword){
         String email = verificationTokens.get(token);
         if(email != null){
-            Optional<Users> userOpt = userRepository.findByEmail(email);
-            Users user = userOpt.get();
+            Optional<UserData> userOpt = userRepository.findByEmail(email);
+            UserData user = userOpt.get();
             user.setUserPass(newPassword);
             userRepository.save(user);
             verificationTokens.remove(token);
