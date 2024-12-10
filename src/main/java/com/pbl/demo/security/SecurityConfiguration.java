@@ -43,6 +43,7 @@ public class SecurityConfiguration{
 
         return http.build();
     }
+
     private AuthenticationSuccessHandler loginSuccessHandler(){
         return new AuthenticationSuccessHandler() {
 

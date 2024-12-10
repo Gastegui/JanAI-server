@@ -4,6 +4,7 @@ package com.pbl.demo.controller.login;
 import java.util.List;
 import java.util.Optional;
 
+import com.pbl.demo.security.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
-
+import com.pbl.demo.security.JwtUtil;
+import com.pbl.demo.security.AuthRequest;
 
 
 
@@ -32,10 +33,49 @@ import com.pbl.demo.model.userData.UserDataRepository;
 public class LoginController {
 
     @Autowired
+    JwtUtil jwtUtil;
+
+    @Autowired
     UserDataRepository user_repository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
+    /**
+     * @brief This method validates whether or not the login credentials provided
+     * correspond to a registered user.
+     * @return an HTTP response (OK if there is a user registered and if the
+     * password provided is correct)
+     */
+    @PostMapping("/login") 
+    public ResponseEntity<String> authenticate(@RequestBody AuthRequest authRequest) {
+        Optional<UserData> userOpt = user_repository.findByUsername(authRequest.getUsername());
+        if (userOpt.isPresent()) {
+            UserData user = userOpt.get();
+
+            // BELOW THIS SNIPPET IS THE CORRECT FLOW WHEN USERS ARE REGISTERED WITH ENCRYPTED PASSWORDS!
+            if (authRequest.getUserpass().equals(user.getUserPass())) {
+                // Successful login
+                String token = jwtUtil.generateToken(authRequest.getUsername());
+                return ResponseEntity.ok(new AuthResponse(token).getToken());
+            }
+
+            // At the moment, the SQL script used to generate the DB does not provide a valid
+            // BCrypt encoded password, so the flow above is used.
+
+            /*
+            if (passwordEncoder.matches(authRequest.getUserpass(), user.getUserPass())) {
+                // Successful login
+                String token = jwtUtil.generateToken(authRequest.getUsername());
+                return ResponseEntity.ok(String.valueOf(new AuthResponse(token)));
+            }
+            */
+        }
+
+        // Failed login
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
 
     
     /**
@@ -80,35 +120,9 @@ public class LoginController {
     //     }
 
     // }
-
-    /*@GetMapping(value = "/usersBydirector", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<User>> getUsersByDirector(@RequestParam String director) {
-
-        List<User> users = user_repository.findByUserDirector(director);
-
-        if (users.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        }
-
+        return new ResponseEntity<UserData>(loguser, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value = "/usersByTitle", produces = { "application/json", "application/xml" })
-    public ResponseEntity<User> getUserByTitle(@RequestParam String title) {
-
-        Optional<User> user = user_repository.findByUserTitle(title);
-
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    
-    }*/
-    return new ResponseEntity<UserData>(loguser, HttpStatus.ACCEPTED);
-    }
     /**
      * @brief This method adds a new Users to the database.
      * @param Food the Users object in XML or JSON format.
@@ -137,16 +151,6 @@ public class LoginController {
     @PutMapping(value = "/modify/{id}", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> putUsers(@PathVariable int id, @RequestBody UserData user) {
-
-        /*user.setActivity("MALE");
-        user.setBirthdate(null);
-        user.setEmail("anje@gmail.com");
-        user.setGender(null);
-        user.setHeight(0);
-        user.setNeck(0);
-        user.setUserPass(null);
-        user.setPremium(null);
-        user.setWaist(0);*/
 
         Optional<UserData> found_User = user_repository.findById(id);
 
