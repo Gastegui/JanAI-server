@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.pbl.demo.controller.ControllerUtils;
 import com.pbl.demo.mail.EmailVerificationService;
-import com.pbl.demo.model.users.UserRepository;
-import com.pbl.demo.model.users.Users;
+import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.userData.UserDataRepository;
+
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 @PreAuthorize("isAnonymous()")
 public class RegisterController {
     @Autowired
-    private UserRepository userRepository;
+    private UserDataRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -31,23 +33,23 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegistrationForm(HttpSession session, Model model){
         ControllerUtils.setSessionMessages(session, model);
-        model.addAttribute("user", new Users());
+        model.addAttribute("user", new UserData());
         return "register";
     }
 
     @PostMapping(value = "/register", consumes = {"application/json", "application/xml"})
-    public String registerUser(Model model, HttpSession session, @RequestBody Users body){
+    public String registerUser(Model model, HttpSession session, @RequestBody UserData body){
         
         if(body == null){
             System.out.println("El cuerpo esta vacio o no es valido");
             return "redirect:/register";
         }
         
-        Users user1 = body;
+        UserData user = body;
 
 
-        user1.setUserPass(passwordEncoder.encode(user1.getUserPass()));
-        emailVerificationService.sendVerificationCode(user1);
+        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
+        emailVerificationService.sendVerificationCode(user);
         return "redirect:/email-verify";
     }
 }
