@@ -10,10 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pbl.demo.model.restrictions.Restrictions;
 
 
+@Data
 @Entity
 @Table(name = "users")
 public class Users {
@@ -22,14 +25,24 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
 
+    @JsonProperty("uname")
     private String uname;
+
+    @JsonProperty("secondName")
     private String secondName;
+
+
     private String gender;
     private int age;
     private int height;
     private String username;
+
+    @JsonProperty("email")
     private String email;
+
+    @JsonProperty("userPass")
     private String userPass;
+
     private String activity;
     private Boolean premium;
     private String objective;
@@ -38,6 +51,7 @@ public class Users {
     private float hips;
 
     @Transient //This won't be saved in the database
+    @JsonProperty("confirmPassword")
     private String confirmPassword;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -92,7 +106,7 @@ public class Users {
     public void setUserID(int userID) {
         this.userID = userID;
     }
-
+    
     public String getUname() {
         return uname;
     }

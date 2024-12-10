@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
@@ -33,9 +34,8 @@ public class SecurityConfiguration{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
                 .authorizeHttpRequests(authentication -> authentication
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/**").hasAnyRole("ADMIN", "NORMAL")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
+                .csrf(csrf -> csrf.disable())
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .successHandler(loginSuccessHandler())

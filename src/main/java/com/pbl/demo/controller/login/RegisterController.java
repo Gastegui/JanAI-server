@@ -1,5 +1,7 @@
 package com.pbl.demo.controller.login;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.pbl.demo.controller.ControllerUtils;
 import com.pbl.demo.mail.EmailVerificationService;
@@ -18,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @PreAuthorize("isAnonymous()")
 public class RegisterController {
-      @Autowired
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,29 +35,19 @@ public class RegisterController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(Users user, Model model, HttpSession session){
-        if(userRepository.findByUsername(user.getUsername()) != null) {
-            session.setAttribute("error", "El nombre de usuario ya existe");
+    @PostMapping(value = "/register", consumes = {"application/json", "application/xml"})
+    public String registerUser(Model model, HttpSession session, @RequestBody Users body){
+        
+        if(body == null){
+            System.out.println("El cuerpo esta vacio o no es valido");
             return "redirect:/register";
         }
+        
+        Users user1 = body;
 
-        if(userRepository.findByEmail(user.getEmail()) != null) {
-            session.setAttribute("error", "El email ya está en uso");
-            return "redirect:/register";
-        }
 
-        if(!user.getUserPass().equals(user.getConfirmPassword())) {
-            session.setAttribute("error", "Las contraseñas no coinciden");
-            return "redirect:/register";
-        }
-
-        if(!ControllerUtils.isPasswordValid(user.getUserPass(), session)) {
-            return "redirect:/register";
-        }
-
-        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
-        emailVerificationService.sendVerificationCode(user);
+        user1.setUserPass(passwordEncoder.encode(user1.getUserPass()));
+        emailVerificationService.sendVerificationCode(user1);
         return "redirect:/email-verify";
     }
 }
