@@ -76,7 +76,7 @@ public class Controller {
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return new ResponseEntity(users, HttpStatus.OK);
+            return new ResponseEntity<>(users.get(), HttpStatus.OK);
         }
 
     }

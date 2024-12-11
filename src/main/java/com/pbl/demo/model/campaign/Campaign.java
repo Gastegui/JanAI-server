@@ -1,9 +1,7 @@
 package com.pbl.demo.model.campaign;
 
-import java.util.Date;
-import java.util.List;
 
-import com.pbl.demo.model.foodType.FoodType;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
