@@ -18,7 +18,7 @@ public class FoodTypeController {
     @Autowired
     private FoodTypeRepository ftRepo;
 
-    @GetMapping
+    @GetMapping( produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodType>> getAllTypes(){
         List<FoodType> types = ftRepo.findAll();
         if(types.isEmpty()){

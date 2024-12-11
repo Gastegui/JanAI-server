@@ -19,5 +19,5 @@ public interface FoodRepository extends JpaRepository<Food, Integer>{
     "  JOIN Restrictions r ON r.ingredient = i " +
     "  WHERE hi.food = f AND r.user.userID = :userID" +
     ")")
-List<Food> findFoodsExcludingUserRestrictions(@Param("userID") Long userID);
+    List<Food> findFoodsExcludingUserRestrictions(@Param("userID") Long userID);
 }

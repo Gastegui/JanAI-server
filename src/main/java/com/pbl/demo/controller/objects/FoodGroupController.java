@@ -18,7 +18,7 @@ public class FoodGroupController {
     @Autowired
     private FoodGroupRepository fgRepo;
 
-    @GetMapping
+    @GetMapping( produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodGroup>> getAllGroups(){
         List<FoodGroup> groups = fgRepo.findAll();
         if(groups.isEmpty()){
