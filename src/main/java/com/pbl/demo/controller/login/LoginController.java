@@ -8,6 +8,9 @@ import com.pbl.demo.security.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +27,11 @@ import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.security.JwtUtil;
 import com.pbl.demo.security.AuthRequest;
-
-
+import org.springframework.web.servlet.View;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -37,6 +39,9 @@ public class LoginController {
 
     @Autowired
     UserDataRepository user_repository;
+
+    @Autowired
+    UserDetailsService userDetailsService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -47,22 +52,24 @@ public class LoginController {
      * correspond to a registered user.
      * @return an HTTP response (OK if there is a user registered and if the
      * password provided is correct)
+     * with the necessary information (JWT Token and Role)
      */
-    @PostMapping("/login") 
-    public ResponseEntity<String> authenticate(@RequestBody AuthRequest authRequest) {
-        Optional<UserData> userOpt = user_repository.findByUsername(authRequest.getUsername());
-        if (userOpt.isPresent()) {
-            UserData user = userOpt.get();
+    @PostMapping("/auth")
+    public ResponseEntity<Object> authenticate(@RequestBody AuthRequest authRequest) {
+        try {
+            UserDetails user = userDetailsService.loadUserByUsername(authRequest.getUsername());
 
-            // BELOW THIS SNIPPET IS THE CORRECT FLOW WHEN USERS ARE REGISTERED WITH ENCRYPTED PASSWORDS!
-            if (authRequest.getUserpass().equals(user.getUserPass())) {
-                // Successful login
-                String token = jwtUtil.generateToken(authRequest.getUsername());
-                return ResponseEntity.ok(new AuthResponse(token).getToken());
-            }
+                // BELOW THIS SNIPPET IS THE CORRECT FLOW WHEN USERS ARE REGISTERED WITH ENCRYPTED PASSWORDS!
+                if (authRequest.getUserpass().equals(user.getPassword())) {
+                    // Successful login
+                    String token = jwtUtil.generateToken(user);
+                    String role = user.getAuthorities().iterator().next().getAuthority();
 
-            // At the moment, the SQL script used to generate the DB does not provide a valid
-            // BCrypt encoded password, so the flow above is used.
+                    return ResponseEntity.ok(new AuthResponse(token, role));
+                }
+
+                // At the moment, the SQL script used to generate the DB does not provide a valid
+                // BCrypt encoded password, so the flow above is used.
 
             /*
             if (passwordEncoder.matches(authRequest.getUserpass(), user.getUserPass())) {
@@ -71,9 +78,10 @@ public class LoginController {
                 return ResponseEntity.ok(String.valueOf(new AuthResponse(token)));
             }
             */
-        }
 
-        // Failed login
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
