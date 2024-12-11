@@ -1,26 +1,15 @@
 package com.pbl.demo.model.foodList;
 
 import java.util.Date;
-import java.util.List;
 
-import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.food.Food;
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
-import com.pbl.demo.model.ingredients.Ingredients;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity

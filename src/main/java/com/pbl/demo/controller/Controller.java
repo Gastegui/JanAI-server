@@ -1,7 +1,6 @@
 package com.pbl.demo.controller;
 
-import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,18 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.food.*;
-import com.pbl.demo.model.foodClass.*;
-import com.pbl.demo.model.foodGroup.*;
-import com.pbl.demo.model.foodType.*;
-import com.pbl.demo.model.hasIngredients.*;
-import com.pbl.demo.model.ingredients.*;
-import com.pbl.demo.model.restrictions.*;
 import com.pbl.demo.model.userData.*;
-import com.pbl.demo.model.weightGoals.*;
 
-
-import jakarta.websocket.server.PathParam;
 
 
 @RestController
@@ -87,7 +76,7 @@ public class Controller {
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return new ResponseEntity(users, HttpStatus.OK);
+            return new ResponseEntity<>(users.get(), HttpStatus.OK);
         }
 
     }
@@ -129,7 +118,7 @@ public class Controller {
             found_User.get().setSecondName(user.getSecondName());
             found_User.get().setUsername(user.getUsername());
             found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivityLevel(user.getActivityLevel());
+            found_User.get().setActivity(user.getActivity());
             found_User.get().setGender(user.getGender());
             found_User.get().setNeck(user.getNeck());
             found_User.get().setWaist(user.getWaist());

@@ -3,6 +3,8 @@ package com.pbl.demo.security;
 import java.util.Collections;
 import java.util.Optional;
 
+import com.pbl.demo.model.administrator.Administrator;
+import com.pbl.demo.model.administrator.AdministratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,25 +21,40 @@ public class MyUserDetailsService implements UserDetailsService{
     private UserDataRepository userRepo;
 
     @Autowired
-    private HttpSession session;
+    private AdministratorRepository adminRepo;
 
     //ToDo
     //Rolak db-an sortzeko, admin eta user
     //dbRole etorkizunean aldatu
+    /**
+     * @brief Method to query a user or administrator based on username
+     * @return A spring security User object with all necessary information
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String dbUsername, dbPass, dbRole;
+        String dbUsername;
+        String dbPass;
+        String dbRole;
 
         Optional<UserData> optUser = userRepo.findByUsername(username);
-        if(!optUser.isPresent()){
+        Optional<Administrator> optAdmin = adminRepo.findByUsername(username);
+        if(optUser.isEmpty() && optAdmin.isEmpty()) {
             throw new UsernameNotFoundException("User wasn't found or doesn't exist");
         }
-        UserData user = optUser.get();
-        dbUsername = user.getUsername();
-        dbPass = user.getUserPass();
-        dbRole = "A";
+        if (optUser.isPresent()) {
+            UserData userData = optUser.get();
+            dbUsername = userData.getUsername();
+            dbPass = userData.getUserPass();
+            dbRole = "USER";
+        } else {
+            Administrator admin = optAdmin.get();
+            dbUsername = admin.getUsername();
+            dbPass = admin.getUserPass();
+            dbRole = "ADMIN";
+        }
         return new org.springframework.security.core.userdetails.User(dbUsername, dbPass, 
-            Collections.singleton(new SimpleGrantedAuthority(dbRole)));
+            Collections.singleton(new SimpleGrantedAuthority(dbRole))
+        );
     }
     
 }

@@ -1,6 +1,5 @@
 package com.pbl.demo.model.userData;
 
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -12,7 +11,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.weightGoals.WeightGoals;
 
 
 @Entity
@@ -31,7 +29,7 @@ public class UserData {
     private String username;
     private String email;
     private String userPass;
-    private String activityLevel;
+    private String activity;
     private Boolean premium;
     private String objective;
     private float neck;
@@ -41,14 +39,11 @@ public class UserData {
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
-    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WeightGoals> weightGoals;
-
     public UserData(){
     }
 
     public UserData(int userID, String uname, String secondName, String gender, int age, int height,
-            String username, String email, String userPass, String activityLevel, Boolean premium, String objective,
+            String username, String email, String userPass, String activity, Boolean premium, String objective,
             float neck, float waist, float hips) {
         this.userID = userID;
         this.uname = uname;
@@ -59,7 +54,7 @@ public class UserData {
         this.username = username;
         this.email = email;
         this.userPass = userPass;
-        this.activityLevel = activityLevel;
+        this.activity = activity;
         this.premium = premium;
         this.objective = objective;
         this.neck = neck;
@@ -68,7 +63,7 @@ public class UserData {
     }
 
     public UserData(String uname, String secondName, String gender, int age, int height, String username,
-            String email, String userPass, String activityLevel, Boolean premium, String objective, float neck,
+            String email, String userPass, String activity, Boolean premium, String objective, float neck,
             float waist, float hips) {
         this.uname = uname;
         this.secondName = secondName;
@@ -78,7 +73,7 @@ public class UserData {
         this.username = username;
         this.email = email;
         this.userPass = userPass;
-        this.activityLevel = activityLevel;
+        this.activity = activity;
         this.premium = premium;
         this.objective = objective;
         this.neck = neck;
@@ -122,22 +117,6 @@ public class UserData {
         return age;
     }
 
-    public List<Restrictions> getRestrictions() {
-        return restrictions;
-    }
-
-    public void setRestrictions(List<Restrictions> restrictions) {
-        this.restrictions = restrictions;
-    }
-
-    public List<WeightGoals> getweightGoals() {
-        return weightGoals;
-    }
-
-    public void setweightGoals(List<WeightGoals> weightGoals) {
-        this.weightGoals = weightGoals;
-    }
-
     public void setAge(int age) {
         this.age = age;
     }
@@ -174,12 +153,12 @@ public class UserData {
         this.userPass = userPass;
     }
 
-    public String getActivityLevel() {
-        return activityLevel;
+    public String getActivity() {
+        return activity;
     }
 
-    public void setActivityLevel(String activityLevel) {
-        this.activityLevel = activityLevel;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 
     public Boolean getPremium() {
