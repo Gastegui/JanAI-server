@@ -1,0 +1,4279 @@
+[
+    {
+        "id": "b1e8375a7e256161",
+        "type": "tab",
+        "label": "User services w/dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c28f4e0837480e61",
+        "type": "ui_form",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "",
+        "group": "ab4e89ea65e8afe2",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Name",
+                "value": "uname",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Second Name",
+                "value": "secondName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Age",
+                "value": "age",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Height",
+                "value": "height",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "email",
+                "value": "email",
+                "type": "email",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "user Password",
+                "value": "userPass",
+                "type": "password",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "neck",
+                "value": "neck",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "waist",
+                "value": "waist",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "hips",
+                "value": "hips",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "uname": "",
+            "secondName": "",
+            "age": "",
+            "height": "",
+            "username": "",
+            "email": "",
+            "userPass": "",
+            "neck": "",
+            "waist": "",
+            "hips": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "2b01c9cccd21306d",
+                "d8bde6499de17250"
+            ]
+        ]
+    },
+    {
+        "id": "29c92dd598e90f34",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1620,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b33de0ab9e4a9d77",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "User created",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1400,
+        "y": 100,
+        "wires": [
+            [
+                "29c92dd598e90f34"
+            ]
+        ]
+    },
+    {
+        "id": "2b01c9cccd21306d",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "user selection",
+        "func": "var userGender = flow.get('user.gender') || 0;\nvar activityLevel = flow.get('user.activityLevel') || 0;\nvar premium = flow.get('user.premium') || 0;\nvar userObjective = flow.get('user.objective') || 0;\n\n\n\n\nvar user = {uname: msg.payload.uname,\n            secondName: msg.payload.secondName,\n            gender: userGender,\n            age: msg.payload.age,\n            height: msg.payload.height,\n            username: msg.payload.username,\n            email: msg.payload.email,\n            userPass: msg.payload.userPass,\n            activityLevel: activityLevel,\n            premium: premium,\n            objective: userObjective,\n            neck: msg.payload.neck,\n            waist: msg.payload.waist,\n            hips: msg.payload.hips\n            };\n\nmsg.payload = user;\nmsg.user=user;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "5a12774c6e20a910",
+                "a37e2bc134948765"
+            ]
+        ]
+    },
+    {
+        "id": "a37e2bc134948765",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "User to send",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "83ea86f8a1b79fed",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/add",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 260,
+        "wires": [
+            [
+                "f833f25a0d15e899",
+                "9fe1a8656e9b0493"
+            ]
+        ]
+    },
+    {
+        "id": "5a12774c6e20a910",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 260,
+        "wires": [
+            [
+                "83ea86f8a1b79fed"
+            ]
+        ]
+    },
+    {
+        "id": "f833f25a0d15e899",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mypost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "9fe1a8656e9b0493",
+        "type": "switch",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "201",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 890,
+        "y": 260,
+        "wires": [
+            [
+                "98930b1a5b8957d0",
+                "86bfbd65eff3deb7"
+            ],
+            [
+                "5eff3c943f27ccd6"
+            ],
+            [
+                "145a721a48f0ae05"
+            ]
+        ]
+    },
+    {
+        "id": "da37c2054d239091",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1350,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5eff3c943f27ccd6",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 27",
+        "func": "msg.payload = 'The username does exist: ' + msg.user;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 280,
+        "wires": [
+            [
+                "da37c2054d239091",
+                "d94756323406ca83"
+            ]
+        ]
+    },
+    {
+        "id": "be77861bb132db1f",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mysitepost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "98930b1a5b8957d0",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "flow",
+                "to": "user.username",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1170,
+        "y": 140,
+        "wires": [
+            [
+                "be77861bb132db1f",
+                "b33de0ab9e4a9d77"
+            ]
+        ]
+    },
+    {
+        "id": "a09d9b75627ab9d9",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1580,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d94756323406ca83",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Cannot create user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1370,
+        "y": 320,
+        "wires": [
+            [
+                "a09d9b75627ab9d9"
+            ]
+        ]
+    },
+    {
+        "id": "145a721a48f0ae05",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Error",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "It has been an error",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1180,
+        "y": 380,
+        "wires": [
+            [
+                "c70d0f5e0089de08"
+            ]
+        ]
+    },
+    {
+        "id": "c70d0f5e0089de08",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1410,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "fe162f151de99f57",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Create user (POST)",
+        "info": "",
+        "x": 190,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c220ce560add0655",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "Get all ",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "http://localhost:8080/user/show",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 490,
+        "y": 680,
+        "wires": [
+            [
+                "454cf2d09f3ff75a"
+            ]
+        ]
+    },
+    {
+        "id": "d00ed5bebae5a62b",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "9b4056f338af5597",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "f6050b0fc904b459",
+        "order": 2,
+        "width": 13,
+        "height": 1,
+        "passthru": false,
+        "label": "See all users",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 170,
+        "y": 680,
+        "wires": [
+            [
+                "6e291841109574fc"
+            ]
+        ]
+    },
+    {
+        "id": "454cf2d09f3ff75a",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 650,
+        "y": 680,
+        "wires": [
+            [
+                "d00ed5bebae5a62b",
+                "dbbf3d7f81fc8a50"
+            ]
+        ]
+    },
+    {
+        "id": "6e291841109574fc",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 680,
+        "wires": [
+            [
+                "c220ce560add0655"
+            ]
+        ]
+    },
+    {
+        "id": "dbbf3d7f81fc8a50",
+        "type": "ui_text",
+        "z": "b1e8375a7e256161",
+        "group": "f6050b0fc904b459",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current users",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 820,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "edfcc73c78b2e1e0",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Get users (GET)",
+        "info": "",
+        "x": 180,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "150af01a589cb5cb",
+        "type": "http response",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1310,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "c05258855816e8a6",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/delete/{{{id}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1140,
+        "y": 880,
+        "wires": [
+            [
+                "150af01a589cb5cb"
+            ]
+        ]
+    },
+    {
+        "id": "e2254978c15d460d",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mydelete",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "41796a6e5b56587f",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Delete current user (DELETE)",
+        "info": "",
+        "x": 220,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "b8e98fbe6c29fdda",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "f6050b0fc904b459",
+        "order": 4,
+        "width": 13,
+        "height": 1,
+        "passthru": false,
+        "label": "Delete user",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 170,
+        "y": 920,
+        "wires": [
+            [
+                "9dc535a6ee36c635"
+            ]
+        ]
+    },
+    {
+        "id": "8123502e097253ab",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/usersByUsername?username={{{username}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 920,
+        "wires": [
+            [
+                "a42270ebbffe211c"
+            ]
+        ]
+    },
+    {
+        "id": "9dc535a6ee36c635",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "username",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 920,
+        "wires": [
+            [
+                "8123502e097253ab"
+            ]
+        ]
+    },
+    {
+        "id": "a42270ebbffe211c",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 710,
+        "y": 920,
+        "wires": [
+            [
+                "80aa1f0e42b179ae"
+            ]
+        ]
+    },
+    {
+        "id": "80aa1f0e42b179ae",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id",
+                "pt": "msg",
+                "to": "payload.userID",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "user.id",
+                "pt": "flow",
+                "to": "payload.userID",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 920,
+        "wires": [
+            [
+                "c05258855816e8a6",
+                "e2254978c15d460d",
+                "e52758e5348acb73"
+            ]
+        ]
+    },
+    {
+        "id": "047605fa874b1c09",
+        "type": "http response",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1990,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "fd0439cf40a1a2ba",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "change username",
+        "func": "msg.payload.username = msg.newUsername;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1430,
+        "y": 1080,
+        "wires": [
+            [
+                "a1d280e3baecaa22"
+            ]
+        ]
+    },
+    {
+        "id": "b92b0c6563eceff5",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/modify/{{{id}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1810,
+        "y": 1080,
+        "wires": [
+            [
+                "047605fa874b1c09",
+                "51684df4748a111f"
+            ]
+        ]
+    },
+    {
+        "id": "a1d280e3baecaa22",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1630,
+        "y": 1080,
+        "wires": [
+            [
+                "b92b0c6563eceff5"
+            ]
+        ]
+    },
+    {
+        "id": "053c69b9d93a2bf4",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id",
+                "pt": "msg",
+                "to": "payload.userID",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "user.id",
+                "pt": "flow",
+                "to": "payload.userID",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 1080,
+        "wires": [
+            [
+                "fd0439cf40a1a2ba"
+            ]
+        ]
+    },
+    {
+        "id": "0fbaee27f68120e8",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mypost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "5f992663b17ef562",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/usersByUsername?username={{{username}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 930,
+        "y": 1120,
+        "wires": [
+            [
+                "842abae6b20a950c"
+            ]
+        ]
+    },
+    {
+        "id": "8d29ed50e0a5b6b9",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "newUsername",
+                "pt": "msg",
+                "to": "payload.username",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "username",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "flow",
+                "to": "newUsername",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 1120,
+        "wires": [
+            [
+                "5f992663b17ef562"
+            ]
+        ]
+    },
+    {
+        "id": "842abae6b20a950c",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1070,
+        "y": 1120,
+        "wires": [
+            [
+                "053c69b9d93a2bf4",
+                "0fbaee27f68120e8"
+            ]
+        ]
+    },
+    {
+        "id": "ad73e378bb76b475",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Change Username",
+        "info": "",
+        "x": 430,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "53d22b319612f00d",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Modify current user (PUT)",
+        "info": "",
+        "x": 210,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "12c7c6e1403895e3",
+        "type": "ui_form",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "",
+        "group": "4005b03c7e843643",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "msg.username",
+                "value": "uname",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Second Name",
+                "value": "secondName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "uname": "",
+            "secondName": "",
+            "username": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 390,
+        "y": 1120,
+        "wires": [
+            [
+                "959e2e1ae9f5bb0b"
+            ]
+        ]
+    },
+    {
+        "id": "959e2e1ae9f5bb0b",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "user selection",
+        "func": "var user = {uname: msg.payload.uname,\n            secondName: msg.payload.secondName,\n            username: msg.payload.username\n            };\n\nmsg.payload = user;\nmsg.user=user;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1120,
+        "wires": [
+            [
+                "8d29ed50e0a5b6b9"
+            ]
+        ]
+    },
+    {
+        "id": "0905a82f72689d3e",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "\"No response object\"",
+        "info": "",
+        "x": 1360,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "39b2ae84c969cd23",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "f6050b0fc904b459",
+        "order": 1,
+        "width": 13,
+        "height": 8,
+        "gtype": "donut",
+        "title": "",
+        "label": "users",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1370,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "86bfbd65eff3deb7",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "User counter",
+        "func": "let contador = global.get(\"userCount\") || 0;\n\n//contador = 0;\ncontador += 1;\n\nglobal.set(\"userCount\", contador);\n\n/*msg.counter = {\n    userCount: contador\n};*/\nmsg.payload = contador;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 60,
+        "wires": [
+            [
+                "39b2ae84c969cd23"
+            ]
+        ]
+    },
+    {
+        "id": "5416c8c889e7fdc0",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1360,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "e52758e5348acb73",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "User deleted",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 980,
+        "wires": [
+            [
+                "5416c8c889e7fdc0"
+            ]
+        ]
+    },
+    {
+        "id": "ecf3a6726ee1061a",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 2180,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "51684df4748a111f",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "User modified",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1960,
+        "y": 1160,
+        "wires": [
+            [
+                "ecf3a6726ee1061a"
+            ]
+        ]
+    },
+    {
+        "id": "95af288e35099bdb",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "username",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 190,
+        "y": 1120,
+        "wires": [
+            [
+                "12c7c6e1403895e3"
+            ]
+        ]
+    },
+    {
+        "id": "78029e900b3b9329",
+        "type": "ui_dropdown",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "Gender",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "cd06f1d286fca53d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Male",
+                "value": "M",
+                "type": "str"
+            },
+            {
+                "label": "Female",
+                "value": "F",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 160,
+        "y": 360,
+        "wires": [
+            [
+                "b3372a93d7d4cc6c"
+            ]
+        ]
+    },
+    {
+        "id": "d81bd1f436ca24cc",
+        "type": "ui_dropdown",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "How active are you?",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "cd06f1d286fca53d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sedentary",
+                "value": "Sedentary",
+                "type": "str"
+            },
+            {
+                "label": "Light",
+                "value": "Light",
+                "type": "str"
+            },
+            {
+                "label": "Moderate",
+                "value": "Moderate",
+                "type": "str"
+            },
+            {
+                "label": "Active",
+                "value": "Active",
+                "type": "str"
+            },
+            {
+                "label": "Very active",
+                "value": "Very active",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 120,
+        "y": 400,
+        "wires": [
+            [
+                "91472105f8f60c7b"
+            ]
+        ]
+    },
+    {
+        "id": "650a27f2120eb3bf",
+        "type": "ui_dropdown",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "Premium",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "cd06f1d286fca53d",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Yes",
+                "value": "true",
+                "type": "str"
+            },
+            {
+                "label": "No",
+                "value": "false",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 160,
+        "y": 440,
+        "wires": [
+            [
+                "c20191166612059b"
+            ]
+        ]
+    },
+    {
+        "id": "b8cfa13bcb36ae49",
+        "type": "ui_dropdown",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "Objective",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "cd06f1d286fca53d",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Keep fit",
+                "value": "Keep fit",
+                "type": "str"
+            },
+            {
+                "label": "Lose weight",
+                "value": "Lose weight",
+                "type": "str"
+            },
+            {
+                "label": "Gain weight",
+                "value": "Gain weight",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 160,
+        "y": 480,
+        "wires": [
+            [
+                "0ec9eece6f38bb72"
+            ]
+        ]
+    },
+    {
+        "id": "b3372a93d7d4cc6c",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user.gender",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "91472105f8f60c7b",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user.activityLevel",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c20191166612059b",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user.premium",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0ec9eece6f38bb72",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user.objective",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea3b94ec2d4b3e89",
+        "type": "ui_ui_control",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "events": "all",
+        "x": 320,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cef778cfdef8ee22",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "cd06f1d286fca53d",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Create user",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Create user",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 150,
+        "y": 520,
+        "wires": [
+            [
+                "ea3b94ec2d4b3e89"
+            ]
+        ]
+    },
+    {
+        "id": "7da4cc06cf68f313",
+        "type": "ui_ui_control",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "events": "all",
+        "x": 360,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d8bde6499de17250",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ab4e89ea65e8afe2",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Proceed",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Get users and delete user",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "7da4cc06cf68f313"
+            ]
+        ]
+    },
+    {
+        "id": "782fa69638b3c081",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ae8ca230edd7ab81",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Protein",
+        "label": "units",
+        "format": "{{sumProteins}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1220,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "4a76f7d06d864914",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ae8ca230edd7ab81",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Carbs",
+        "label": "units",
+        "format": "{{sumCarbs}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 990,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "c17591df118f1247",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "a237686c0c5c2456",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Fats",
+        "label": "units",
+        "format": "{{sumFats}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 990,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "76d5360b1374ad8d",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "a237686c0c5c2456",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Fiber",
+        "label": "units",
+        "format": "{{sumFiber}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 990,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "f7c87e5b1c9cc233",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "9e6f7440ef60fde7",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "One more glass of water",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 1500,
+        "wires": [
+            [
+                "963246ce48e6c9d7"
+            ]
+        ]
+    },
+    {
+        "id": "d74a6525f2d680c7",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Main page",
+        "info": "",
+        "x": 160,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "963246ce48e6c9d7",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "waterCounter",
+        "func": "var waterCounter = flow.get('$waterCounter') || 0;\n\nwaterCounter = waterCounter + msg.payload;\n\nflow.set(\"$waterCounter\", waterCounter);\n\nmsg.payload = waterCounter;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 1500,
+        "wires": [
+            [
+                "7fb46f962d0f3abd",
+                "f045f4c99f07bfb4"
+            ]
+        ]
+    },
+    {
+        "id": "7fb46f962d0f3abd",
+        "type": "ui_text",
+        "z": "b1e8375a7e256161",
+        "group": "9e6f7440ef60fde7",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Glasses of water today:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "384ab0f6225c5add",
+        "type": "ui_form",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "",
+        "group": "a1d6f81022f22e9e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Name",
+                "value": "foodName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Proteins",
+                "value": "proteins",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Carbs",
+                "value": "carbs",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Fats",
+                "value": "fats",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Fiber",
+                "value": "fiber",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "foodName": "",
+            "proteins": "",
+            "carbs": "",
+            "fats": "",
+            "fiber": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 1760,
+        "wires": [
+            [
+                "f5ac45d5924659e6",
+                "79fbbd634a5bc171"
+            ]
+        ]
+    },
+    {
+        "id": "107f07057a2a6c42",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1680,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "5c84339ad130c605",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "User created",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1460,
+        "y": 1660,
+        "wires": [
+            [
+                "107f07057a2a6c42"
+            ]
+        ]
+    },
+    {
+        "id": "f5ac45d5924659e6",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "food selection",
+        "func": "var food = {foodName: msg.payload.foodName,\n            proteins: msg.payload.proteins,\n            carbs: msg.payload.carbs,\n            fats: msg.payload.fats,\n            fiber: msg.payload.fiber\n            };\n\nmsg.payload = food;\nmsg.user = food;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1760,
+        "wires": [
+            [
+                "a3afa1bac52d82d5",
+                "bb05da2932ce227e"
+            ]
+        ]
+    },
+    {
+        "id": "bb05da2932ce227e",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "Food to send",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "e0aab05a6c8b3b63",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/food/add",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 750,
+        "y": 1820,
+        "wires": [
+            [
+                "e90db2edc79f265e",
+                "8f6e3178f0353e7c"
+            ]
+        ]
+    },
+    {
+        "id": "a3afa1bac52d82d5",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1820,
+        "wires": [
+            [
+                "e0aab05a6c8b3b63"
+            ]
+        ]
+    },
+    {
+        "id": "e90db2edc79f265e",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "foodPost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "8f6e3178f0353e7c",
+        "type": "switch",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "201",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 950,
+        "y": 1820,
+        "wires": [
+            [
+                "aa47e2b8abd7a367"
+            ],
+            [
+                "d2f2e27c63a124c2"
+            ],
+            [
+                "3bd09be64aa238a8"
+            ]
+        ]
+    },
+    {
+        "id": "5fa7374e39fb7ee2",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1410,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "d2f2e27c63a124c2",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 29",
+        "func": "msg.payload = 'The food does exist: ' + msg.user;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 1840,
+        "wires": [
+            [
+                "5fa7374e39fb7ee2",
+                "c2f652d62de732a6"
+            ]
+        ]
+    },
+    {
+        "id": "1a3bfc175e6c3b2b",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mysitepost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1450,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "aa47e2b8abd7a367",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "flow",
+                "to": "user.username",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1230,
+        "y": 1700,
+        "wires": [
+            [
+                "1a3bfc175e6c3b2b",
+                "5c84339ad130c605"
+            ]
+        ]
+    },
+    {
+        "id": "38af5da5d6c63af0",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1640,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "c2f652d62de732a6",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Cannot create user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 1880,
+        "wires": [
+            [
+                "38af5da5d6c63af0"
+            ]
+        ]
+    },
+    {
+        "id": "3bd09be64aa238a8",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Error",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "It has been an error",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 1940,
+        "wires": [
+            [
+                "7d184f751465b535"
+            ]
+        ]
+    },
+    {
+        "id": "7d184f751465b535",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1470,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "c067801e9ab223a0",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Create food (POST)",
+        "info": "",
+        "x": 190,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "fa761fac4aa20e0c",
+        "type": "ui_ui_control",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "events": "all",
+        "x": 420,
+        "y": 1860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "79fbbd634a5bc171",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "a1d6f81022f22e9e",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Proceed",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Get users and delete user",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 280,
+        "y": 1820,
+        "wires": [
+            [
+                "fa761fac4aa20e0c"
+            ]
+        ]
+    },
+    {
+        "id": "a8bde19dd3903270",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "Get all ",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "http://localhost:8080/food/show",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 490,
+        "y": 1320,
+        "wires": [
+            [
+                "5d20fe77a30a5434"
+            ]
+        ]
+    },
+    {
+        "id": "a6363ea234badc51",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "a1d6f81022f22e9e",
+        "order": 2,
+        "width": "6",
+        "height": 1,
+        "passthru": false,
+        "label": "One more meal",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 180,
+        "y": 1320,
+        "wires": [
+            [
+                "e13a0ed25b43601b"
+            ]
+        ]
+    },
+    {
+        "id": "5d20fe77a30a5434",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 630,
+        "y": 1320,
+        "wires": [
+            [
+                "5b97c6d452f8d408"
+            ]
+        ]
+    },
+    {
+        "id": "e13a0ed25b43601b",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1320,
+        "wires": [
+            [
+                "a8bde19dd3903270"
+            ]
+        ]
+    },
+    {
+        "id": "5b97c6d452f8d408",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "sum of macros",
+        "func": "let size = msg.payload.length;\n\nvar totalProtein = flow.get('$totalProtein') || 0;\nvar totalCarbs = flow.get('$totalCarbs') || 0;\nvar totalFats = flow.get('$totalFats') || 0;\nvar totalFiber = flow.get('$totalFiber') || 0;\n\nfor (let i=0;i<size;i++) {\n    totalProtein += msg.payload[i].proteins;\n    totalCarbs += msg.payload[i].carbs;\n    totalFats += msg.payload[i].fats;\n    totalFiber += msg.payload[i].fiber;\n}\n\nflow.set('$totalProtein', totalProtein);\nflow.set('$totalCarbs', totalCarbs);\nflow.set('$totalFats', totalFats);\nflow.set('$totalFiber', totalFiber);\n\nmsg.sumProteins = totalProtein;\nmsg.sumCarbs = totalCarbs;\nmsg.sumFats = totalFats;\nmsg.sumFiber = totalFiber;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1320,
+        "wires": [
+            [
+                "f072ea4c029204b7",
+                "4a76f7d06d864914",
+                "bfb75f24fa3cae61",
+                "c17591df118f1247",
+                "76d5360b1374ad8d"
+            ]
+        ]
+    },
+    {
+        "id": "f072ea4c029204b7",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "Sum of proteins",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "4247c8bce3f3e2d2",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "a1d6f81022f22e9e",
+        "order": 2,
+        "width": "6",
+        "height": 1,
+        "passthru": false,
+        "label": "No more food",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 180,
+        "y": 1380,
+        "wires": [
+            [
+                "b297cd4d444c5a71"
+            ]
+        ]
+    },
+    {
+        "id": "b297cd4d444c5a71",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "Reset variables",
+        "func": "flow.set('$totalProtein', 0);\nflow.set('$totalCarbs', 0);\nflow.set('$totalFats', 0);\nflow.set('$totalFiber', 0);\nflow.set(\"$waterCounter\", 0);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bfb75f24fa3cae61",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "dynamic max and min",
+        "func": "var max = 20000;\nvar min = 0;\nvar curPayload = msg.payload;\nvar sumProteins = msg.sumProteins;\nmsg = {\n    ui_control:{min:min,max:max},\n    payload: curPayload,\n    sumProteins: sumProteins\n    };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 1280,
+        "wires": [
+            [
+                "782fa69638b3c081"
+            ]
+        ]
+    },
+    {
+        "id": "f045f4c99f07bfb4",
+        "type": "ui_gauge",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "9e6f7440ef60fde7",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "wave",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 670,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "72b5908b4386ea78",
+        "type": "ui_form",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "",
+        "group": "0efaaecc7e2e0e44",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "user Password",
+                "value": "userPass",
+                "type": "password",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "username": "",
+            "userPass": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 170,
+        "y": 2320,
+        "wires": [
+            [
+                "95b4e0dcccba7a18"
+            ]
+        ]
+    },
+    {
+        "id": "1f07c65569a1a290",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1630,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "2c483dbc7a42b677",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "User logged",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1380,
+        "y": 2080,
+        "wires": [
+            [
+                "1f07c65569a1a290"
+            ]
+        ]
+    },
+    {
+        "id": "8546467145659807",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/login/login?username={{{username}}}&userPass={{{userPass}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 770,
+        "y": 2320,
+        "wires": [
+            [
+                "84cc273dddc8e028",
+                "9761909b8e72a60f"
+            ]
+        ]
+    },
+    {
+        "id": "0a5a5b60dc39f3cf",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 2320,
+        "wires": [
+            [
+                "8546467145659807"
+            ]
+        ]
+    },
+    {
+        "id": "84cc273dddc8e028",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mypost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 2460,
+        "wires": []
+    },
+    {
+        "id": "9761909b8e72a60f",
+        "type": "switch",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 970,
+        "y": 2300,
+        "wires": [
+            [
+                "dbc539ad189fee3b"
+            ],
+            [
+                "157a10aaeaade660"
+            ],
+            [
+                "8df135b831bd2a1a"
+            ]
+        ]
+    },
+    {
+        "id": "958dfac7c2068a3c",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1450,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "157a10aaeaade660",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 28",
+        "func": "msg.payload = 'The username does exist: ' + msg.user;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 2420,
+        "wires": [
+            [
+                "958dfac7c2068a3c",
+                "e63ee9896e7216ce"
+            ]
+        ]
+    },
+    {
+        "id": "c21a7b017045846d",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mysitepost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 2280,
+        "wires": []
+    },
+    {
+        "id": "dbc539ad189fee3b",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user.username",
+                "pt": "flow",
+                "to": "username",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "user",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "user",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1160,
+        "y": 2260,
+        "wires": [
+            [
+                "c21a7b017045846d",
+                "2c483dbc7a42b677",
+                "0e8b46be5abc281e"
+            ]
+        ]
+    },
+    {
+        "id": "b5ee1e48536fa592",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1670,
+        "y": 2420,
+        "wires": []
+    },
+    {
+        "id": "e63ee9896e7216ce",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Cannot create user",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1480,
+        "y": 2420,
+        "wires": [
+            [
+                "b5ee1e48536fa592"
+            ]
+        ]
+    },
+    {
+        "id": "8df135b831bd2a1a",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Error",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "It has been an error",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 2500,
+        "wires": [
+            [
+                "ab6e369ebf80b96b"
+            ]
+        ]
+    },
+    {
+        "id": "ab6e369ebf80b96b",
+        "type": "ui_toast",
+        "z": "b1e8375a7e256161",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1470,
+        "y": 2500,
+        "wires": []
+    },
+    {
+        "id": "914de6ee208a1592",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Login",
+        "info": "",
+        "x": 150,
+        "y": 2220,
+        "wires": []
+    },
+    {
+        "id": "80063ba96caf3eec",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "bigarren form-era",
+        "func": "msg.payload = {\n    tab: \"info\" // Cambia a la pestaña donde está el segundo formulario\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 2240,
+        "wires": [
+            [
+                "386b55af5da7db20",
+                "7e795ddad0fc1597",
+                "ceb66b8b4dc45a59"
+            ]
+        ]
+    },
+    {
+        "id": "386b55af5da7db20",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "function eta gero",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1870,
+        "y": 2180,
+        "wires": []
+    },
+    {
+        "id": "7e795ddad0fc1597",
+        "type": "ui_ui_control",
+        "z": "b1e8375a7e256161",
+        "name": "put-era",
+        "x": 1840,
+        "y": 2240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "95b4e0dcccba7a18",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "payload.username",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "userPass",
+                "pt": "msg",
+                "to": "payload.userPass",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 2320,
+        "wires": [
+            [
+                "0a5a5b60dc39f3cf",
+                "77a00a246ed18488"
+            ]
+        ]
+    },
+    {
+        "id": "77a00a246ed18488",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "mypost",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 2400,
+        "wires": []
+    },
+    {
+        "id": "1d0278ebdebc936d",
+        "type": "ui_form",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "label": "",
+        "group": "ef785ed48d79294c",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Weigth",
+                "value": "weigth",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Goal Weigth",
+                "value": "goalWeight",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Duration To Achieve Goal Weight",
+                "value": "durationToAchieveGoalWeight",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Register Date",
+                "value": "registerDate",
+                "type": "date",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "weigth": "",
+            "goalWeight": "",
+            "durationToAchieveGoalWeight": "",
+            "registerDate": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 110,
+        "y": 2760,
+        "wires": [
+            [
+                "3fe579571237ff1a",
+                "4a6f2bfb4cce19dd"
+            ]
+        ]
+    },
+    {
+        "id": "91a56d761546553b",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "user selection",
+        "func": "//var user = flow.get('user')||0;\nvar goal = {userID: msg.user.userID,\n            weight: msg.payload.weigth,\n            goalWeight: msg.payload.goalWeight,\n            durationToAchieveGoalWeight: msg.payload.durationToAchieveGoalWeight,\n            registerDate: msg.payload.registerDate,\n            };\n\nmsg.payload = goal;\nmsg.goal=goal;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2760,
+        "wires": [
+            [
+                "4ede7a492a4f708a",
+                "e8fda6f15bc56b99"
+            ]
+        ]
+    },
+    {
+        "id": "d8129b76f10d6928",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/weightList?username={{{username}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1130,
+        "y": 2760,
+        "wires": [
+            [
+                "70ac386db0777508",
+                "89fe13aef95d5353"
+            ]
+        ]
+    },
+    {
+        "id": "f2a5aabebfeeeaa4",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/addWeight?username={{{username}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 950,
+        "y": 2760,
+        "wires": [
+            [
+                "97693f9ba52fbe83",
+                "d8129b76f10d6928"
+            ]
+        ]
+    },
+    {
+        "id": "94392c606bc840ea",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "set headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 2760,
+        "wires": [
+            [
+                "f2a5aabebfeeeaa4"
+            ]
+        ]
+    },
+    {
+        "id": "4ede7a492a4f708a",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "goal form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 2680,
+        "wires": []
+    },
+    {
+        "id": "97693f9ba52fbe83",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "add goal",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 2680,
+        "wires": []
+    },
+    {
+        "id": "70ac386db0777508",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 2680,
+        "wires": []
+    },
+    {
+        "id": "3fe579571237ff1a",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "goal form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 2680,
+        "wires": []
+    },
+    {
+        "id": "4a6f2bfb4cce19dd",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 31",
+        "func": "var user = flow.get('user')||0;\nmsg.user = user;\n\nmsg.registerData = msg.resgisterData;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 2880,
+        "wires": [
+            [
+                "035a9d4f8bad2a3d",
+                "019455781d95b531"
+            ]
+        ]
+    },
+    {
+        "id": "035a9d4f8bad2a3d",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "goal form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 2920,
+        "wires": []
+    },
+    {
+        "id": "019455781d95b531",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "user",
+        "action": "obj",
+        "pretty": true,
+        "x": 270,
+        "y": 2820,
+        "wires": [
+            [
+                "91a56d761546553b"
+            ]
+        ]
+    },
+    {
+        "id": "e8fda6f15bc56b99",
+        "type": "change",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "user.username",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 2760,
+        "wires": [
+            [
+                "94392c606bc840ea"
+            ]
+        ]
+    },
+    {
+        "id": "89fe13aef95d5353",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1270,
+        "y": 2820,
+        "wires": [
+            [
+                "771d37a1fc8b7109",
+                "6f685ac71cdf8061",
+                "df2bb02bcf498d7a"
+            ]
+        ]
+    },
+    {
+        "id": "771d37a1fc8b7109",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 2900,
+        "wires": []
+    },
+    {
+        "id": "79511a7a1f709317",
+        "type": "ui_chart",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ebd8a3baa6a27592",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Weight chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 2330,
+        "y": 2700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "20880be8516aa08d",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 33",
+        "func": "var weightArray = [];\nfor(var i=0; i<msg.payload.length; i++)\n{\n    weightArray[i] = msg.payload[i].weight;\n}\n/*\nvar labelList = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n    labelList[i] = msg.payload[i].registerDate;\n}\n\n\nvar labels = labelList;\nvar series = [\"Weight\"];\nvar data = [weightArray]; \n\nvar values = {\n    labels: labels,\n    series: series,\n    data: data\n};\n\n*/\n\nmsg.payload = weightArray;\nreturn msg;\n\n\n\n/*\nvar values = {};\nvalues.labels = labels;\n//msg.payload = weightArray;\nmsg.lenght = labels.length;\n\nvalues.series = [\"Weight\"];\nvalues.data = [weightArray];\n\nmsg.payload = values;\nreturn msg;*/",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 3120,
+        "wires": [
+            [
+                "b04754ccd0f0c02c",
+                "d3f039e55069dec4"
+            ]
+        ]
+    },
+    {
+        "id": "0fc121b8ec3520f3",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ef785ed48d79294c",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Weight button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 140,
+        "y": 3140,
+        "wires": [
+            [
+                "b1738c078478b065",
+                "d6f5f9b26be40c3c"
+            ]
+        ]
+    },
+    {
+        "id": "70e89e2850e7024d",
+        "type": "http request",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8080/user/weightList?username={{{username}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 910,
+        "y": 3120,
+        "wires": [
+            [
+                "28d9241b7b1e767a",
+                "a0f895e382941eda"
+            ]
+        ]
+    },
+    {
+        "id": "28d9241b7b1e767a",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1170,
+        "y": 3120,
+        "wires": [
+            [
+                "20880be8516aa08d",
+                "f63b0a2dbfe9682b",
+                "f068e9399740ee91"
+            ]
+        ]
+    },
+    {
+        "id": "a0f895e382941eda",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 3000,
+        "wires": []
+    },
+    {
+        "id": "f63b0a2dbfe9682b",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1380,
+        "y": 3060,
+        "wires": []
+    },
+    {
+        "id": "b04754ccd0f0c02c",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1620,
+        "y": 3040,
+        "wires": []
+    },
+    {
+        "id": "84690dcb08fd14c9",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 3020,
+        "wires": []
+    },
+    {
+        "id": "b1738c078478b065",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 3020,
+        "wires": []
+    },
+    {
+        "id": "d6f5f9b26be40c3c",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 34",
+        "func": "var user = flow.get('user')||0;\nmsg.payload = user;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 3200,
+        "wires": [
+            [
+                "e03b8c72183439b7"
+            ]
+        ]
+    },
+    {
+        "id": "e03b8c72183439b7",
+        "type": "json",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 430,
+        "y": 3140,
+        "wires": [
+            [
+                "84690dcb08fd14c9",
+                "73abaed0354bc96a"
+            ]
+        ]
+    },
+    {
+        "id": "73abaed0354bc96a",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 35",
+        "func": "\nmsg.username = msg.payload.username;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 3140,
+        "wires": [
+            [
+                "70e89e2850e7024d",
+                "f9f86219cb4d74a5"
+            ]
+        ]
+    },
+    {
+        "id": "f9f86219cb4d74a5",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 3020,
+        "wires": []
+    },
+    {
+        "id": "d3f039e55069dec4",
+        "type": "split",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "splt": "",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1570,
+        "y": 3120,
+        "wires": [
+            [
+                "79511a7a1f709317",
+                "324a0ed42a269fec"
+            ]
+        ]
+    },
+    {
+        "id": "324a0ed42a269fec",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1940,
+        "y": 3060,
+        "wires": []
+    },
+    {
+        "id": "6f685ac71cdf8061",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 36",
+        "func": "var weightArray = [];\nfor(var i=0; i<msg.payload.length; i++)\n{\n    weightArray[i] = msg.payload[i].weight;\n}\n/*\nvar labelList = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n    labelList[i] = msg.payload[i].registerDate;\n}\n\n\nvar labels = labelList;\nvar series = [\"Weight\"];\nvar data = [weightArray]; \n\nvar values = {\n    labels: labels,\n    series: series,\n    data: data\n};\n\n*/\n\nmsg.payload = weightArray;\nreturn msg;\n\n\n\n/*\nvar values = {};\nvalues.labels = labels;\n//msg.payload = weightArray;\nmsg.lenght = labels.length;\n\nvalues.series = [\"Weight\"];\nvalues.data = [weightArray];\n\nmsg.payload = values;\nreturn msg;*/",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1470,
+        "y": 2800,
+        "wires": [
+            [
+                "832d2b60586889f1"
+            ]
+        ]
+    },
+    {
+        "id": "832d2b60586889f1",
+        "type": "split",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "splt": "",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1650,
+        "y": 2800,
+        "wires": [
+            [
+                "79511a7a1f709317"
+            ]
+        ]
+    },
+    {
+        "id": "ceb66b8b4dc45a59",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 37",
+        "func": "msg.payload=null;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 2340,
+        "wires": [
+            [
+                "79511a7a1f709317",
+                "c41bf5acd90a8969",
+                "780fcbdd8487fcae"
+            ]
+        ]
+    },
+    {
+        "id": "c41bf5acd90a8969",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "goal form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2040,
+        "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "f068e9399740ee91",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 40",
+        "func": "var goalWeight = [];\nfor(var i=0; i<msg.payload.length; i++)\n{\n    goalWeight[i] = msg.payload[i].goalWeight;\n}\n/*\nvar labelList = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n    labelList[i] = msg.payload[i].registerDate;\n}\n\n\nvar labels = labelList;\nvar series = [\"Weight\"];\nvar data = [weightArray]; \n\nvar values = {\n    labels: labels,\n    series: series,\n    data: data\n};\n\n*/\n\nmsg.payload = goalWeight;\nreturn msg;\n\n\n\n/*\nvar values = {};\nvalues.labels = labels;\n//msg.payload = weightArray;\nmsg.lenght = labels.length;\n\nvalues.series = [\"Weight\"];\nvalues.data = [weightArray];\n\nmsg.payload = values;\nreturn msg;*/",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 3200,
+        "wires": [
+            [
+                "ea74bf029df0e53a"
+            ]
+        ]
+    },
+    {
+        "id": "ea74bf029df0e53a",
+        "type": "split",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "splt": "",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1570,
+        "y": 3200,
+        "wires": [
+            [
+                "780fcbdd8487fcae"
+            ]
+        ]
+    },
+    {
+        "id": "780fcbdd8487fcae",
+        "type": "ui_chart",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ebd8a3baa6a27592",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Goal weight chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 2430,
+        "y": 3000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "df2bb02bcf498d7a",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 41",
+        "func": "var goalWeight = [];\nfor(var i=0; i<msg.payload.length; i++)\n{\n    goalWeight[i] = msg.payload[i].goalWeight;\n}\n/*\nvar labelList = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n    labelList[i] = msg.payload[i].registerDate;\n}\n\n\nvar labels = labelList;\nvar series = [\"Weight\"];\nvar data = [weightArray]; \n\nvar values = {\n    labels: labels,\n    series: series,\n    data: data\n};\n\n*/\n\nmsg.payload = goalWeight;\nreturn msg;\n\n\n\n/*\nvar values = {};\nvalues.labels = labels;\n//msg.payload = weightArray;\nmsg.lenght = labels.length;\n\nvalues.series = [\"Weight\"];\nvalues.data = [weightArray];\n\nmsg.payload = values;\nreturn msg;*/",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1470,
+        "y": 2860,
+        "wires": [
+            [
+                "fd569a516c674bc6"
+            ]
+        ]
+    },
+    {
+        "id": "fd569a516c674bc6",
+        "type": "split",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "splt": "",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1650,
+        "y": 2860,
+        "wires": [
+            [
+                "780fcbdd8487fcae",
+                "8edff060e775460c"
+            ]
+        ]
+    },
+    {
+        "id": "8edff060e775460c",
+        "type": "debug",
+        "z": "b1e8375a7e256161",
+        "name": "get goals",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1781,
+        "y": 2940,
+        "wires": []
+    },
+    {
+        "id": "b60c9574d1c15746",
+        "type": "ui_button",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "group": "ef785ed48d79294c",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clean",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 2090,
+        "y": 2880,
+        "wires": [
+            [
+                "780fcbdd8487fcae",
+                "79511a7a1f709317"
+            ]
+        ]
+    },
+    {
+        "id": "0e8b46be5abc281e",
+        "type": "switch",
+        "z": "b1e8375a7e256161",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1370,
+        "y": 2220,
+        "wires": [
+            [
+                "dcc8696a4e8bfdcd"
+            ],
+            [
+                "80063ba96caf3eec"
+            ]
+        ]
+    },
+    {
+        "id": "dcc8696a4e8bfdcd",
+        "type": "function",
+        "z": "b1e8375a7e256161",
+        "name": "function 42",
+        "func": "msg.payload = {\n    tab: \"Get users and delete user\" // Cambia a la pestaña donde está el segundo formulario\n};\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1550,
+        "y": 2180,
+        "wires": [
+            [
+                "7e795ddad0fc1597",
+                "386b55af5da7db20"
+            ]
+        ]
+    },
+    {
+        "id": "8e704ba57112d354",
+        "type": "comment",
+        "z": "b1e8375a7e256161",
+        "name": "Admin or User",
+        "info": "",
+        "x": 1210,
+        "y": 2140,
+        "wires": []
+    },
+    {
+        "id": "ab4e89ea65e8afe2",
+        "type": "ui_group",
+        "name": "Create user",
+        "tab": "14ab3ba17e8a6109",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f6050b0fc904b459",
+        "type": "ui_group",
+        "name": "Current users",
+        "tab": "d9fdab9718e0def4",
+        "order": 1,
+        "disp": true,
+        "width": 13,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4005b03c7e843643",
+        "type": "ui_group",
+        "name": "Modify form",
+        "tab": "347ee55c1d504f81",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cd06f1d286fca53d",
+        "type": "ui_group",
+        "name": "General data",
+        "tab": "98bbe53f1d248e6e",
+        "order": 1,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ae8ca230edd7ab81",
+        "type": "ui_group",
+        "name": "Donut group",
+        "tab": "f3f5226040a56334",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a237686c0c5c2456",
+        "type": "ui_group",
+        "name": "Donut group 2",
+        "tab": "f3f5226040a56334",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9e6f7440ef60fde7",
+        "type": "ui_group",
+        "name": "Water group",
+        "tab": "f3f5226040a56334",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a1d6f81022f22e9e",
+        "type": "ui_group",
+        "name": "Food form",
+        "tab": "a535fcc845b64fcc",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0efaaecc7e2e0e44",
+        "type": "ui_group",
+        "name": "login",
+        "tab": "7a5a7de9a0f118fa",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ef785ed48d79294c",
+        "type": "ui_group",
+        "name": "info",
+        "tab": "2c56a299b6386691",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ebd8a3baa6a27592",
+        "type": "ui_group",
+        "name": "graphic",
+        "tab": "2c56a299b6386691",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "14ab3ba17e8a6109",
+        "type": "ui_tab",
+        "name": "Create user",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "d9fdab9718e0def4",
+        "type": "ui_tab",
+        "name": "Get users and delete user",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "347ee55c1d504f81",
+        "type": "ui_tab",
+        "name": "Modify user",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "98bbe53f1d248e6e",
+        "type": "ui_tab",
+        "name": "Initialize user",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": true
+    },
+    {
+        "id": "f3f5226040a56334",
+        "type": "ui_tab",
+        "name": "Main page",
+        "icon": "dashboard",
+        "order": 6,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "a535fcc845b64fcc",
+        "type": "ui_tab",
+        "name": "Food tab",
+        "icon": "dashboard",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "7a5a7de9a0f118fa",
+        "type": "ui_tab",
+        "name": "Login",
+        "icon": "dashboard",
+        "order": 11,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2c56a299b6386691",
+        "type": "ui_tab",
+        "name": "info",
+        "icon": "dashboard",
+        "order": 12,
+        "disabled": false,
+        "hidden": false
+    }
+]
