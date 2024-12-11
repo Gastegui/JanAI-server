@@ -23,6 +23,10 @@ public class Food {
     private int foodID;
 
     private String foodName;
+    private float proteins;
+    private float carbs;
+    private float fats;
+    private float fiber;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HasIngredients> foodTypes;
@@ -33,13 +37,27 @@ public class Food {
     public Food(){
     }
 
-    public Food(int foodID, String foodName) {
+    public Food(int foodID, String foodName, float proteins, float carbs, float fats, float fiber,
+            List<HasIngredients> foodTypes, List<FoodList> foodList) {
         this.foodID = foodID;
         this.foodName = foodName;
+        this.proteins = proteins;
+        this.carbs = carbs;
+        this.fats = fats;
+        this.fiber = fiber;
+        this.foodTypes = foodTypes;
+        this.foodList = foodList;
     }
 
-    public Food(String foodName) {
+    public Food(String foodName, float proteins, float carbs, float fats, float fiber, List<HasIngredients> foodTypes,
+            List<FoodList> foodList) {
         this.foodName = foodName;
+        this.proteins = proteins;
+        this.carbs = carbs;
+        this.fats = fats;
+        this.fiber = fiber;
+        this.foodTypes = foodTypes;
+        this.foodList = foodList;
     }
 
     public int getFoodID() {
@@ -57,4 +75,37 @@ public class Food {
     public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
+
+    public float getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(float proteins) {
+        this.proteins = proteins;
+    }
+
+    public float getCarbs() {
+        return carbs;
+    }
+
+    public void setCarbs(float carbs) {
+        this.carbs = carbs;
+    }
+
+    public float getFats() {
+        return fats;
+    }
+
+    public void setFats(float fats) {
+        this.fats = fats;
+    }
+
+    public float getFiber() {
+        return fiber;
+    }
+
+    public void setFiber(float fiber) {
+        this.fiber = fiber;
+    }
+
 }

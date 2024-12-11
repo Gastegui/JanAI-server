@@ -28,6 +28,7 @@ public class Campaign {
     private int campaignID;
     
     private String town;
+    private String campaign;
     private String company;
 
 
@@ -41,90 +42,72 @@ public class Campaign {
     public Campaign(){
     }
 
-    
-
-    public Campaign(int campaignID, String town, String company, Administrator administrator) {
+    public Campaign(int campaignID, String town, String campaign, String company,
+            List<IngredientsInCampaign> campaignFoodList, Administrator administrator) {
         this.campaignID = campaignID;
         this.town = town;
+        this.campaign = campaign;
         this.company = company;
+        this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
     }
 
-
-
-
-
-    public Campaign(String town, String company, Administrator administrator) {
+    public Campaign(String town, String campaign, String company, List<IngredientsInCampaign> campaignFoodList,
+            Administrator administrator) {
         this.town = town;
+        this.campaign = campaign;
         this.company = company;
+        this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
     }
 
-
-
-    
-
-public int getCampaignID() {
+    public int getCampaignID() {
         return campaignID;
     }
-
-
 
     public void setCampaignID(int campaignID) {
         this.campaignID = campaignID;
     }
 
-
-
     public String getTown() {
         return town;
     }
-
-
 
     public void setTown(String town) {
         this.town = town;
     }
 
+    public String getCampaign() {
+        return campaign;
+    }
 
+    public void setCampaign(String campaign) {
+        this.campaign = campaign;
+    }
 
     public String getCompany() {
         return company;
     }
 
-
-
     public void setCompany(String company) {
         this.company = company;
     }
-
-
 
     public List<IngredientsInCampaign> getCampaignFoodList() {
         return campaignFoodList;
     }
 
-
-
     public void setCampaignFoodList(List<IngredientsInCampaign> campaignFoodList) {
         this.campaignFoodList = campaignFoodList;
     }
-
-
 
     public Administrator getAdministrator() {
         return administrator;
     }
 
-
-
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
     }
 
-
-
     
-
-
 }

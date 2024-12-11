@@ -24,7 +24,7 @@ public class Restrictions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restrictionID;
 
-    private String restrictedFood;
+    private String restrictedName;
 
     @ManyToOne
     @JoinColumn(name = "userID")
@@ -49,10 +49,10 @@ public class Restrictions {
     public Restrictions(){
     }
 
-    public Restrictions(int restrictionID, String restrictedFood, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
+    public Restrictions(int restrictionID, String restrictedName, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
             Ingredients ingredients, FoodType foodType) {
         this.restrictionID = restrictionID;
-        this.restrictedFood = restrictedFood;
+        this.restrictedName = restrictedName;
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
@@ -60,9 +60,9 @@ public class Restrictions {
         this.foodType = foodType;
     }
 
-    public Restrictions(String restrictedFood, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
+    public Restrictions(String restrictedName, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
             Ingredients ingredients, FoodType foodType) {
-        this.restrictedFood = restrictedFood;
+        this.restrictedName = restrictedName;
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
@@ -78,12 +78,12 @@ public class Restrictions {
         this.restrictionID = restrictionID;
     }
 
-    public String getRestrictedFood() {
-        return restrictedFood;
+    public String getrestrictedName() {
+        return restrictedName;
     }
 
-    public void setRestrictedFood(String restrictedFood) {
-        this.restrictedFood = restrictedFood;
+    public void setrestrictedName(String restrictedName) {
+        this.restrictedName = restrictedName;
     }
 
     public UserData getUserData() {
@@ -125,6 +125,4 @@ public class Restrictions {
     public void setFoodType(FoodType foodType) {
         this.foodType = foodType;
     }
-
-    
 }
