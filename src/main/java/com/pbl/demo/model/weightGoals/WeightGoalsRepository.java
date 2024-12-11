@@ -1,9 +1,11 @@
 package com.pbl.demo.model.weightGoals;
 
-///import java.util.Optional;
-//import java.util.List;
+import java.util.Optional;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.pbl.demo.model.userData.UserData;
+
 public interface WeightGoalsRepository extends JpaRepository<WeightGoals, Integer>{
-    //Optional<Users> findByUsername(String username);
+    List<WeightGoals> findByUserData(UserData user);
 }
