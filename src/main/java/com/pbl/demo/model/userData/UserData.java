@@ -1,7 +1,10 @@
 package com.pbl.demo.model.userData;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,11 +16,13 @@ import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.weightGoals.WeightGoals;
+import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
 
 
 @Entity
 @Table(name = "userData")
 public class UserData {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +47,7 @@ public class UserData {
     private List<Restrictions> restrictions;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WeightGoals> weightGoals;
+    private List<WeightGoals> weightGoals = new ArrayList<>();
 
     public UserData(){
     }
@@ -130,16 +135,17 @@ public class UserData {
         this.restrictions = restrictions;
     }
 
-    public List<WeightGoals> getweightGoals() {
-        return weightGoals;
-    }
-
-    public void setweightGoals(List<WeightGoals> weightGoals) {
-        this.weightGoals = weightGoals;
-    }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<WeightGoals> getWeightGoals() {
+        return weightGoals;
+    }
+
+    public void setWeightGoals(List<WeightGoals> weightGoals) {
+        this.weightGoals = weightGoals;
     }
 
     public int getHeight() {
@@ -220,5 +226,11 @@ public class UserData {
 
     public void setHips(float hips) {
         this.hips = hips;
+    }
+
+    public void addWeightGoal(WeightGoals goal){
+        weightGoals.add(goal);
+        goal.setUserData(this);
+        //goal.setUserData(this);
     }
 }

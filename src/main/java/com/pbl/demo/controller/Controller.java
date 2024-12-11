@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,9 +38,18 @@ import jakarta.websocket.server.PathParam;
 @RequestMapping("/user")
 public class Controller {
 
-    @Autowired
-    UserDataRepository user_repository;
 
+    private UserDataRepository user_repository;
+
+    private WeightGoalsRepository goals_Repository;
+    @Autowired
+    public Controller(UserDataRepository user_repository, WeightGoalsRepository goals_Repository) {
+        this.user_repository = user_repository;
+        this.goals_Repository = goals_Repository;
+    }
+
+
+    
     /**
      * @brief This method returns the list of Userss in XML and JSON format.
      * @return an HTTP response (OK if there are Userss in the database, not found
@@ -58,6 +68,8 @@ public class Controller {
             return new ResponseEntity<>(Users_list, HttpStatus.OK);
         }
     }
+
+    
 
     /**
      * @brief This method returns the information about an Users in XML and JSON
@@ -92,6 +104,27 @@ public class Controller {
 
     }
 
+    @GetMapping(value = "/weightList", produces = { "application/json", "application/xml" })
+    public ResponseEntity<List<WeightGoals>> getWeightList(@RequestParam String username) {
+
+        Optional<UserData> user = user_repository.findByUsername(username);
+        //List<WeightGoals> listWeight = user.get().getWeightGoals();
+        
+
+        /*for(WeightGoals weightGoals: listWeight)
+        {
+            System.out.println("------------" + weightGoals.getWeightGoalsID() + "-------" + listWeight.size());
+        }*/
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            List<WeightGoals> listWeight = user.get().getWeightGoals();
+            return new ResponseEntity(listWeight, HttpStatus.OK);
+        }
+
+    }
+
     /**
      * @brief This method adds a new Users to the database.
      * @param Food the Users object in XML or JSON format.
@@ -107,6 +140,26 @@ public class Controller {
         } else {
             user_repository.save(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }
+    }
+
+    @PostMapping(value = "/addWeight", consumes = { "application/json", "application/xml" }, produces = {
+        "application/json", "application/xml" })
+    public ResponseEntity<WeightGoals> addWeightGoal(@RequestParam String username, @RequestBody WeightGoals goal) {
+        
+        Optional<UserData> found_User = user_repository.findByUsername(username);
+
+        if (found_User.isPresent()) {
+            goal.setUserData(found_User.get());
+            //goal.setUserData(user);
+            goals_Repository.save(goal);
+            found_User.get().addWeightGoal(goal);
+            //found_User.get().setWeightGoals(found_User.get().getWeightGoals());
+            //found_User.get().getweightGoals().add(goal);
+            user_repository.save(found_User.get());
+            return new ResponseEntity<>(goal, HttpStatus.CREATED);
+        } else {
+            return ResponseEntity.badRequest().build();
         }
     }
 
