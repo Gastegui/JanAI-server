@@ -1,6 +1,6 @@
 package com.pbl.demo.mail;
 
-/*import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,9 +11,11 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
-     
+    
     @Autowired
     private JavaMailSender emailSender;
+
+    
 
     public void sendSimpleMessage(String to, String subject, String text){
         SimpleMailMessage message = new SimpleMailMessage();
@@ -29,8 +31,8 @@ public class EmailService {
 
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(htmlBody, true); // El segundo parámetro true indica que el contenido es HTML
+        helper.setText(htmlBody, true);
 
         emailSender.send(message);
     }
-}*/
+}

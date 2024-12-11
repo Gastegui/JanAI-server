@@ -1,13 +1,17 @@
-package com.pbl.demo.controller;
+package com.pbl.demo.controller.login;
 
-import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
+import com.pbl.demo.security.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.food.*;
-import com.pbl.demo.model.foodClass.*;
-import com.pbl.demo.model.foodGroup.*;
-import com.pbl.demo.model.foodType.*;
-import com.pbl.demo.model.hasIngredients.*;
-import com.pbl.demo.model.ingredients.*;
-import com.pbl.demo.model.restrictions.*;
-import com.pbl.demo.model.userData.*;
-import com.pbl.demo.model.weightGoals.*;
-
-
-import jakarta.websocket.server.PathParam;
+import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.security.JwtUtil;
+import com.pbl.demo.security.AuthRequest;
+import org.springframework.web.servlet.View;
 
 
 @RestController
@@ -38,8 +35,57 @@ import jakarta.websocket.server.PathParam;
 public class LoginController {
 
     @Autowired
+    JwtUtil jwtUtil;
+
+    @Autowired
     UserDataRepository user_repository;
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+    /**
+     * @brief This method validates whether or not the login credentials provided
+     * correspond to a registered user.
+     * @return an HTTP response (OK if there is a user registered and if the
+     * password provided is correct)
+     * with the necessary information (JWT Token and Role)
+     */
+    @PostMapping("/auth")
+    public ResponseEntity<Object> authenticate(@RequestBody AuthRequest authRequest) {
+        try {
+            UserDetails user = userDetailsService.loadUserByUsername(authRequest.getUsername());
+
+                // BELOW THIS SNIPPET IS THE CORRECT FLOW WHEN USERS ARE REGISTERED WITH ENCRYPTED PASSWORDS!
+                if (authRequest.getUserpass().equals(user.getPassword())) {
+                    // Successful login
+                    String token = jwtUtil.generateToken(user);
+                    String role = user.getAuthorities().iterator().next().getAuthority();
+
+                    return ResponseEntity.ok(new AuthResponse(token, role));
+                }
+
+                // At the moment, the SQL script used to generate the DB does not provide a valid
+                // BCrypt encoded password, so the flow above is used.
+
+            /*
+            if (passwordEncoder.matches(authRequest.getUserpass(), user.getUserPass())) {
+                // Successful login
+                String token = jwtUtil.generateToken(authRequest.getUsername());
+                return ResponseEntity.ok(String.valueOf(new AuthResponse(token)));
+            }
+            */
+
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+
+    
     /**
      * @brief This method returns the list of Userss in XML and JSON format.
      * @return an HTTP response (OK if there are Userss in the database, not found
@@ -47,24 +93,18 @@ public class LoginController {
      *         not Userss)
      */
     @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
-    public ResponseEntity<UserData> getUserss(@RequestParam String username, @RequestParam String userPass) {
+    @ResponseBody
+    public ResponseEntity<List<UserData>> getUserss() {
 
-        Optional<UserData> user = user_repository.findByUsername(username);
+        List<UserData> Users_list = user_repository.findAll();
 
-        if (user.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            if(user.get().getUserPass().equals(userPass))
-            {
-                return new ResponseEntity(user, HttpStatus.OK);
-            }
-            else{
-                return ResponseEntity.notFound().build();
-            }
-            
-        }///ALDATU BEHAR DA FUNTZIO HAU, IZATEZ SPRING SECURITY-K EIN BEHAR DAU
-
-        
+    //     if (userList.isEmpty()) {
+    //         return ResponseEntity.notFound().build();
+    //     } else {
+    //         return new ResponseEntity<>(userList, HttpStatus.OK);
+    //     }
+    // }
+    return new ResponseEntity<List<UserData>>(Users_list, HttpStatus.ACCEPTED);
     }
 
     /**
@@ -74,46 +114,22 @@ public class LoginController {
      * @return an HTTP response (OK if the Users is found, not found if the
      *         Users does not exist in the database)
      */
-    @GetMapping(value = "/select/{id}", produces = { "application/json", "application/xml" })
+    @GetMapping(value = "/select/{id}", produces =  { "application/json", "application/xml" })
     public ResponseEntity<UserData> getUsers(@RequestParam UserData loguser) {
 
         Optional<UserData> user = user_repository.findByUsername(loguser.getUsername());
         String password = loguser.getUserPass();
         
-        if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            //Errore bezala ezarri username or password was incorrect
-            return ResponseEntity.notFound().build();
-        }
+    //     if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
+    //         return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    //     } else {
+    //         //Errore bezala ezarri username or password was incorrect
+    //         return ResponseEntity.notFound().build();
+    //     }
 
+    // }
+        return new ResponseEntity<UserData>(loguser, HttpStatus.ACCEPTED);
     }
-
-    /*@GetMapping(value = "/usersBydirector", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<User>> getUsersByDirector(@RequestParam String director) {
-
-        List<User> users = user_repository.findByUserDirector(director);
-
-        if (users.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        }
-
-    }
-
-    @GetMapping(value = "/usersByTitle", produces = { "application/json", "application/xml" })
-    public ResponseEntity<User> getUserByTitle(@RequestParam String title) {
-
-        Optional<User> user = user_repository.findByUserTitle(title);
-
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }*/
 
     /**
      * @brief This method adds a new Users to the database.
@@ -144,16 +160,6 @@ public class LoginController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> putUsers(@PathVariable int id, @RequestBody UserData user) {
 
-        /*user.setActivity("MALE");
-        user.setBirthdate(null);
-        user.setEmail("anje@gmail.com");
-        user.setGender(null);
-        user.setHeight(0);
-        user.setNeck(0);
-        user.setUserPass(null);
-        user.setPremium(null);
-        user.setWaist(0);*/
-
         Optional<UserData> found_User = user_repository.findById(id);
 
         if (found_User.isPresent()) {
@@ -162,7 +168,7 @@ public class LoginController {
             found_User.get().setSecondName(user.getSecondName());
             found_User.get().setUsername(user.getUsername());
             found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivityLevel(user.getActivityLevel());
+            found_User.get().setActivity(user.getActivity());
             found_User.get().setGender(user.getGender());
             found_User.get().setNeck(user.getNeck());
             found_User.get().setWaist(user.getWaist());
