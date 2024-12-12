@@ -9,15 +9,17 @@ import org.springframework.data.repository.query.Param;
 public interface FoodRepository extends JpaRepository<Food, Integer>{
     Optional<Food> findByFoodName(String foodName);
 
-    @Query("SELECT f FROM Food f JOIN f.ingredients hi JOIN hi.ingredient i WHERE i.ingName IN :ingredientNames")
+    @Query("SELECT f FROM Food f JOIN HasIngredients hi ON f = hi.food " +
+       "JOIN Ingredients i ON hi.ingredient = i " +
+       "WHERE i.ingName IN :ingredientNames")
     List<Food> findFoodsByIngredients(@Param("ingredientNames") List<String> ingredientNames);
 
     @Query("SELECT f FROM Food f " +
-    "WHERE NOT EXISTS (" +
-    "  SELECT 1 FROM HasIngredients hi " +
-    "  JOIN hi.ingredient i " +
-    "  JOIN Restrictions r ON r.ingredient = i " +
-    "  WHERE hi.food = f AND r.user.userID = :userID" +
-    ")")
-    List<Food> findFoodsExcludingUserRestrictions(@Param("userID") Long userID);
+       "WHERE NOT EXISTS (" +
+       "  SELECT 1 FROM HasIngredients hi " +
+       "  JOIN hi.ingredient i " +
+       "  JOIN Restrictions r ON r.ingredient = i " +
+       "  WHERE hi.food = f AND r.userID = :userID" +
+       ")")
+    List<Food> findFoodsExcludingUserRestrictions(@Param("userID") int userID);
 }

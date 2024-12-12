@@ -45,8 +45,8 @@ public class FoodController {
         }
     }
 
-    @GetMapping(value = "/ingredients", produces = {"application/json", "application/xml"})
-    public ResponseEntity<List<Food>> findByIngredient(@PathVariable List<String> ingredients){
+    @GetMapping(value = "/search", produces = {"application/json", "application/xml"})
+    public ResponseEntity<List<Food>> findByIngredient(@RequestParam List<String> ingredients){
         List<Food> foods = foodRepo.findFoodsByIngredients(ingredients);
         if(foods.isEmpty()){
             return ResponseEntity.notFound().build();

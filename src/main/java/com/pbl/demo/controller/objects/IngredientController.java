@@ -22,7 +22,7 @@ public class IngredientController {
     @Autowired
     IngredientsRepository ingredientRepo;
 
-    @GetMapping(value = "/", produces = {"application/json", "application/xml"})
+    @GetMapping(value = "", produces = {"application/json", "application/xml"})
     public ResponseEntity<List<Ingredients>> getAllIngredients(){
         List<Ingredients> ingredients = ingredientRepo.findAll();
         if(ingredients.isEmpty()){
@@ -42,7 +42,7 @@ public class IngredientController {
         }
     }
 
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    @GetMapping(value = "/search", produces = {"application/json", "application/xml"})
     public ResponseEntity<Ingredients> getIngredientByName(@RequestParam String ingName){
        Optional<Ingredients> optIngredient = ingredientRepo.findByIngName(ingName);
         if(!optIngredient.isPresent()){

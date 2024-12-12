@@ -33,7 +33,7 @@ public class FoodGroup {
     @JoinColumn(name = "typeID")
     private FoodType foodType;
 
-    @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groupID", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingredients> ingredients;
 
     public FoodGroup(){

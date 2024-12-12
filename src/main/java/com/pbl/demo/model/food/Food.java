@@ -25,20 +25,19 @@ public class Food {
     private String foodName;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HasIngredients> foodTypes;
+    private List<HasIngredients> foods;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodList> foodList;
+    private List<FoodList> foodLists;
 
-    public Food(){
-    }
+    public Food(){}
 
-    public Food(int foodID, String foodName) {
+    public Food(int foodID, String foodName){
         this.foodID = foodID;
         this.foodName = foodName;
     }
 
-    public Food(String foodName) {
+    public Food(String foodName){
         this.foodName = foodName;
     }
 

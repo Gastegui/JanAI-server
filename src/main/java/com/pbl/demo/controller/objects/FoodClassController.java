@@ -18,7 +18,7 @@ public class FoodClassController {
     @Autowired
     private FoodClassRepository fcRepo;
 
-    @GetMapping
+    @GetMapping( produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodClass>> getAllClasses(){
         List<FoodClass> classes = fcRepo.findAll();
         if(classes.isEmpty()){
