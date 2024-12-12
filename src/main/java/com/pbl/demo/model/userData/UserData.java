@@ -230,7 +230,7 @@ public class UserData {
 
     public void addWeightGoal(WeightGoals goal){
         weightGoals.add(goal);
-        goal.setUserData(this);
+        //goal.setUserData(this);
         //goal.setUserData(this);
     }
 }

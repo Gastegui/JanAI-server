@@ -42,7 +42,7 @@ public class IngredientController {
         }
     }
 
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    @GetMapping(value = "/{name}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Ingredients> getIngredientByName(@RequestParam String ingName){
        Optional<Ingredients> optIngredient = ingredientRepo.findByIngName(ingName);
         if(!optIngredient.isPresent()){

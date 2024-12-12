@@ -81,9 +81,9 @@ public class WeightGoals {
         this.weightGoalsID = weightGoalsID;
     }
 
-    public UserData getUserData() {
+    /*public UserData getUserData() {
         return userData;
-    }
+    }*/
 
     public void setUserData(UserData userData) {
         this.userData = userData;
