@@ -43,7 +43,7 @@ public class CampaignController {
 
     @GetMapping(produces = {"application/json", "application/xml"})
     public ResponseEntity<Campaign> getCampaignByName(@RequestParam String campName){
-        Optional<Campaign> campaign = cmpRepo.findByCampName(campName);
+        Optional<Campaign> campaign = cmpRepo.findByCampaign(campName);
         if(!campaign.isPresent()){
             return ResponseEntity.notFound().build();
         }else{

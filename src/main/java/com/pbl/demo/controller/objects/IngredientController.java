@@ -32,7 +32,7 @@ public class IngredientController {
         }
     }
 
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    /*@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Ingredients> getIngredientById(@PathVariable int id){
        Optional<Ingredients> optIngredient = ingredientRepo.findById(id);
         if(!optIngredient.isPresent()){
@@ -40,7 +40,7 @@ public class IngredientController {
         }else{
             return new ResponseEntity<>(optIngredient.get(), HttpStatus.OK);
         }
-    }
+    }*/
 
     @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Ingredients> getIngredientByName(@RequestParam String ingName){

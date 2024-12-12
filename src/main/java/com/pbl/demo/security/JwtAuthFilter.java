@@ -32,10 +32,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-
         String authHeader = request.getHeader("Authorization");
+        System.out.println("DOFILTERINTERNAL---------------------------------------------------------------" + authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            System.out.println("AUTHHEADER---------------------------------------------------------------");
             String token = authHeader.substring(7);
 
             try {
@@ -43,9 +44,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 List<String> roles = jwtUtil.extractRoles(token);
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    System.out.println("USERNAME IS NOT NULL");
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     if (jwtUtil.validateToken(token, userDetails.getUsername())) {
+                        System.out.println("TOKEN IS VALID");
                         List<SimpleGrantedAuthority> authorities = roles.stream()
                                 .map(SimpleGrantedAuthority::new)
                                 .toList();
