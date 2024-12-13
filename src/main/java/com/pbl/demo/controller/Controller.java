@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl.demo.model.administrator.Administrator;
+import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.userData.*;
 import com.pbl.demo.model.weightGoals.*;
 
@@ -28,15 +30,13 @@ import com.pbl.demo.model.weightGoals.*;
 @RequestMapping("/user")
 public class Controller {
 
-
+    @Autowired
     private UserDataRepository user_repository;
-
+    @Autowired
     private WeightGoalsRepository goals_Repository;
     @Autowired
-    public Controller(UserDataRepository user_repository, WeightGoalsRepository goals_Repository) {
-        this.user_repository = user_repository;
-        this.goals_Repository = goals_Repository;
-    }
+    private AdministratorRepository admin_Repository;
+    
 
 
     
@@ -94,6 +94,19 @@ public class Controller {
 
     }
 
+    @GetMapping(value = "/adminByName", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Administrator> getAdminByName(@RequestParam String username) {
+
+        Optional<Administrator> admin = admin_Repository.findByUsername(username);
+
+        if (admin.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(admin.get(), HttpStatus.OK);
+        }
+
+    }
+
     @GetMapping(value = "/weightList", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<WeightGoals>> getWeightList(@RequestParam String username) {
 
@@ -142,7 +155,7 @@ public class Controller {
         if (found_User.isPresent()) {
             goal.setUserData(found_User.get());
             //goal.setUserData(user);
-            goals_Repository.save(goal);
+            //goals_Repository.save(goal);
             found_User.get().addWeightGoal(goal);
             //found_User.get().setWeightGoals(found_User.get().getWeightGoals());
             //found_User.get().getweightGoals().add(goal);

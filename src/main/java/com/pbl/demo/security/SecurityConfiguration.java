@@ -36,7 +36,7 @@ public class SecurityConfiguration{
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login/**", "/user/add", "food/**").permitAll()
+                .requestMatchers("/login/**", "/user/add", "food/**").permitAll() //food/** has to be fixed, once the user is logged it should be allowed
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

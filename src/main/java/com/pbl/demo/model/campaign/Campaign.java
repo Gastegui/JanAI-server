@@ -26,9 +26,8 @@ public class Campaign {
     private int campaignID;
     
     private String town;
-    private String campaign;
+    private String campName;
     private String company;
-
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientsInCampaign> campaignFoodList;
@@ -40,20 +39,26 @@ public class Campaign {
     public Campaign(){
     }
 
-    public Campaign(int campaignID, String town, String campaign, String company,
+    
+
+    public Campaign(int campaignID, String town, String campName, String company,
             List<IngredientsInCampaign> campaignFoodList, Administrator administrator) {
         this.campaignID = campaignID;
         this.town = town;
-        this.campaign = campaign;
+        this.campName = campName;
         this.company = company;
         this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
     }
 
-    public Campaign(String town, String campaign, String company, List<IngredientsInCampaign> campaignFoodList,
+
+
+
+
+    public Campaign(String town, String campName, String company, List<IngredientsInCampaign> campaignFoodList,
             Administrator administrator) {
         this.town = town;
-        this.campaign = campaign;
+        this.campName = campName;
         this.company = company;
         this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
@@ -73,14 +78,6 @@ public class Campaign {
 
     public void setTown(String town) {
         this.town = town;
-    }
-
-    public String getCampaign() {
-        return campaign;
-    }
-
-    public void setCampaign(String campaign) {
-        this.campaign = campaign;
     }
 
     public String getCompany() {
@@ -105,6 +102,14 @@ public class Campaign {
 
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 
     

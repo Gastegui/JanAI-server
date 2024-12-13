@@ -40,7 +40,7 @@ public class Restrictions {
 
     @ManyToOne
     @JoinColumn(name = "ingredientID")
-    private Ingredients ingredients;
+    private Ingredients ingredient;
 
     @ManyToOne
     @JoinColumn(name = "typeID")
@@ -56,7 +56,7 @@ public class Restrictions {
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
-        this.ingredients = ingredients;
+        this.ingredient = ingredients;
         this.foodType = foodType;
     }
 
@@ -66,7 +66,7 @@ public class Restrictions {
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
-        this.ingredients = ingredients;
+        this.ingredient = ingredients;
         this.foodType = foodType;
     }
 
@@ -110,12 +110,12 @@ public class Restrictions {
         this.foodClass = foodClass;
     }
 
-    public Ingredients getIngredients() {
-        return ingredients;
+    public Ingredients getIngredient() {
+        return ingredient;
     }
 
     public void setIngredients(Ingredients ingredients) {
-        this.ingredients = ingredients;
+        this.ingredient = ingredients;
     }
 
     public FoodType getFoodType() {
