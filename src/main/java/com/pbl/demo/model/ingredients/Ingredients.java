@@ -29,12 +29,12 @@ public class Ingredients {
 
     @ManyToOne
     @JoinColumn(name = "groupID")
-    private FoodGroup foodGroup;
+    private FoodGroup groupID;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HasIngredients> foodIngredients;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
     public Ingredients(){

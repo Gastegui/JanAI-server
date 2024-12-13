@@ -43,7 +43,7 @@ public class UserData {
     private float waist;
     private float hips;
 
-    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userID", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
