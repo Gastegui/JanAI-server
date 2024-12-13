@@ -25,6 +25,15 @@ public class FoodController {
     @Autowired
     IngredientsRepository ingredientRepo;
 
+
+    @GetMapping(value="", produces = {"application/json", "application/xml"})
+    public ResponseEntity<List<Food>> findAllFoods(){
+        List<Food> foods = foodRepo.findAll();
+        if(foods.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Food> findById(@PathVariable int id){
         Optional<Food> optFood = foodRepo.findById(id);
@@ -35,7 +44,7 @@ public class FoodController {
         }
     }
 
-    @GetMapping(value = "/", produces = {"application/json", "application/xml"})
+    @GetMapping(value = "/search", produces = {"application/json", "application/xml"})
     public ResponseEntity<Food> findByName(@RequestParam String foodName){
         Optional<Food> optFood = foodRepo.findByFoodName(foodName);
         if(!optFood.isPresent()){
@@ -45,7 +54,7 @@ public class FoodController {
         }
     }
 
-    @GetMapping(value = "/search", produces = {"application/json", "application/xml"})
+    /*@GetMapping(value = "/search", produces = {"application/json", "application/xml"})
     public ResponseEntity<List<Food>> findByIngredient(@RequestParam List<String> ingredients){
         List<Food> foods = foodRepo.findFoodsByIngredients(ingredients);
         if(foods.isEmpty()){
@@ -53,5 +62,5 @@ public class FoodController {
         }else{
             return new ResponseEntity<>(foods, HttpStatus.OK);
         }
-    }
+    }*/
 }
