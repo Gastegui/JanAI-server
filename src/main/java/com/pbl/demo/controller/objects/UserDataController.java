@@ -33,7 +33,7 @@ public class UserDataController {
     }
 
     //If we save the user in the http session, we can get it from here instead of communicating with the database
-    @GetMapping(produces = {"application/json", "application/xml"})
+    /*@GetMapping(produces = {"application/json", "application/xml"})
     public ResponseEntity<UserData> getUserDataBySession(HttpSession session){
         Object userObj = session.getAttribute("user");
         if(userObj instanceof UserData && userObj != null){
@@ -42,7 +42,7 @@ public class UserDataController {
         }else{
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 
     //This is the same but if we decide to use the security context from spring security
     @GetMapping(produces = {"application/json", "application/xml"})

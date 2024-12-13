@@ -28,7 +28,6 @@ public class Campaign {
     private String town;
     private String campName;
     private String company;
-    private String campName;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientsInCampaign> campaignFoodList;
@@ -42,7 +41,8 @@ public class Campaign {
 
     
 
-    public Campaign(int campaignID, String campName, String town, String company, Administrator administrator) {
+    public Campaign(int campaignID, String town, String campName, String company,
+            List<IngredientsInCampaign> campaignFoodList, Administrator administrator) {
         this.campaignID = campaignID;
         this.town = town;
         this.campName = campName;
@@ -55,8 +55,8 @@ public class Campaign {
 
 
 
-    public Campaign(String campName, String town, String company, Administrator administrator) {
-        this.campName = campName;
+    public Campaign(String town, String campName, String company, List<IngredientsInCampaign> campaignFoodList,
+            Administrator administrator) {
         this.town = town;
         this.campName = campName;
         this.company = company;

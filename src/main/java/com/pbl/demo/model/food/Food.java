@@ -29,10 +29,10 @@ public class Food {
     private float fiber;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HasIngredients> foods;
+    private List<HasIngredients> foodTypes;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodList> foodLists;
+    private List<FoodList> foodList;
 
     public Food(){}
 

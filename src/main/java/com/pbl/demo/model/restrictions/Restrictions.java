@@ -28,7 +28,7 @@ public class Restrictions {
 
     @ManyToOne
     @JoinColumn(name = "userID")
-    private UserData userID;
+    private UserData userData;
 
     @ManyToOne
     @JoinColumn(name = "groupID")
@@ -87,11 +87,11 @@ public class Restrictions {
     }
 
     public UserData getUserData() {
-        return userID;
+        return userData;
     }
 
     public void setUserData(UserData userData) {
-        this.userID = userData;
+        this.userData = userData;
     }
 
     public FoodGroup getFoodGroup() {
