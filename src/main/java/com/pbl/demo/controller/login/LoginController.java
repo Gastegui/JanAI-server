@@ -29,6 +29,7 @@ import com.pbl.demo.security.JwtUtil;
 import com.pbl.demo.security.AuthRequest;
 import org.springframework.web.servlet.View;
 
+import java.util.Date;
 
 @RestController
 @RequestMapping("/login")
@@ -64,8 +65,9 @@ public class LoginController {
                     // Successful login
                     String token = jwtUtil.generateToken(user);
                     String role = user.getAuthorities().iterator().next().getAuthority();
+                    Date timeout = jwtUtil.extractExpiration(token);
 
-                    return ResponseEntity.ok(new AuthResponse(token, role));
+                    return ResponseEntity.ok(new AuthResponse(token, role, timeout));
                 }
 
                 // At the moment, the SQL script used to generate the DB does not provide a valid
