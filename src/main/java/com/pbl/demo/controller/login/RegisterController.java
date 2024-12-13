@@ -1,7 +1,11 @@
 package com.pbl.demo.controller.login;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,7 +27,7 @@ import jakarta.servlet.http.HttpSession;
 @PreAuthorize("isAnonymous()")
 public class RegisterController {
     @Autowired
-    private UserDataRepository userRepository;
+    private UserDataRepository userRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -37,18 +41,19 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/register", consumes = {"application/json", "application/xml"})
-    public String registerUser(Model model, HttpSession session, @RequestBody UserData body){
+    public ResponseEntity<UserData> registerUser(Model model, HttpSession session, @RequestBody UserData body){
         
         if(body == null){
             System.out.println("El cuerpo esta vacio o no es valido");
-            return "redirect:/register";
         }
         
-        UserData user = body;
-
-
-        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
-        emailVerificationService.sendVerificationCode(user);
-        return "redirect:/email-verify";
+        Optional<UserData> found_Users = userRepo.findByUsername(body.getUsername());
+        if (found_Users.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            body.setUserPass(passwordEncoder.encode(body.getUserPass()));
+            emailVerificationService.sendVerificationCode(body);
+            return new ResponseEntity<>(body, HttpStatus.OK);
+        }
     }
 }

@@ -15,7 +15,7 @@ public class IndexController {
     @Autowired
     UserDataRepository userRepo;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String home(Model model, HttpSession session){
         //This will check if there are any users logged in, if there isn't any, it will redirect
         //to the login menu. Maybe create a home page for unlogged users?

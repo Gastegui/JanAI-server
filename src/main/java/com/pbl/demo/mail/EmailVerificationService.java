@@ -14,17 +14,16 @@ import jakarta.servlet.http.HttpSession;
 @Service
 public class EmailVerificationService {
     @Autowired
-    private UserDataRepository userRepo;
-
-    @Autowired
     private EmailService emailService;
 
     @Autowired
     private HttpSession session;
 
+    private Integer verificationCode;
+
 
     public void sendVerificationCode(UserData user){
-        Integer verificationCode = generateVerificationCode();
+        verificationCode = generateVerificationCode();
 
         try {
             emailService.sendHtmlMessage(user.getEmail(), "Email verification",
@@ -37,7 +36,11 @@ public class EmailVerificationService {
         session.setAttribute("sentCode", verificationCode);
     }
 
-    public boolean verifyEmail(Integer introducedCode){
+    public Integer getVerificationCode() {
+        return verificationCode;
+    }
+
+    /*public boolean verifyEmail(Integer introducedCode){
         Integer sentCode = (Integer) session.getAttribute("sentCode");
         UserData userToRegister = (UserData) session.getAttribute("userToRegister");
 
@@ -57,7 +60,7 @@ public class EmailVerificationService {
 
         session.setAttribute("error", "Incorrect code");
         return false;
-    }
+    }*/
 
     private Integer generateVerificationCode(){
         Random random = new Random();
