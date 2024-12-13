@@ -3,8 +3,12 @@ create database if not exists JanAI;
 use JanAI;
 
 create table food(
-	foodID bigint,
+	foodID bigint auto_increment,
     foodName varchar(255),
+    proteins float,
+    carbs float,
+    fats float,
+    fiber float,
     PRIMARY KEY (foodID)
 );
 
@@ -77,7 +81,7 @@ create table hasIngredients(
 );
 
 create table userData(
-	userID bigint PRIMARY KEY,
+	userID bigint auto_increment PRIMARY KEY,
     uname char(255) NOT NULL,
     secondName char(255),
     gender enum("M","F") NOT NULL,
@@ -119,12 +123,17 @@ create table foodList(
 );
 
 create table weightGoals(
-	weightGoalsID bigint,
+	weightGoalsID bigint auto_increment,
     userID bigint, # FOREIGN KEY TO USER TABLE
     weight float NOT NULL, -- kg
     goalWeight float NOT NULL, -- kg
     durationToAchieveGoalWeight int, -- weeks
     registerDate date,
+    /*recommendedCalories float,
+    recommendedProteins float,
+    recommendedCarbs float,
+    recommendedFats float,
+    recommendedFiber float,*/
     PRIMARY KEY (weightGoalsID),
     FOREIGN KEY (userID) REFERENCES userData(userID)
 );
@@ -144,3 +153,13 @@ create table restrictions(
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
+
+#insert into food values (1, 'Tortilla', 12.4, 13.4, 75.4, 98.6);
+
+#select * from food;
+
+#delete from food;
+#select * from userData;
+#select * from food;
+select * from weightGoals;
+delete from weightGoals;
