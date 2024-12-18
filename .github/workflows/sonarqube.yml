@@ -43,3 +43,14 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.scanner.dumpToFile=sonar-scanner-report.json
+            -Dsonar.verbose=true
+            -X
+      
+      - name: Cache SonarQube Data
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar-cache
+
