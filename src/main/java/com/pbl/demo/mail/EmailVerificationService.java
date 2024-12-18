@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.pbl.demo.model.userData.UserDataRepository;
+//import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.model.userData.UserData;
 
 import jakarta.mail.MessagingException;
@@ -32,8 +32,8 @@ public class EmailVerificationService {
             e.printStackTrace();
         }
 
-        session.setAttribute("userToRegister", user);
-        session.setAttribute("sentCode", verificationCode);
+        /*session.setAttribute("userToRegister", user);
+        session.setAttribute("sentCode", verificationCode);*/
     }
 
     public Integer getVerificationCode() {

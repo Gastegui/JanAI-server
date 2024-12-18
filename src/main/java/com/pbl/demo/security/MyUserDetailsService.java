@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
-import jakarta.servlet.http.HttpSession;
-
 public class MyUserDetailsService implements UserDetailsService{
     @Autowired
     private UserDataRepository userRepo;

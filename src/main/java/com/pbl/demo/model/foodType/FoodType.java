@@ -1,6 +1,5 @@
 package com.pbl.demo.model.foodType;
 
-import java.util.Date;
 import java.util.List;
 
 import com.pbl.demo.model.restrictions.Restrictions;

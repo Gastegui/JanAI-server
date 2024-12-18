@@ -27,7 +27,7 @@ import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.security.JwtUtil;
 import com.pbl.demo.security.AuthRequest;
-import org.springframework.web.servlet.View;
+//import org.springframework.web.servlet.View;
 
 import java.util.Date;
 
@@ -170,7 +170,7 @@ public class LoginController {
             found_User.get().setSecondName(user.getSecondName());
             found_User.get().setUsername(user.getUsername());
             found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivity(user.getActivity());
+            found_User.get().setActivityLevel(user.getActivityLevel());
             found_User.get().setGender(user.getGender());
             found_User.get().setNeck(user.getNeck());
             found_User.get().setWaist(user.getWaist());
