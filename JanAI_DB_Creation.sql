@@ -2,7 +2,7 @@ drop database if exists JanAI;
 create database if not exists JanAI;
 use JanAI;
 
-create table food(
+create table food( #Macros will be per 100 g
 	foodID bigint auto_increment,
     foodName varchar(255),
     proteins float,
@@ -117,7 +117,7 @@ create table foodList(
     userID bigint,
     consumption_date date,
     meal char(255),
-    PRIMARY KEY (foodID, userID),
+    PRIMARY KEY (foodID, userID, consumption_date, meal),
     FOREIGN KEY (userID) REFERENCES userData(userID),
     FOREIGN KEY (foodID) REFERENCES food(foodID)
 );
@@ -153,13 +153,3 @@ create table restrictions(
     FOREIGN KEY (classID) REFERENCES foodClass(classID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
 );
-
-#insert into food values (1, 'Tortilla', 12.4, 13.4, 75.4, 98.6);
-
-#select * from food;
-
-#delete from food;
-#select * from userData;
-#select * from food;
-select * from weightGoals;
-delete from weightGoals;

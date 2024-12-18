@@ -4,11 +4,11 @@ USE JanAI;
 
 -- Insert data into food table
 INSERT INTO food VALUES
-  (1, 'Pizza'),
-  (2, 'Burger'),
-  (3, 'Salad'),
-  (4, 'Pasta'),
-  (5, 'Ice Cream');
+  (1, 'Pizza', 11.0, 26.0, 10.0, 2.5),
+  (2, 'Burger', 14.0, 24.0, 12.0, 1.8),
+  (3, 'Salad', 2.0, 3.0, 0.2, 1.5),
+  (4, 'Pasta', 5.0, 31.0, 1.2, 1.7),
+  (5, 'Ice Cream', 3.0, 23.0, 10.0, 0.4);
 
 -- Insert data into foodClass table
 INSERT INTO foodClass VALUES
@@ -65,6 +65,9 @@ INSERT INTO userData VALUES
 -- Insert data into foodList table
 INSERT INTO foodList VALUES
   (1, 1, '2024-12-01', 'Lunch'),
+  (3, 1, '2024-12-12', 'Lunch'),
+  (3, 1, '2024-12-12', 'Dinner'),
+  (3, 1, '2024-12-13', 'Lunch'),
   (2, 2, '2024-12-02', 'Dinner');
 
 -- Insert data into weightGoals table
