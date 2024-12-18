@@ -5,10 +5,12 @@ import java.util.Random;
 public class NormalUser extends Thread{
     private JanAi janai;
     private Random rand;
+    private int action;
     public NormalUser (JanAi janai, int i){
         super("User " + i);
         this.janai = janai;
         this.rand = new Random();
+        this.action = 0;
     }
 
     @Override
@@ -17,14 +19,15 @@ public class NormalUser extends Thread{
             try {
                 Thread.sleep(rand.nextInt(2000));//Not using the app
                 //Login and start using it, randomly choose what to do
-                if(!janai.isMaintenanceOn()){
-                    janai.login_user();
-                    login();
-                    Thread.sleep(rand.nextInt(1000));
-                    janai.logoff_user();
-                    logoff();
-                }
-            } catch (InterruptedException e) {
+                janai.login_user();
+                login();
+                Thread.sleep(rand.nextInt(1000));
+                janai.logoff_user();
+                logoff();
+            }catch (IllegalStateException ie){
+                System.out.println(super.getName() + ": Can't login " + ie.getMessage());
+            } 
+            catch (InterruptedException e) {
                 // TODO: handle exception
                 this.interrupt();
             }

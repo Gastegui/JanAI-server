@@ -23,7 +23,7 @@ public class JanAi {
         try {
             if (maintenanceOn) {
                 serverAccess.release();
-                System.out.print("Ongoing maintenance, can't login");
+                throw new IllegalStateException("Ongoing maintenance, can't login");
             }
             nUsers++;
         } finally {
