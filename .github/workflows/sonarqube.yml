@@ -21,26 +21,35 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-  
-      - name: Cache Maven Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2-
 
-      - name: SonarQube Scan
+      - name: SonarQube Analysis
         env:
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           wget -q -O sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli.zip -d /opt/
           export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
-          sonar-scanner \
-            -Dsonar.projectKey=JanAI-server \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.qualitygate.wait=true
+
+          # Conditional execution for push vs pull request
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            sonar-scanner \
+              -Dsonar.projectKey=your-project-key \
+              -Dsonar.organization=your-organization-key \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.login=$SONAR_TOKEN \
+              -Dsonar.qualitygate.wait=true \
+              -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
+              -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+              -Dsonar.pullrequest.base=${{ github.base_ref }} \
+              -Dsonar.pullrequest.github.repository=${{ github.repository }}
+          else
+            sonar-scanner \
+              -Dsonar.projectKey=your-project-key \
+              -Dsonar.organization=your-organization-key \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.login=$SONAR_TOKEN \
+              -Dsonar.qualitygate.wait=true
+          fi
