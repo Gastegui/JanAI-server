@@ -34,8 +34,7 @@ jobs:
           # Conditional execution for push vs pull request
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             sonar-scanner \
-              -Dsonar.projectKey=your-project-key \
-              -Dsonar.organization=your-organization-key \
+              -Dsonar.projectKey=JanAI-server \
               -Dsonar.sources=. \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN \
@@ -46,8 +45,7 @@ jobs:
               -Dsonar.pullrequest.github.repository=${{ github.repository }}
           else
             sonar-scanner \
-              -Dsonar.projectKey=your-project-key \
-              -Dsonar.organization=your-organization-key \
+              -Dsonar.projectKey=JanAI-server \
               -Dsonar.sources=. \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN \
