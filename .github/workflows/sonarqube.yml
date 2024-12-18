@@ -18,6 +18,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          
+      - name: Build the project
+        run: mvn clean compile
 
       - name: SonarQube Analysis
         env:
