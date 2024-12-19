@@ -1,7 +1,6 @@
 package com.pbl.demo.model.ingredientsInCampaign;
 
 import java.util.Date;
-import java.util.List;
 
 import com.pbl.demo.model.ingredients.Ingredients;
 
@@ -38,13 +37,8 @@ public class IngredientsInCampaign {
     private Date init_date;
     private Date end_date;
 
-
-    
-
     public IngredientsInCampaign(){
     }
-
-
 
     public IngredientsInCampaign(Campaign campaign, Ingredients ingredients, Date init_date, Date end_date) {
         this.campaign = campaign;
@@ -53,68 +47,41 @@ public class IngredientsInCampaign {
         this.end_date = end_date;
     }
 
-
-
     public IngredientsInCampaign(Date init_date, Date end_date) {
         this.init_date = init_date;
         this.end_date = end_date;
     }
 
-
-
     public Campaign getCampaign() {
         return campaign;
     }
-
-
 
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
     }
 
-
-
     public Ingredients getIngredients() {
         return ingredients;
     }
-
-
 
     public void setIngredients(Ingredients ingredients) {
         this.ingredients = ingredients;
     }
 
-
-
     public Date getInit_date() {
         return init_date;
     }
-
-
 
     public void setInit_date(Date init_date) {
         this.init_date = init_date;
     }
 
-
-
     public Date getEnd_date() {
         return end_date;
     }
 
-
-
     public void setEnd_date(Date end_date) {
         this.end_date = end_date;
     }
-
-
-
-
-
-
-    
-
-    
 
 }

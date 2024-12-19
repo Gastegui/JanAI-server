@@ -23,7 +23,7 @@ import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
-import jakarta.servlet.http.HttpSession;
+//import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user")
