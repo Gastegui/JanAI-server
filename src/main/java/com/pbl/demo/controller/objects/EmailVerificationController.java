@@ -33,16 +33,15 @@ public class EmailVerificationController {
     @Autowired
     private UserDataRepository userRepo;
 
-    EmailVerificationService verifyMail;
+    //EmailVerificationService verifyMail;
 
-    @GetMapping(value = "/typedCode", produces = { "application/json", "application/xml" })
-    public ResponseEntity<UserData> getVerificationCode(@RequestParam Integer writtenCode, @RequestBody UserData user) {
+    @PostMapping(value = "/typedCode", produces = { "application/json", "application/xml" })
+    public ResponseEntity getVerificationCode(@RequestParam String writtenCode, @RequestParam String verifyMail, @RequestBody UserData user) {
 
-        Integer sentCode = verifyMail.getVerificationCode();
 
-        if (sentCode.equals(writtenCode)){
+        if (verifyMail.equals(writtenCode)){
             userRepo.save(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().build();
         }

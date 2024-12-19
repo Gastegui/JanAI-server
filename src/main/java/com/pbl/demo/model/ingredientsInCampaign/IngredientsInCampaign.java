@@ -22,7 +22,7 @@ import com.pbl.demo.model.hasIngredients.HasIngredients;
 
 
 @Entity
-@IdClass(IngredientsInCampaignPK.class)
+@IdClass(IngredientsInCampaign.class)
 @Table(name = "ingredientsInCampaign")
 public class IngredientsInCampaign {
 

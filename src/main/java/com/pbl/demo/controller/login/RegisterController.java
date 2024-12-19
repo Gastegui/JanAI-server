@@ -41,10 +41,10 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/register", consumes = {"application/json", "application/xml"})
-    public ResponseEntity<UserData> registerUser(Model model, HttpSession session, @RequestBody UserData body){
+    public ResponseEntity<EmailVerificationService> registerUser(@RequestBody UserData body){
         
         if(body == null){
-            System.out.println("El cuerpo esta vacio o no es valido");
+            return ResponseEntity.badRequest().build();
         }
         
         Optional<UserData> found_Users = userRepo.findByUsername(body.getUsername());
@@ -53,7 +53,7 @@ public class RegisterController {
         } else {
             body.setUserPass(passwordEncoder.encode(body.getUserPass()));
             emailVerificationService.sendVerificationCode(body);
-            return new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(emailVerificationService, HttpStatus.OK);
         }
     }
 }

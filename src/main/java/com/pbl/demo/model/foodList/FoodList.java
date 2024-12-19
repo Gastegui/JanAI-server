@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@IdClass(FoodListPK.class)
+@IdClass(FoodList.class)
 @Table(name = "foodList")
 public class FoodList {
 

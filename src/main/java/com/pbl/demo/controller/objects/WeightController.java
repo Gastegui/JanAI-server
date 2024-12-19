@@ -39,22 +39,18 @@ public class WeightController {
 
         if (found_User.isPresent()) {
             goal.setUserData(found_User.get());
-            //goal.setUserData(user);
-            //goals_Repository.save(goal);
             found_User.get().addWeightGoal(goal);
-            //found_User.get().setWeightGoals(found_User.get().getWeightGoals());
-            //found_User.get().getweightGoals().add(goal);
             userRepo.save(found_User.get());
             return new ResponseEntity<>(goal, HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
-
+    
     @GetMapping(value = "/weightList", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<WeightGoals>> getWeightList(@RequestParam String username) {
 
-        Optional<UserData> user = userRepo.findByUsername(username);
+            Optional<UserData> user = userRepo.findByUsername(username);
         //List<WeightGoals> listWeight = user.get().getWeightGoals();
         
 

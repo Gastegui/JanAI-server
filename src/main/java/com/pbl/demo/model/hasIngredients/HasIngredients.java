@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@IdClass(HasIngredientsPK.class) // Using @IdClass with a separate class for composite key if needed
+@IdClass(HasIngredients.class) // Using @IdClass with a separate class for composite key if needed
 @Table(name = "hasIngredients")
 public class HasIngredients {
 
