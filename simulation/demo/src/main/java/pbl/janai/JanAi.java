@@ -68,7 +68,9 @@ public class JanAi {
         }
     }
 
-    public boolean isMaintenanceOn() {
-        return maintenanceOn;
+    public void updateUserProgress(){
+        
     }
+
+    
 }
