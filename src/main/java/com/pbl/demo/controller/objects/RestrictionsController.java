@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.foodClass.FoodClass;
 import com.pbl.demo.model.foodClass.FoodClassRepository;
+import com.pbl.demo.model.foodGroup.FoodGroup;
+import com.pbl.demo.model.foodGroup.FoodGroupRepository;
 import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.foodType.FoodTypeRepository;
+import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.restrictions.RestrictionsRepository;
 import com.pbl.demo.model.userData.UserData;
@@ -35,6 +38,8 @@ public class RestrictionsController {
     private FoodClassRepository foodClassRepo;
     @Autowired
     private FoodTypeRepository foodTypeRepo;
+    @Autowired
+    private FoodGroupRepository foodGroupRepo;
 
     @GetMapping(produces = {"application/json", "application/xml"})
     public ResponseEntity<List<Restrictions>> getAllRestrictions(){
@@ -61,49 +66,110 @@ public class RestrictionsController {
             {
                 if(foodClassList.contains(foodClass))
                 {
-                    foodClassList.remove(foodClass);
+                    List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.getClassID());
+                    for(FoodType food: foodTypes)
+                    {
+                        if(food.getTypeId()==0)
+                        {
+                            foodClassList.remove(foodClass);
+                            break;
+                        }
+                    }                    
                 }
             }
-
+            /*foodClasses = new ArrayList<>(foodClassList);
+            for(FoodClass foodClass: foodClasses){
+            List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.getClassID());
+                    for(FoodType food: foodTypes)
+                    {
+                        if(food.getTypeId()==0)
+                        {
+                            foodClassList.remove(foodClass);
+                            break;
+                        }
+                    }
+                }*/
             return new ResponseEntity<>(foodClassList, HttpStatus.OK);
         }
     }
 
     @GetMapping(value = "/restrictionsByType", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam List<Integer> classIDs) {
+    public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam Integer classID) {
 
         Optional<UserData> users = userRepo.findById(userID);
         
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<FoodType> foodTypeList = foodTypeRepo.findAll();
-            for(int classID: classIDs)
-            {
+            List<FoodType> foodTypeList = foodTypeRepo.findByClassID(classID);
+            
                 List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(classID);
-                
-    
                 for(FoodType foodType: foodTypes)
                 {
-                    System.out.println("food type "+ foodType );
                     if(foodTypeList.contains(foodType))
                     {
-                        System.out.println("Kendu "+ foodType );
-                        foodTypeList.remove(foodType);
+                        List<FoodGroup> foodGroupList = restrictRepo.findDistinctGruopIDsByTypeID(foodType.getTypeId());
+                        for(FoodGroup food: foodGroupList)
+                        {
+                            if(food.getGroupID()==0)
+                            {
+                                foodTypeList.remove(foodType);
+                                break;
+                            }
+                        }  
                     }
                 }
-                List<FoodType> foodList = new ArrayList<>(foodTypeList);
+                /*List<FoodType> foodList = new ArrayList<>(foodTypeList);
                 for(FoodType foodType: foodList)
                 {
                     if(foodType.getFoodClass().getClassID() != classID)
                     {
                         foodTypeList.remove(foodType);
                     }
-                }
-    
-            }
-            
+                }*/
             return new ResponseEntity<>(foodTypeList, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
+    public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam Integer typeID) {
+
+        Optional<UserData> users = userRepo.findById(userID);
+        if (users.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            List<FoodGroup> foodGroupList = foodGroupRepo.findByClassID(typeID);
+            
+                List<FoodGroup> foodGroupsList = restrictRepo.findDistinctGruopIDsByTypeID(typeID);
+                for(FoodGroup foodGroup: foodGroupsList)
+                {
+                    System.out.println("food type "+ foodGroup );
+                    if(foodGroupList.contains(foodGroup))
+                    {
+                        List<Ingredients> ingredientsList = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.getGroupID());
+                        for(Ingredients ingredient: ingredientsList)
+                        {
+                            if(ingredient.getIngredientID()==0)
+                            {
+                                foodGroupList.remove(foodGroup);
+                                break;
+                            }
+                        }  
+                    }
+                }
+
+                /*List<FoodGroup> foodGroups = new ArrayList<>(foodGroupList);
+                for(FoodGroup foodGroup: foodGroups)
+                {
+                    if(foodGroup.getFoodType().getTypeId() != typeID)
+                    {
+                        foodGroupList.remove(foodGroup);
+                    }
+                }*/
+    
+            
+            
+            return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
         }
     }
 

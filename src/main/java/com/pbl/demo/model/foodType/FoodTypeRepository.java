@@ -1,11 +1,15 @@
 package com.pbl.demo.model.foodType;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.pbl.demo.model.foodClass.FoodClass;
 
 public interface FoodTypeRepository extends JpaRepository<FoodType, Integer>{
-    Optional<FoodClass> findByTypeID(Integer typeID);
+    @Query("SELECT ft FROM FoodType ft WHERE ft.foodClass.classID = :classID")
+    List<FoodType> findByClassID(@Param("classID") Integer classID);
 }

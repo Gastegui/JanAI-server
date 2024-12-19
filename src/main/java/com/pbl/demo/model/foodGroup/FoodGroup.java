@@ -63,4 +63,9 @@ public class FoodGroup {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
+    public FoodType getFoodType() {
+        return foodType;
+    }
+    
 }
