@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //import com.pbl.demo.model.userData.UserData;
 
 public interface WeightGoalsRepository extends JpaRepository<WeightGoals, Integer>{
-    //List<WeightGoals> findByUserData(UserData user);
+    //List<WeightGoals> findByUserData(String user);
 }

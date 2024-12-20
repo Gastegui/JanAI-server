@@ -43,7 +43,7 @@ public class EmailVerificationController {
 
         if (verifyMail.equals(writtenCode)){
             userRepo.save(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().build();
         }

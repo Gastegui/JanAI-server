@@ -44,7 +44,7 @@ public class RegisterController {
     public ResponseEntity<EmailVerificationService> registerUser(@RequestBody UserData body){
         
         if(body == null){
-            System.out.println("El cuerpo esta vacio o no es valido");
+            return ResponseEntity.badRequest().build();
         }
         
         Optional<UserData> found_Users = userRepo.findByUsername(body.getUsername());
