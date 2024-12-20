@@ -12,4 +12,7 @@ import com.pbl.demo.model.foodClass.FoodClass;
 public interface FoodTypeRepository extends JpaRepository<FoodType, Integer>{
     @Query("SELECT ft FROM FoodType ft WHERE ft.foodClass.classID = :classID")
     List<FoodType> findByClassID(@Param("classID") Integer classID);
+
+
+    Optional<FoodType> findByTypeName(String typeName);
 }

@@ -68,7 +68,7 @@ public class RestrictionsController {
                 {
                     List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.getClassID());
                     for(FoodType food: foodTypes)
-                    {
+                    {//zuzendu
                         if(food.getTypeId()==0)
                         {
                             foodClassList.remove(foodClass);
@@ -94,16 +94,17 @@ public class RestrictionsController {
     }
 
     @GetMapping(value = "/restrictionsByType", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam Integer classID) {
+    public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam String className) {
 
         Optional<UserData> users = userRepo.findById(userID);
         
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<FoodType> foodTypeList = foodTypeRepo.findByClassID(classID);
+            Optional<FoodClass> foodClass = foodClassRepo.findByClassName(className);
+            List<FoodType> foodTypeList = foodTypeRepo.findByClassID(foodClass.get().getClassID());
             
-                List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(classID);
+                List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.get().getClassID());
                 for(FoodType foodType: foodTypes)
                 {
                     if(foodTypeList.contains(foodType))
@@ -132,15 +133,16 @@ public class RestrictionsController {
     }
 
     @GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam Integer typeID) {
+    public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam String typeName) {
 
         Optional<UserData> users = userRepo.findById(userID);
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<FoodGroup> foodGroupList = foodGroupRepo.findByClassID(typeID);
+            Optional<FoodType> foodType = foodTypeRepo.findByTypeName(typeName);
+            List<FoodGroup> foodGroupList = foodGroupRepo.findByClassID(foodType.get().getTypeId());
             
-                List<FoodGroup> foodGroupsList = restrictRepo.findDistinctGruopIDsByTypeID(typeID);
+                List<FoodGroup> foodGroupsList = restrictRepo.findDistinctGruopIDsByTypeID(foodType.get().getTypeId());
                 for(FoodGroup foodGroup: foodGroupsList)
                 {
                     System.out.println("food type "+ foodGroup );
