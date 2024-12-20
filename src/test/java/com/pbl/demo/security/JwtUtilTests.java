@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +26,7 @@ class JwtUtilTests {
 
     @BeforeEach
     void setUp() {
+        //Utilities for token generation
         jwtUtil = new JwtUtil("an-incredibly-safe-testing-key-with-over-256-bits", 36000);
         userDetails = new User("username", "password", List.of(new SimpleGrantedAuthority("ROLE_USER")));
         token = jwtUtil.generateToken(userDetails);
@@ -54,27 +54,30 @@ class JwtUtilTests {
         assert(roles.contains("ROLE_USER"));
     }
 
-    // @Test
-    // void testTokenExpiration() throws InterruptedException {
-    //     Thread.sleep(3000); // Sleep longer than the expiration time
-
-    //     // Validate that the token is expired
-    //     assertThrows(ExpiredJwtException.class, () -> {
-    //         jwtUtil.validateToken(token, userDetails.getUsername());
-    //     }, "Token should expire after timeout."
-    //     );
-    // }
-
     @Test
-    void testTokenNotExpired() {
-        // Check that the token is still valid before expiration
-        assertTrue(jwtUtil.validateToken(token, userDetails.getUsername()), "Token should not be expired yet.");
+    void testTokenValidation() throws InterruptedException {
+        JwtUtil shortLivedJwtUtil = new JwtUtil("an-incredibly-safe-testing-key-with-over-256-bits", 1000);
+        String shortLivedToken = shortLivedJwtUtil.generateToken(userDetails);
+    
+        // Validate token immediately
+        assertTrue(shortLivedJwtUtil.validateToken(shortLivedToken, userDetails.getUsername()), "Token should be valid right after creation.");
+        assertFalse(shortLivedJwtUtil.validateToken(shortLivedToken, "wrong__username"),"Token should be invalid if wrong username provided.");
+    
+        // Wait for the token to expire
+        Thread.sleep(1500); // Sleep for 1.5 seconds (longer than 1-second expiration)
+        // Validate token again, expecting it to be expired
+        assertThrows(ExpiredJwtException.class, () -> {
+            shortLivedJwtUtil.validateToken(shortLivedToken, userDetails.getUsername());
+        }, "Token should be invalid after expiration.");
+
+        assertThrows(ExpiredJwtException.class, () -> {
+            shortLivedJwtUtil.validateToken(shortLivedToken, "wrong_username");
+        }, "Token should be invalid after expiration.");
     }
 
     @Test
     void testValidationToken() {
-        assertTrue(jwtUtil.validateToken(token, userDetails.getUsername()));
-        assertFalse(jwtUtil.validateToken(token, "wrongName"));
+        assertEquals(Date.class, jwtUtil.extractExpiration(token).getClass());
     }
 
 }

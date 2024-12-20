@@ -32,7 +32,7 @@ public class SecurityConfiguration{
     
     //TO-DO, security filtrua ezarri behar, gauza handirik ez, logeatuta eta logeatu gabe, eta admin
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
@@ -81,12 +81,12 @@ public class SecurityConfiguration{
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public MyUserDetailsService myUserDetailsService(){
+    MyUserDetailsService myUserDetailsService(){
         return new MyUserDetailsService();
     }
 
