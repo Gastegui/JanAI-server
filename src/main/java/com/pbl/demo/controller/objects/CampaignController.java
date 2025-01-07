@@ -8,12 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
+import com.pbl.demo.model.userData.UserData;
 
 
 @RestController
@@ -48,6 +51,19 @@ public class CampaignController {
             return ResponseEntity.notFound().build();
         }else{
             return new ResponseEntity<>(campaign.get(), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
+            "application/json", "application/xml" })
+    public ResponseEntity<Campaign> addCampaign(@RequestBody Campaign campaign) {
+        
+        Optional<Campaign> found_Campaign = cmpRepo.findByCampName(campaign.getCampName());
+        if (found_Campaign.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            cmpRepo.save(campaign);
+            return new ResponseEntity<>(campaign, HttpStatus.CREATED);
         }
     }
 }

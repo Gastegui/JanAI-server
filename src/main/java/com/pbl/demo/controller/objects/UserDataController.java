@@ -96,7 +96,7 @@ public class UserDataController {
 
         Optional<UserData> users = userRepo.findByUsername(username);
 
-        if (users.isEmpty()) {
+        if (!users.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(users.get(), HttpStatus.OK);

@@ -51,5 +51,14 @@ public class IngredientController {
             return new ResponseEntity<>(optIngredient.get(), HttpStatus.OK);
         }
     }
+    @GetMapping(value = "/searchIngredientId", produces = {"application/json", "application/xml"})
+    public ResponseEntity<Ingredients> getIngredientIDByName(@RequestParam String ingName){
+        Optional<Ingredients> optIngredient = ingredientRepo.findByIngName(ingName);
+        if(!optIngredient.isPresent()){
+            return ResponseEntity.notFound().build();
+        }else{
+            return new ResponseEntity<>(optIngredient.get(), HttpStatus.OK);
+        }
+    }
 
 }

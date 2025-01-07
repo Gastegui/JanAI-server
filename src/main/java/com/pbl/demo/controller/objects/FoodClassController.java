@@ -1,16 +1,19 @@
 package com.pbl.demo.controller.objects;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.foodClass.FoodClass;
 import com.pbl.demo.model.foodClass.FoodClassRepository;
+import com.pbl.demo.model.foodType.FoodType;
 
 @RestController
 @RequestMapping("/foodclass")
@@ -25,6 +28,16 @@ public class FoodClassController {
             return ResponseEntity.notFound().build();
         }else{
             return new ResponseEntity<>(classes, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping(value = "/selectByClassName", produces = { "application/json", "application/xml" })
+    public ResponseEntity<FoodClass> getGroupByGroupName(@RequestParam String className){
+        Optional<FoodClass> classObject = fcRepo.findByClassName(className);
+        if(classObject.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            return new ResponseEntity<>(classObject.get(), HttpStatus.OK);
         }
     }
 }

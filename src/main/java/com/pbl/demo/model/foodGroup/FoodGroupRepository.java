@@ -10,5 +10,8 @@ import com.pbl.demo.model.foodType.FoodType;
 
 public interface FoodGroupRepository extends JpaRepository<FoodGroup, Integer>{
     @Query("SELECT ft FROM FoodGroup ft WHERE ft.foodType.typeID = :typeID")
-    List<FoodGroup> findByClassID(@Param("typeID") Integer typeID);
+    List<FoodGroup> findByTypeID(@Param("typeID") Integer typeID);
+
+    Optional<FoodGroup> findByGroupID(int groupID);
+    Optional<FoodGroup> findByGroupName(String groupName);
 }
