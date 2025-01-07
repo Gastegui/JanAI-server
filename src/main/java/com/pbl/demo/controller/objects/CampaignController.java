@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
-import com.pbl.demo.model.userData.UserData;
 
 
 @RestController
