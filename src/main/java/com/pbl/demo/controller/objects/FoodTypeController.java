@@ -32,7 +32,7 @@ public class FoodTypeController {
     }
 
     @GetMapping(value = "/selectByTypeName", produces = { "application/json", "application/xml" })
-    public ResponseEntity<FoodType> getGroupByGroupName(@RequestParam String typeName){
+    public ResponseEntity<FoodType> getTypeByTypeName(@RequestParam String typeName){
         Optional<FoodType> type = ftRepo.findByTypeName(typeName);
         if(type.isEmpty()){
             return ResponseEntity.notFound().build();
