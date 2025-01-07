@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.foodClass.FoodClass;
 import com.pbl.demo.model.foodClass.FoodClassRepository;
-import com.pbl.demo.model.foodType.FoodType;
+
 
 @RestController
 @RequestMapping("/foodclass")
