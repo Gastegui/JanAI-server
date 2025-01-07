@@ -1,6 +1,5 @@
 package com.pbl.demo.controller.objects;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,6 @@ import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.foodType.FoodTypeRepository;
 import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.restrictions.RestrictionsRepository;
 import com.pbl.demo.model.userData.UserData;
@@ -57,8 +55,7 @@ public class RestrictionsController {
 
     @GetMapping(value = "/restrictionsByClass", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodClass>> getUsersByName(@RequestParam int userID) {
-        int remove = 0;
-        int count = 0;
+
         Optional<UserData> users = userRepo.findById(userID);
         
         if (users.isEmpty()) {
@@ -123,8 +120,7 @@ public class RestrictionsController {
 
     @GetMapping(value = "/restrictionsByType", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam String className) {
-        int remove = 0;
-        int count = 0;
+
         Optional<UserData> users = userRepo.findById(userID);
         
         if (users.isEmpty()) {
@@ -186,8 +182,7 @@ public class RestrictionsController {
     @GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam String typeName) {
 
-        int remove = 0;
-        int count = 0;
+
         Optional<UserData> users = userRepo.findById(userID);
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -244,8 +239,7 @@ public class RestrictionsController {
     @GetMapping(value = "/restrictionsByIngredients", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<Ingredients>> getUsersByIngredients(@RequestParam int userID, @RequestParam String groupName) {
 
-        int remove = 0;
-        int count = 0;
+
         Optional<UserData> users = userRepo.findById(userID);
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -320,6 +314,9 @@ public class RestrictionsController {
             Optional<FoodClass> classObject = foodClassRepo.findById(restriction.getFoodClass().getClassID());
             Optional<FoodType> typeObject = foodTypeRepo.findById(restriction.getFoodType().getTypeId());
             Optional<Ingredients> ingredientObject = ingredienRepo.findById(restriction.getIngredient().getIngredientID());
+            if(groupObject.isEmpty() || classObject.isEmpty() || typeObject.isEmpty() || ingredientObject.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
             restriction.setFoodGroup(groupObject.get());
             restriction.setFoodType(typeObject.get());
             restriction.setFoodClass(classObject.get());

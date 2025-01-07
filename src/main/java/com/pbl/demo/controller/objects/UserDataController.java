@@ -82,14 +82,7 @@ public class UserDataController {
     }*/
 
     //This is the same but if we decide to use the security context from spring security
-    @GetMapping(produces = {"application/json", "application/xml"})
-    public ResponseEntity<UserData> getUserBySecurityContext(){
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserData> user = userRepo.findByUsername(username);
-        if(!user.isPresent()){
-            return ResponseEntity.notFound().build();
-        }else return new ResponseEntity<>(user.get(), HttpStatus.OK);
-    }
+    
 
     @GetMapping(value = "/usersByUsername", produces = { "application/json", "application/xml" })
     public ResponseEntity<UserData> getUsersByName(@RequestParam String username) {
