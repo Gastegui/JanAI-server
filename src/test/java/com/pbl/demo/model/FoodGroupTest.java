@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.pbl.demo.model.foodGroup.FoodGroup;
 
 public class FoodGroupTest {
-        @Test
+    @Test
     void testDefaultConstructor(){
         FoodGroup fGroup = new FoodGroup();
 
