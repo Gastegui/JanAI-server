@@ -1,6 +1,6 @@
 package com.pbl.demo.model.administrator;
 
-import java.util.Date;
+
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 
 import com.pbl.demo.model.campaign.Campaign;
 
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
 @Entity
 @Table(name = "administrator")
 public class Administrator {
