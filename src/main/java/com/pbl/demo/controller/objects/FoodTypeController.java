@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.foodGroup.FoodGroup;
 import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.foodType.FoodTypeRepository;
 
@@ -32,7 +31,7 @@ public class FoodTypeController {
     }
 
     @GetMapping(value = "/selectByTypeName", produces = { "application/json", "application/xml" })
-    public ResponseEntity<FoodType> getGroupByGroupName(@RequestParam String typeName){
+    public ResponseEntity<FoodType> getTypeByTypeName(@RequestParam String typeName){
         Optional<FoodType> type = ftRepo.findByTypeName(typeName);
         if(type.isEmpty()){
             return ResponseEntity.notFound().build();

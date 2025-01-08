@@ -3,7 +3,6 @@ package com.pbl.demo.model.weightGoals;
 import java.util.Date;
 
 
-import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.userData.UserData;
 
 import jakarta.persistence.Entity;
