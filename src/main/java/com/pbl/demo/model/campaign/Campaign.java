@@ -96,10 +96,10 @@ public class Campaign {
         this.campaignFoodList = campaignFoodList;
     }
 
-    public Administrator getAdministrator() {
+    /*public Administrator getAdministrator() {
         return administrator;
     }
-
+*/
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
     }

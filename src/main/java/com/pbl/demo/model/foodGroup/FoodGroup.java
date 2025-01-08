@@ -64,8 +64,8 @@ public class FoodGroup {
         this.groupName = groupName;
     }
 
-    public FoodType getFoodType() {
+   /* public FoodType getFoodType() {
         return foodType;
-    }
+    }*/ 
     
 }

@@ -64,9 +64,9 @@ public class FoodType {
         this.typeName = typeName;
     }
 
-    public FoodClass getFoodClass() {
+    /*public FoodClass getFoodClass() {
         return foodClass;
-    }
+    }*/
 
     public void setFoodClass(FoodClass foodClass) {
         this.foodClass = foodClass;

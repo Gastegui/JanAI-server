@@ -52,17 +52,17 @@ public class IngredientsInCampaign {
         this.end_date = end_date;
     }
 
-    public Campaign getCampaign() {
+    /*public Campaign getCampaign() {
         return campaign;
-    }
+    }*/
 
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
     }
 
-    public Ingredients getIngredients() {
+    /*public Ingredients getIngredients() {
         return ingredients;
-    }
+    }*/
 
     public void setIngredients(Ingredients ingredients) {
         this.ingredients = ingredients;

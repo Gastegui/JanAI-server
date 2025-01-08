@@ -307,30 +307,31 @@ public class RestrictionsController {
 
     @PostMapping(value = "/addRestriction", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Restrictions> addRestriction(@RequestBody Restrictions restriction) {
-        //Optional<UserData> user = userRepo.findById(userID);
+    public ResponseEntity<Restrictions> addRestriction(@RequestParam int userID, @RequestBody Restrictions restriction) {
+        Optional<UserData> user = userRepo.findById(userID);
         //Optional<UserData> user = userRepo.findById(restriction.getUserData().getUserID());
 
-    //if (user.isPresent()) {
-        Optional<Restrictions> foundRestriction = restrictRepo.findByRestrictedName(restriction.getrestrictedName());
-        if (foundRestriction.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        } else {
-            Optional<FoodGroup> groupObject = foodGroupRepo.findById(restriction.getFoodGroup().getGroupID());
-            Optional<FoodClass> classObject = foodClassRepo.findById(restriction.getFoodClass().getClassID());
-            Optional<FoodType> typeObject = foodTypeRepo.findById(restriction.getFoodType().getTypeId());
-            Optional<Ingredients> ingredientObject = ingredienRepo.findById(restriction.getIngredient().getIngredientID());
-            restriction.setFoodGroup(groupObject.get());
-            restriction.setFoodType(typeObject.get());
-            restriction.setFoodClass(classObject.get());
-            restriction.setIngredients(ingredientObject.get());
+        if (user.isPresent()) {
+            Optional<Restrictions> foundRestriction = restrictRepo.findByRestrictedName(restriction.getrestrictedName());
+            if (foundRestriction.isPresent()) {
+                return ResponseEntity.badRequest().build();
+            } else {
+                restriction.setUserData(user.get());
+                Optional<FoodGroup> groupObject = foodGroupRepo.findById(restriction.getFoodGroup().getGroupID());
+                Optional<FoodClass> classObject = foodClassRepo.findById(restriction.getFoodClass().getClassID());
+                Optional<FoodType> typeObject = foodTypeRepo.findById(restriction.getFoodType().getTypeId());
+                Optional<Ingredients> ingredientObject = ingredienRepo.findById(restriction.getIngredient().getIngredientID());
+                restriction.setFoodGroup(groupObject.get());
+                restriction.setFoodType(typeObject.get());
+                restriction.setFoodClass(classObject.get());
+                restriction.setIngredients(ingredientObject.get());
 
-            restrictRepo.save(restriction);
-            return new ResponseEntity<>(restriction, HttpStatus.CREATED);
+                restrictRepo.save(restriction);
+                return new ResponseEntity<>(restriction, HttpStatus.CREATED);
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
         }
-    /* } else {
-        return ResponseEntity.badRequest().build();
-    }*/
         /*if (user.isPresent()) {
             Optional<Restrictions> found_restriction = restrictRepo.findByRestrictedName(restrictedName);
             if (found_restriction.isPresent()) {
