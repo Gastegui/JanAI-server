@@ -1,131 +1,99 @@
 package com.pbl.demo.controller.objects;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.model.weightGoals.WeightGoals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.ResponseEntity;
 
-@WebMvcTest(controllers = WeightController.class)
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 @AutoConfigureMockMvc(addFilters = false)
-public class WeightControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Mock
-    private UserDataRepository userRepo;
+class WeightControllerTest {
 
     @InjectMocks
     private WeightController weightController;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Mock
+    private UserDataRepository userRepo;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
-    void testAddWeightGoal_UserExists_ShouldReturnCreated() throws Exception {
-        // Datos de prueba
+    void addWeightGoal_UserExists_ReturnsCreated() {
+        // Arrange
         String username = "testUser";
         WeightGoals goal = new WeightGoals();
-        goal.setGoalWeight(new Float(70));
         UserData user = new UserData();
-        user.setUsername(username);
-
-        // Configuración del mock
         when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
 
-        // Acción
-        ResultActions response = mockMvc.perform(post("/weight/addWeight")
-                .param("username", username)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(goal)));
+        // Act
+        ResponseEntity<WeightGoals> response = weightController.addWeightGoal(username, goal);
 
-        // Verificación
-        response.andExpect(status().isCreated());
+        // Assert
+        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(goal, response.getBody());
         verify(userRepo, times(1)).save(user);
     }
 
     @Test
-    void testAddWeightGoal_UserNotFound_ShouldReturnBadRequest() throws Exception {
-        // Datos de prueba
+    void addWeightGoal_UserNotFound_ReturnsBadRequest() {
+        // Arrange
         String username = "nonExistentUser";
         WeightGoals goal = new WeightGoals();
-        goal.setGoalWeight(new Float(75.0));
-
-        // Configuración del mock
         when(userRepo.findByUsername(username)).thenReturn(Optional.empty());
 
-        // Acción
-        ResultActions response = mockMvc.perform(post("/weight/addWeight")
-                .param("username", username)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(goal)));
+        // Act
+        ResponseEntity<WeightGoals> response = weightController.addWeightGoal(username, goal);
 
-        // Verificación
-        response.andExpect(status().isBadRequest());
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        assertNull(response.getBody());
         verify(userRepo, never()).save(any(UserData.class));
     }
 
     @Test
-    void testGetWeightList_UserExists_ShouldReturnWeightList() throws Exception {
-        // Datos de prueba
+    void getWeightList_UserExists_ReturnsWeightGoals() {
+        // Arrange
         String username = "testUser";
         UserData user = new UserData();
-        user.setUsername(username);
-        List<WeightGoals> weightGoalsList = new ArrayList<>();
         WeightGoals goal1 = new WeightGoals();
-        goal1.setGoalWeight(new Float(65.0));
         WeightGoals goal2 = new WeightGoals();
-        goal2.setGoalWeight(new Float(70.0));
-        weightGoalsList.add(goal1);
-        weightGoalsList.add(goal2);
-        user.setWeightGoals(weightGoalsList);
-
-        // Configuración del mock
+        user.setWeightGoals(List.of(goal1, goal2));
         when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
 
-        // Acción
-        ResultActions response = mockMvc.perform(get("/weight/weightList")
-                .param("username", username)
-                .contentType(MediaType.APPLICATION_JSON));
+        // Act
+        ResponseEntity<List<WeightGoals>> response = weightController.getWeightList(username);
 
-        // Verificación
-        response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(2));
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().size());
     }
 
     @Test
-    void testGetWeightList_UserNotFound_ShouldReturnNotFound() throws Exception {
-        // Datos de prueba
+    void getWeightList_UserNotFound_ReturnsNotFound() {
+        // Arrange
         String username = "nonExistentUser";
-
-        // Configuración del mock
         when(userRepo.findByUsername(username)).thenReturn(Optional.empty());
 
-        // Acción
-        ResultActions response = mockMvc.perform(get("/weight/weightList")
-                .param("username", username)
-                .contentType(MediaType.APPLICATION_JSON));
+        // Act
+        ResponseEntity<List<WeightGoals>> response = weightController.getWeightList(username);
 
-        // Verificación
-        response.andExpect(status().isNotFound());
+        // Assert
+        assertEquals(404, response.getStatusCodeValue());
+        assertNull(response.getBody());
     }
 }
-

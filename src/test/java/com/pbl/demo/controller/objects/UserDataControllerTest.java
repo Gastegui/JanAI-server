@@ -209,18 +209,18 @@ public class UserDataControllerTest {
     @Test
     void testDeleteUser_UserFound() throws Exception {
         UserData user = new UserData();
-        when(userRepo.findById(17)).thenReturn(Optional.of(user));
+        when(userRepo.findById(1)).thenReturn(Optional.of(user));
 
-        mockMvc.perform(delete("/user/delete/17")
+        mockMvc.perform(delete("/user/delete/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void testDeleteUser_UserNotFound() throws Exception {
-        when(userRepo.findById(1)).thenReturn(Optional.empty());
+        when(userRepo.findById(17)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete("/user/delete/1")
+        mockMvc.perform(delete("/user/delete/17")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
