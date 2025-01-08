@@ -4,19 +4,14 @@ import java.util.Date;
 
 import com.pbl.demo.model.ingredients.Ingredients;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.campaign.Campaign;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
 
 
 
