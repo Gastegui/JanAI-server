@@ -49,24 +49,32 @@ public class Restrictions {
     public Restrictions(){
     }
 
-    public Restrictions(int restrictionID, String restrictedName, FoodGroup foodGroup, FoodClass foodClass,
-            Ingredients ingredients, FoodType foodType) {
+    
+
+    public Restrictions(int restrictionID, String restrictedName, UserData userData, FoodGroup foodGroup,
+            FoodClass foodClass, Ingredients ingredient, FoodType foodType) {
         this.restrictionID = restrictionID;
         this.restrictedName = restrictedName;
+        this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
-        this.ingredient = ingredients;
+        this.ingredient = ingredient;
         this.foodType = foodType;
     }
 
-    public Restrictions(String restrictedName, FoodGroup foodGroup, FoodClass foodClass,
-            Ingredients ingredients, FoodType foodType) {
+
+
+    public Restrictions(String restrictedName, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
+            Ingredients ingredient, FoodType foodType) {
         this.restrictedName = restrictedName;
+        this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
-        this.ingredient = ingredients;
+        this.ingredient = ingredient;
         this.foodType = foodType;
     }
+
+
 
     public int getRestrictionID() {
         return restrictionID;
@@ -84,9 +92,9 @@ public class Restrictions {
         this.restrictedName = restrictedName;
     }
 
-    /*public UserData getUserData() {
+    public UserData getUserData() {
         return userData;
-    }*/
+    }
 
     public void setUserData(UserData userData) {
         this.userData = userData;

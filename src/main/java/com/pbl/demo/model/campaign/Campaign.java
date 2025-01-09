@@ -41,13 +41,11 @@ public class Campaign {
 
     
 
-    public Campaign(int campaignID, String town, String campName, String company,
-            List<IngredientsInCampaign> campaignFoodList, Administrator administrator) {
+    public Campaign(int campaignID, String town, String campName, String company,Administrator administrator) {
         this.campaignID = campaignID;
         this.town = town;
         this.campName = campName;
         this.company = company;
-        this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
     }
 
@@ -55,12 +53,11 @@ public class Campaign {
 
 
 
-    public Campaign(String town, String campName, String company, List<IngredientsInCampaign> campaignFoodList,
+    public Campaign(String town, String campName, String company,
             Administrator administrator) {
         this.town = town;
         this.campName = campName;
         this.company = company;
-        this.campaignFoodList = campaignFoodList;
         this.administrator = administrator;
     }
 
@@ -88,18 +85,18 @@ public class Campaign {
         this.company = company;
     }
 
-    public List<IngredientsInCampaign> getCampaignFoodList() {
+    /*public List<IngredientsInCampaign> getCampaignFoodList() {
         return campaignFoodList;
     }
 
     public void setCampaignFoodList(List<IngredientsInCampaign> campaignFoodList) {
         this.campaignFoodList = campaignFoodList;
-    }
+    }*/
 
-    /*public Administrator getAdministrator() {
+    public Administrator getAdministrator() {
         return administrator;
     }
-*/
+
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
     }

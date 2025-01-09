@@ -130,7 +130,7 @@ public class Administrator {
 
 
 
-    public List<Campaign> getCampaignList() {
+    /*public List<Campaign> getCampaignList() {
         return campaignList;
     }
 
@@ -138,7 +138,7 @@ public class Administrator {
 
     public void setCampaignList(List<Campaign> campaignList) {
         this.campaignList = campaignList;
-    }
+    }*/
 
 
 

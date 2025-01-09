@@ -38,17 +38,17 @@ public class HasIngredients {
     }
 
     // Getters and Setters
-    /*public Food getFood() {
+    public Food getFood() {
         return food;
-    }*/
+    }
 
     public void setFood(Food food) {
         this.food = food;
     }
 
-    /*public Ingredients getIngredient() {
+    public Ingredients getIngredient() {
         return ingredient;
-    }*/
+    }
 
     public void setIngredient(Ingredients ingredient) {
         this.ingredient = ingredient;

@@ -64,9 +64,9 @@ public class FoodList {
 
 
 
-    /*public Food getFood() {
+    public Food getFood() {
         return food;
-    }*/
+    }
 
 
 

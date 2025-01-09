@@ -58,7 +58,7 @@ public class RestrictionsController {
 
         Optional<UserData> users = userRepo.findById(userID);
         
-        if (users.isEmpty()) {
+        if (!users.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             List<FoodClass> foodClasses = restrictRepo.findDistinctClasses(userID);
@@ -123,7 +123,7 @@ public class RestrictionsController {
 
         Optional<UserData> users = userRepo.findById(userID);
         
-        if (users.isEmpty()) {
+        if (!users.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodClass> foodClass = foodClassRepo.findByClassName(className);
@@ -184,7 +184,7 @@ public class RestrictionsController {
 
 
         Optional<UserData> users = userRepo.findById(userID);
-        if (users.isEmpty()) {
+        if (!users.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodType> foodType = foodTypeRepo.findByTypeName(typeName);
@@ -241,7 +241,7 @@ public class RestrictionsController {
 
 
         Optional<UserData> users = userRepo.findById(userID);
-        if (users.isEmpty()) {
+        if (!users.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodGroup> foodGroup = foodGroupRepo.findByGroupName(groupName);
@@ -261,42 +261,7 @@ public class RestrictionsController {
         }
     }
     
-    /*@GetMapping(value = "/restrictionsByType", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @RequestParam int classID) {
-
-        Optional<UserData> users = userRepo.findById(userID);
-        
-        if (users.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(classID);
-            List<FoodType> foodTypeList = foodTypeRepo.findAll();
-
-            for(FoodType foodType: foodTypes)
-            {
-                if(foodTypeList.contains(foodType))
-                {
-                    foodTypeList.remove(foodType);
-                }
-            }
-
-            return new ResponseEntity<>(foodTypeList, HttpStatus.OK);
-        }
-    }*/
-
-   /* @PostMapping(value = "/addIngredient", consumes = { "application/json", "application/xml" }, produces = {
-        "application/json", "application/xml" })
-    public ResponseEntity<Restrictions> addIngredient(@RequestParam int userID, @RequestBody Ingredients ingredient) {
-        Optional<UserData> user = userRepo.findById(userID);
-        
-        Optional<Restrictions> found_restriction = restrictRepo.findByUsername(restriction.getUsername());
-        if (found_restriction.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        } else {
-            restrictRepo.save(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
-        }
-    } */
+    
 
 
     @PostMapping(value = "/addRestriction", consumes = { "application/json", "application/xml" }, produces = {

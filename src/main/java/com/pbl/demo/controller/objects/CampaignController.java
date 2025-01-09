@@ -72,10 +72,17 @@ public class CampaignController {
         if (found_Campaign.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            Optional<Administrator> admin = adminRepo.findById(adminID);
-            campaign.setAdministrator(admin.get());
-            cmpRepo.save(campaign);
-            return new ResponseEntity<>(campaign, HttpStatus.CREATED);
+            
+            Optional<Administrator> admin = adminRepo.findById(adminID); 
+            if(!admin.isPresent())
+            {
+                campaign.setAdministrator(admin.get());
+                cmpRepo.save(campaign);
+                return new ResponseEntity<>(campaign, HttpStatus.CREATED);
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+            
         }
     }
 }

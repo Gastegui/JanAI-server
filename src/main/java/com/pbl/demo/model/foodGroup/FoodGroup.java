@@ -39,13 +39,19 @@ public class FoodGroup {
     public FoodGroup(){
     }
 
-    public FoodGroup(int groupID, String groupName) {
+    public FoodGroup(int groupID, String groupName, FoodType foodType) {
         this.groupID = groupID;
         this.groupName = groupName;
+        this.foodType = foodType;
     }
 
-    public FoodGroup(String groupName) {
+
+
+    
+
+    public FoodGroup(String groupName, FoodType foodType) {
         this.groupName = groupName;
+        this.foodType = foodType;
     }
 
     public int getGroupID() {
@@ -64,8 +70,21 @@ public class FoodGroup {
         this.groupName = groupName;
     }
 
-   /* public FoodType getFoodType() {
+    /*public List<Restrictions> getRestrictions() {
+        return restrictions;
+    }*/
+
+    /*public void setRestrictions(List<Restrictions> restrictions) {
+        this.restrictions = restrictions;
+    }*/
+
+    public FoodType getFoodType() {
         return foodType;
-    }*/ 
+    }
+
+    public void setFoodType(FoodType foodType) {
+        this.foodType = foodType;
+    } 
+    
     
 }
