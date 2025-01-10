@@ -21,7 +21,7 @@ public class EmailVerificationService {
 
     private Integer verificationCode;
 
-
+    Random random;
     public void sendVerificationCode(UserData user){
         verificationCode = generateVerificationCode();
 
@@ -63,7 +63,7 @@ public class EmailVerificationService {
     }*/
 
     private Integer generateVerificationCode(){
-        Random random = new Random();
+        random = new Random();
         return 100000 + random.nextInt(900000);
     }
 
