@@ -33,8 +33,6 @@ public class Administrator {
     public Administrator(){
     }
 
-    
-
     public Administrator(int adminID, String uname, String surname, String username, String email, String userPass) {
         this.adminID = adminID;
         this.uname = uname;

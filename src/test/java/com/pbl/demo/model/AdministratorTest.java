@@ -3,12 +3,8 @@ package com.pbl.demo.model;
 import org.junit.jupiter.api.Test;
 
 import com.pbl.demo.model.administrator.Administrator;
-import com.pbl.demo.model.campaign.Campaign;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdministratorTest {
     @Test
@@ -23,7 +19,6 @@ public class AdministratorTest {
         assertNull(admin.getSurname());
         assertNull(admin.getUname());
         assertNull(admin.getUserPass());
-        assertNull(admin.getCampaignList());
     }
 
     @Test
@@ -71,12 +66,8 @@ public class AdministratorTest {
         String email = "admin@gmail.com";
         String username = "admin";
         String pass = "12345678";
-        List<Campaign> campaigns = new ArrayList<>();
-        Campaign camp = new Campaign(12, "a", "b",  "s",null, admin);
-        campaigns.add(camp);
 
         admin.setAdminID(adminId);
-        admin.setCampaignList(campaigns);
         admin.setEmail(email);
         admin.setSurname(adminSurname);
         admin.setUname(adminName);
@@ -84,7 +75,6 @@ public class AdministratorTest {
         admin.setUsername(username);
 
         assertEquals(adminId, admin.getAdminID());
-        assertEquals(campaigns, admin.getCampaignList());
         assertEquals(email, admin.getEmail());
         assertEquals(adminSurname, admin.getSurname());
         assertEquals(adminName, admin.getUname());
