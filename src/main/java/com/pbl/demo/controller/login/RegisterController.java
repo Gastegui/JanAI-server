@@ -47,8 +47,8 @@ public class RegisterController {
             return ResponseEntity.badRequest().build();
         }
         
-        Optional<UserData> found_Users = userRepo.findByUsername(body.getUsername());
-        if (found_Users.isPresent()) {
+        Optional<UserData> foundUsers = userRepo.findByUsername(body.getUsername());
+        if (foundUsers.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             body.setUserPass(passwordEncoder.encode(body.getUserPass()));

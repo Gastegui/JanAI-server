@@ -27,7 +27,6 @@ import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.security.JwtUtil;
 import com.pbl.demo.security.AuthRequest;
-//import org.springframework.web.servlet.View;
 
 import java.util.Date;
 
@@ -39,7 +38,7 @@ public class LoginController {
     JwtUtil jwtUtil;
 
     @Autowired
-    UserDataRepository user_repository;
+    UserDataRepository userRepo;
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -73,13 +72,6 @@ public class LoginController {
                 // At the moment, the SQL script used to generate the DB does not provide a valid
                 // BCrypt encoded password, so the flow above is used.
 
-            /*
-            if (passwordEncoder.matches(authRequest.getUserpass(), user.getUserPass())) {
-                // Successful login
-                String token = jwtUtil.generateToken(authRequest.getUsername());
-                return ResponseEntity.ok(String.valueOf(new AuthResponse(token)));
-            }
-            */
 
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
@@ -95,18 +87,12 @@ public class LoginController {
      *         not Userss)
      */
     @GetMapping(value = "/login", produces = { "application/json", "application/xml" })
-    @ResponseBody
-    public ResponseEntity<List<UserData>> getUserss() {
+    public ResponseEntity<List<UserData>> getUsers() {
 
-        List<UserData> Users_list = user_repository.findAll();
+        List<UserData> userList = userRepo.findAll();
 
-    //     if (userList.isEmpty()) {
-    //         return ResponseEntity.notFound().build();
-    //     } else {
-    //         return new ResponseEntity<>(userList, HttpStatus.OK);
-    //     }
-    // }
-    return new ResponseEntity<List<UserData>>(Users_list, HttpStatus.ACCEPTED);
+    
+    return new ResponseEntity<>(userList, HttpStatus.ACCEPTED);
     }
 
     /**
@@ -116,22 +102,8 @@ public class LoginController {
      * @return an HTTP response (OK if the Users is found, not found if the
      *         Users does not exist in the database)
      */
-    @GetMapping(value = "/select/{id}", produces =  { "application/json", "application/xml" })
-    public ResponseEntity<UserData> getUsers(@RequestParam UserData loguser) {
-
-        Optional<UserData> user = user_repository.findByUsername(loguser.getUsername());
-        String password = loguser.getUserPass();
-        
-    //     if (user.isPresent() && loguser.getUserPass().equals(user.get().getUserPass())) {
-    //         return new ResponseEntity<>(user.get(), HttpStatus.OK);
-    //     } else {
-    //         //Errore bezala ezarri username or password was incorrect
-    //         return ResponseEntity.notFound().build();
-    //     }
-
-    // }
-        return new ResponseEntity<UserData>(loguser, HttpStatus.ACCEPTED);
-    }
+    
+    
 
     /**
      * @brief This method adds a new Users to the database.
@@ -142,11 +114,11 @@ public class LoginController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> addUser(@RequestBody UserData user) {
         
-        Optional<UserData> found_Users = user_repository.findByUsername(user.getUsername());
-        if (found_Users.isPresent()) {
+        Optional<UserData> foundUsers = userRepo.findByUsername(user.getUsername());
+        if (foundUsers.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            user_repository.save(user);
+            userRepo.save(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         }
     }
@@ -162,19 +134,19 @@ public class LoginController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> putUsers(@PathVariable int id, @RequestBody UserData user) {
 
-        Optional<UserData> found_User = user_repository.findById(id);
+        Optional<UserData> foundUser = userRepo.findById(id);
 
-        if (found_User.isPresent()) {
+        if (foundUser.isPresent()) {
 
-            found_User.get().setUname(user.getUname());
-            found_User.get().setSecondName(user.getSecondName());
-            found_User.get().setUsername(user.getUsername());
-            found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivityLevel(user.getActivityLevel());
-            found_User.get().setGender(user.getGender());
-            found_User.get().setNeck(user.getNeck());
-            found_User.get().setWaist(user.getWaist());
-            user_repository.save(found_User.get());
+            foundUser.get().setUname(user.getUname());
+            foundUser.get().setSecondName(user.getSecondName());
+            foundUser.get().setUsername(user.getUsername());
+            foundUser.get().setEmail(user.getEmail());
+            foundUser.get().setActivityLevel(user.getActivityLevel());
+            foundUser.get().setGender(user.getGender());
+            foundUser.get().setNeck(user.getNeck());
+            foundUser.get().setWaist(user.getWaist());
+            userRepo.save(foundUser.get());
             return new ResponseEntity<>(user, HttpStatus.OK);
 
         } else {
@@ -192,11 +164,11 @@ public class LoginController {
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<UserData> deleteUser(@PathVariable int id) {
 
-        Optional<UserData> found_Users = user_repository.findById(id);
+        Optional<UserData> foundUsers = userRepo.findById(id);
 
-        if (found_Users.isPresent()) {
+        if (foundUsers.isPresent()) {
 
-            user_repository.delete(found_Users.get());
+            userRepo.delete(foundUsers.get());
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -211,20 +183,7 @@ public class LoginController {
      * @return an HTTP response (OK if the Users is found, not found if the
      *         Users does not exist in the database)
      */
-    /*@DeleteMapping(value = "/deleteUsersRequestParam")
-    public ResponseEntity<User> deleteUsersRequestParam(@RequestParam int id) {
-
-        Optional<User> found_Users = user_repository.findById(id);
-
-        if (found_Users.isPresent()) {
-
-            user_repository.delete(found_Users.get());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }*/
+    
 }
 
 

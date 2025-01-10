@@ -127,9 +127,10 @@ public class RestrictionsController {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodClass> foodClass = foodClassRepo.findByClassName(className);
-            List<FoodType> foodTypeList = foodTypeRepo.findByClassID(foodClass.get().getClassID());
-            
+            if(foodClass.isPresent()){
+                List<FoodType> foodTypeList = foodTypeRepo.findByClassID(foodClass.get().getClassID());
                 List<FoodType> foodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.get().getClassID(), userID);
+                  
                 for(FoodType foodType: foodTypes)
                 {
                     if(foodTypeList.contains(foodType))
@@ -177,6 +178,8 @@ public class RestrictionsController {
                 }*/
             return new ResponseEntity<>(foodTypeList, HttpStatus.OK);
         }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
@@ -188,8 +191,10 @@ public class RestrictionsController {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodType> foodType = foodTypeRepo.findByTypeName(typeName);
-            List<FoodGroup> foodGroupList = foodGroupRepo.findByTypeID(foodType.get().getTypeId());
-            
+            if(foodType.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else{
+                List<FoodGroup> foodGroupList = foodGroupRepo.findByTypeID(foodType.get().getTypeId());
                 List<FoodGroup> foodGroupsList = restrictRepo.findDistinctGruopIDsByTypeID(foodType.get().getTypeId(), userID);
                 for(FoodGroup foodGroup: foodGroupsList)
                 {
@@ -230,9 +235,9 @@ public class RestrictionsController {
                             }
                         }
                     }
-                }           
-            
-            return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
+                }  
+                return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
+            }
         }
     }
 
@@ -245,7 +250,10 @@ public class RestrictionsController {
             return ResponseEntity.notFound().build();
         } else {
             Optional<FoodGroup> foodGroup = foodGroupRepo.findByGroupName(groupName);
-            List<Ingredients> foodIngredientList = ingredienRepo.findByGroupID(foodGroup.get().getGroupID());
+            if(foodGroup.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }else{
+                List<Ingredients> foodIngredientList = ingredienRepo.findByGroupID(foodGroup.get().getGroupID());
             
                 List<Ingredients> ingredientsList = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.get().getGroupID(), userID);
                 for(Ingredients ingredient: ingredientsList)
@@ -258,6 +266,8 @@ public class RestrictionsController {
                 }           
             
             return new ResponseEntity<>(foodIngredientList, HttpStatus.OK);
+            }
+            
         }
     }
     
