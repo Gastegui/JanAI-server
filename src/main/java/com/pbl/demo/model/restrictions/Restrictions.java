@@ -84,7 +84,7 @@ public class Restrictions {
         this.restrictionID = restrictionID;
     }
 
-    public String getrestrictedName() {
+    public String getRestrictedName() {
         return restrictedName;
     }
 
