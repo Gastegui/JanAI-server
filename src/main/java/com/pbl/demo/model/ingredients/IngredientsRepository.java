@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.restrictions.Restrictions;
 
 public interface IngredientsRepository extends JpaRepository<Ingredients, Integer>{

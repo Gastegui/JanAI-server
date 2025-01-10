@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import com.pbl.demo.model.food.Food;
+import com.pbl.demo.model.foodGroup.FoodGroup;
 import com.pbl.demo.model.hasIngredients.HasIngredients;
 import com.pbl.demo.model.ingredients.Ingredients;
 
@@ -22,8 +23,8 @@ public class HasIngredientsTest {
 
     @Test
     void testConstructorWithAllParameters(){
-        Food food = new Food(1, "Pasta carbonara", 12, 12, 12, 12, null, null);
-        Ingredients ingredients = new Ingredients(5, "Eggs");
+        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f);
+        Ingredients ingredients = new Ingredients(1, "Tomato", new FoodGroup());
         HasIngredients hasIngredients = new HasIngredients(food, ingredients);
 
 
@@ -34,8 +35,8 @@ public class HasIngredientsTest {
 
     @Test
     void testGettersAndSetters(){
-        Food food = new Food(1, "Pasta carbonara", 12, 12, 12, 12, null, null);
-        Ingredients ingredients = new Ingredients(5, "Eggs");
+        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f);
+        Ingredients ingredients = new Ingredients(1, "Tomato", new FoodGroup());
         HasIngredients hasIngredients = new HasIngredients();
 
         hasIngredients.setFood(food);
