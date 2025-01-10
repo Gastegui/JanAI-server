@@ -1,11 +1,7 @@
 package com.pbl.demo.model;
 
 import com.pbl.demo.model.food.Food;
-import com.pbl.demo.model.foodList.FoodList;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,11 +31,9 @@ class FoodTest {
         float carbs = 14.0f;
         float fats = 0.2f;
         float fiber = 2.4f;
-        List<HasIngredients> foodTypes = List.of(new HasIngredients());
-        List<FoodList> foodList = List.of(new FoodList());
 
         // Act
-        Food food = new Food(foodID, foodName, proteins, carbs, fats, fiber, foodTypes, foodList);
+        Food food = new Food(foodID, foodName, proteins, carbs, fats, fiber);
 
         // Assert
         assertEquals(foodID, food.getFoodID());
@@ -59,11 +53,9 @@ class FoodTest {
         float carbs = 27.0f;
         float fats = 0.3f;
         float fiber = 3.1f;
-        List<HasIngredients> foodTypes = List.of(new HasIngredients());
-        List<FoodList> foodList = List.of(new FoodList());
 
         // Act
-        Food food = new Food(foodName, proteins, carbs, fats, fiber, foodTypes, foodList);
+        Food food = new Food(foodName, proteins, carbs, fats, fiber);
 
         // Assert
         assertEquals(foodName, food.getFoodName());
