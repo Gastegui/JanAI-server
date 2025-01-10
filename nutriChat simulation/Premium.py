@@ -13,7 +13,7 @@ class Premium(threading.Thread):
     def run(self):
         while not self._stop_event.is_set():
             try:
-                #time.sleep(1)
+                time.sleep(1)
                 ChatMain.helpChat(self.chatMain)
             except Exception as e:
                 print(f"Error in Premium thread {self.name}: {e}")

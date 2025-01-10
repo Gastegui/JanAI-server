@@ -6,10 +6,11 @@ from User import User
 
 #TODO: It doesn't work always, after executing some times the threads don't stop correctly, locking the code
 class App:
-    def __init__(self):
-        self.NPREMIUM = 2
-        self.NUSERS = 4
 
+    NPREMIUM = 1
+    NUSERS = 1
+
+    def __init__(self):
         self.chatMain = ChatMain()
         
         self.premium = []
@@ -17,47 +18,58 @@ class App:
 
     def create_threads(self):
         self.nutriChat = NutriChat(self.chatMain)
-        for i in range(self.NPREMIUM):
+
+        self.Premium = Premium(self.chatMain)
+        self.User = User(self.chatMain)
+
+        """for i in range(self.NPREMIUM):
             self.premium.append(Premium(self.chatMain))
-            
         for i in range(self.NUSERS):
-            self.users.append(User(self.chatMain))
+            self.users.append(User(self.chatMain))"""
 
     def start_threads(self):
         self.nutriChat.start()
-        for user in self.users:
+        self.Premium.start()
+        self.User.start()
+        """for user in self.users:
             user.start()
         for premium in self.premium:
-            premium.start()
+            premium.start()"""
 
     def interrupt_threads(self):
-        for user in self.users:
+        self.User.interrupt()
+        self.Premium.interrupt()
+        """for user in self.users:
             user.interrupt()
         for premium in self.premium:
-            premium.interrupt()
+            premium.interrupt()"""
         self.nutriChat.stop()
 
     def wait_end_of_threads(self):
-        for user in self.users:
+        self.Premium.join(timeout=5)
+        if self.Premium.is_alive():
+            print("PREMIUM STILL ALIVE")
+
+        self.User.join(timeout=5)
+        if self.User.is_alive():
+            print("USER STILL ALIVE")
+
+        """for user in self.users:
             user.join()
-            if user.is_alive():
-                print('USER STILL ALIVE')
 
         for premium in self.premium:
-            premium.join()
-            if premium.is_alive():
-                print('PREMIUM STILL ALIVE')
+            premium.join()"""
         
         self.nutriChat.join(timeout=5)
         if self.nutriChat.is_alive():
-            print('CHAT ALIVE')
+            print("NUTRICHAT STILL ALIVE")
 
     def run(self):
         self.create_threads()
         self.start_threads()
 
         try:
-            time.sleep(5)  # Let threads run for a while
+            time.sleep(10)  # Let threads run for a while
         except Exception as e:
             print("Main thread interrupted.")
 

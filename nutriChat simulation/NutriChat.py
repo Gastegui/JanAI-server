@@ -7,11 +7,11 @@ class NutriChat(threading.Thread):
         super().__init__()
         self.chatMain = chatMain
         self._stop_event = threading.Event()
+        self.finished = False
 
     def run(self):
         while not self._stop_event.is_set():
             try:
-                print("ENTERING FUNCTION----------------------")
                 ChatMain.beChat(self.chatMain)
             except InterruptedError:
                 print("NUTRICHAT STOPPED FOR SOME REASON")
