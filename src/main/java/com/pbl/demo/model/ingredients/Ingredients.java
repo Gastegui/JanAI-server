@@ -40,14 +40,22 @@ public class Ingredients {
     public Ingredients(){
     }
 
-    public Ingredients(int ingredientID, String ingName) {
+    
+
+    public Ingredients(int ingredientID, String ingName, FoodGroup groupID) {
         this.ingredientID = ingredientID;
         this.ingName = ingName;
+        this.groupID = groupID;
     }
 
-    public Ingredients(String ingName) {
+
+
+    public Ingredients(String ingName, FoodGroup groupID) {
         this.ingName = ingName;
+        this.groupID = groupID;
     }
+
+
 
     public int getIngredientID() {
         return ingredientID;
@@ -64,4 +72,17 @@ public class Ingredients {
     public void setIngName(String ingName) {
         this.ingName = ingName;
     }
+
+
+
+    public FoodGroup getGroupID() {
+        return groupID;
+    }
+
+
+
+    public void setGroupID(FoodGroup groupID) {
+        this.groupID = groupID;
+    }
+    
 }

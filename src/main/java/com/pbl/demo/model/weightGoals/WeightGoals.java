@@ -41,33 +41,30 @@ public class WeightGoals {
     public WeightGoals(){
     }
 
-    public WeightGoals(int weightGoalsID, Float weight, Float goalWeight,
-            int durationToAchieveGoalWeight, Date registerDate) { //Float recommendedCalories, Float recommendedProteins, Float recommendedCarbs, Float recommendedFats, Float recommendedFiber
-                
+    
+
+    public WeightGoals(int weightGoalsID, UserData userData, Float weight, Float goalWeight,
+            int durationToAchieveGoalWeight, Date registerDate) {
         this.weightGoalsID = weightGoalsID;
+        this.userData = userData;
         this.weight = weight;
         this.goalWeight = goalWeight;
         this.durationToAchieveGoalWeight = durationToAchieveGoalWeight;
         this.registerDate = registerDate;
-        /*this.recommendedCalories = recommendedCalories;
-        this.recommendedProteins = recommendedProteins;
-        this.recommendedCarbs = recommendedCarbs;
-        this.recommendedFats = recommendedFats;
-        this.recommendedFiber = recommendedFiber;*/
     }
 
-    public WeightGoals(Float weight, Float goalWeight, int durationToAchieveGoalWeight,
-            Date registerDate) { //, Float recommendedCalories, Float recommendedProteins, Float recommendedCarbs, Float recommendedFats, Float recommendedFiber
+
+
+    public WeightGoals(UserData userData, Float weight, Float goalWeight, int durationToAchieveGoalWeight,
+            Date registerDate) {
+        this.userData = userData;
         this.weight = weight;
         this.goalWeight = goalWeight;
         this.durationToAchieveGoalWeight = durationToAchieveGoalWeight;
         this.registerDate = registerDate;
-        /*this.recommendedCalories = recommendedCalories;
-        this.recommendedProteins = recommendedProteins;
-        this.recommendedCarbs = recommendedCarbs;
-        this.recommendedFats = recommendedFats;
-        this.recommendedFiber = recommendedFiber;*/
     }
+
+
 
     public int getWeightGoalsID() {
         return weightGoalsID;
@@ -77,6 +74,11 @@ public class WeightGoals {
         this.weightGoalsID = weightGoalsID;
     }
 
+    
+    public UserData getUserData() {
+        return userData;
+    }
+    
     public void setUserData(UserData userData) {
         this.userData = userData;
     }
@@ -112,6 +114,8 @@ public class WeightGoals {
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
+
+    
 
     /*public Float getRecommendedCalories() {
         return recommendedCalories;

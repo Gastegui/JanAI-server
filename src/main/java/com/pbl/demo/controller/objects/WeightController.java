@@ -18,10 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl.demo.model.foodClass.FoodClass;
+import com.pbl.demo.model.foodGroup.FoodGroup;
+import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.ingredients.Ingredients;
+import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.model.weightGoals.WeightGoals;
 //import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
+import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
 
 //import jakarta.servlet.http.HttpSession;
 
@@ -30,21 +36,26 @@ import com.pbl.demo.model.weightGoals.WeightGoals;
 public class WeightController {
     @Autowired
     private UserDataRepository userRepo;
+    @Autowired
+    private WeightGoalsRepository weightRepo;
 
     @PostMapping(value = "/addWeight", consumes = { "application/json", "application/xml" }, produces = {
         "application/json", "application/xml" })
     public ResponseEntity<WeightGoals> addWeightGoal(@RequestParam String username, @RequestBody WeightGoals goal) {
         
         Optional<UserData> found_User = userRepo.findByUsername(username);
-
+        //Optional<UserData> user = userRepo.findById(goal.getUserData().getUserID());
         if (found_User.isPresent()) {
-            goal.setUserData(found_User.get());
+            /*goal.setUserData(found_User.get());
             found_User.get().addWeightGoal(goal);
-            userRepo.save(found_User.get());
+            userRepo.save(found_User.get());*/
+            goal.setUserData(found_User.get());
+            weightRepo.save(goal);
             return new ResponseEntity<>(goal, HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().build();
         }
+
     }
     
     @GetMapping(value = "/weightList", produces = { "application/json", "application/xml" })
@@ -62,7 +73,7 @@ public class WeightController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<WeightGoals> listWeight = user.get().getWeightGoals();
+            List<WeightGoals> listWeight = weightRepo.findAll();
             return new ResponseEntity(listWeight, HttpStatus.OK);
         }
 

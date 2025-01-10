@@ -36,27 +36,21 @@ public class Food {
 
     public Food(){}
 
-    public Food(int foodID, String foodName, float proteins, float carbs, float fats, float fiber,
-            List<HasIngredients> foodTypes, List<FoodList> foodList) {
+    public Food(int foodID, String foodName, float proteins, float carbs, float fats, float fiber) {
         this.foodID = foodID;
         this.foodName = foodName;
         this.proteins = proteins;
         this.carbs = carbs;
         this.fats = fats;
         this.fiber = fiber;
-        this.foodTypes = foodTypes;
-        this.foodList = foodList;
     }
 
-    public Food(String foodName, float proteins, float carbs, float fats, float fiber, List<HasIngredients> foodTypes,
-            List<FoodList> foodList) {
+    public Food(String foodName, float proteins, float carbs, float fats, float fiber) {
         this.foodName = foodName;
         this.proteins = proteins;
         this.carbs = carbs;
         this.fats = fats;
         this.fiber = fiber;
-        this.foodTypes = foodTypes;
-        this.foodList = foodList;
     }
 
     public int getFoodID() {

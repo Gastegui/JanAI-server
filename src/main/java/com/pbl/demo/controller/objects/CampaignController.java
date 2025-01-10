@@ -14,8 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl.demo.model.administrator.Administrator;
+import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
+import com.pbl.demo.model.foodClass.FoodClass;
+import com.pbl.demo.model.foodGroup.FoodGroup;
+import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.ingredients.Ingredients;
+import com.pbl.demo.model.restrictions.Restrictions;
+import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.userData.UserDataRepository;
 
 
 @RestController
@@ -23,6 +32,8 @@ import com.pbl.demo.model.campaign.CampaignRepository;
 public class CampaignController {
     @Autowired
     CampaignRepository cmpRepo;
+    @Autowired
+    private AdministratorRepository adminRepo;
 
     @GetMapping
     public ResponseEntity<List<Campaign>> getAllCampaigns(){
@@ -55,14 +66,23 @@ public class CampaignController {
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Campaign> addCampaign(@RequestBody Campaign campaign) {
+    public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @RequestBody Campaign campaign) {
         
         Optional<Campaign> found_Campaign = cmpRepo.findByCampName(campaign.getCampName());
         if (found_Campaign.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            cmpRepo.save(campaign);
-            return new ResponseEntity<>(campaign, HttpStatus.CREATED);
+            
+            Optional<Administrator> admin = adminRepo.findById(adminID); 
+            if(!admin.isPresent())
+            {
+                campaign.setAdministrator(admin.get());
+                cmpRepo.save(campaign);
+                return new ResponseEntity<>(campaign, HttpStatus.CREATED);
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+            
         }
     }
 }

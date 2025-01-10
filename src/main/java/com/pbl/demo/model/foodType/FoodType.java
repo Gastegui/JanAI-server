@@ -39,14 +39,22 @@ public class FoodType {
     public FoodType(){
     }
 
-    public FoodType(int typeID, String typeName) {
+    
+
+
+    public FoodType(int typeID, String typeName, FoodClass foodClass) {
         this.typeID = typeID;
         this.typeName = typeName;
+        this.foodClass = foodClass;
     }
 
-    public FoodType(String typeName) {
+    public FoodType(String typeName, FoodClass foodClass) {
         this.typeName = typeName;
+        this.foodClass = foodClass;
     }
+
+
+
 
     public int getTypeId() {
         return typeID;
