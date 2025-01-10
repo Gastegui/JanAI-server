@@ -24,21 +24,25 @@ public class FoodTypeTest {
     void testConstructorWithAllParameters(){
         int id = 7;
         String name = "poultry";
-        FoodType fType = new FoodType(id, name);
+        FoodClass fClass = new FoodClass();
+        FoodType fType = new FoodType(id, name, fClass);
         
 
         assertNotNull(fType);
         assertEquals(id, fType.getTypeId());
         assertEquals(name, fType.getTypeName());
+        assertEquals(fClass, fType.getFoodClass());
     }
 
     @Test
     void testConstructorWithoutId(){
         String name = "chicken";
-        FoodType fType = new FoodType(name);
+        FoodClass fClass = new FoodClass();
+        FoodType fType = new FoodType(name, fClass);
         
         assertNotNull(fType);
         assertEquals(name, fType.getTypeName());
+        assertEquals(fClass, fType.getFoodClass());
     }
 
     @Test
