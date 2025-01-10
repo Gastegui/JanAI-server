@@ -2,6 +2,19 @@ package com.pbl.demo.controller.objects;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.foodClass.FoodClass;
 import com.pbl.demo.model.foodClass.FoodClassRepository;
@@ -15,29 +28,9 @@ import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.restrictions.RestrictionsRepository;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
-@AutoConfigureMockMvc
 class RestrictionsControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @InjectMocks
-    private RestrictionsController restrictionsController;
 
     @Mock
     private RestrictionsRepository restrictRepo;
@@ -57,80 +50,179 @@ class RestrictionsControllerTest {
     @Mock
     private IngredientsRepository ingredienRepo;
 
+    @InjectMocks
+    private RestrictionsController controller;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetAllRestrictions_NoRestrictionsFound() {
-        when(restrictRepo.findAll()).thenReturn(Collections.emptyList());
+    void testGetAllRestrictions_Success() {
+        // Arrange
+        List<Restrictions> restrictions = List.of(new Restrictions());
+        when(restrictRepo.findAll()).thenReturn(restrictions);
 
-        ResponseEntity<List<Restrictions>> response = restrictionsController.getAllRestrictions();
+        // Act
+        ResponseEntity<List<Restrictions>> response = controller.getAllRestrictions();
 
-        assertEquals(404, response.getStatusCodeValue());
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(restrictions, response.getBody());
     }
 
     @Test
-    void testGetAllRestrictions_RestrictionsFound() {
-        Restrictions restriction = new Restrictions();
-        when(restrictRepo.findAll()).thenReturn(List.of(restriction));
+    void testGetAllRestrictions_NotFound() {
+        // Arrange
+        when(restrictRepo.findAll()).thenReturn(List.of());
 
-        ResponseEntity<List<Restrictions>> response = restrictionsController.getAllRestrictions();
+        // Act
+        ResponseEntity<List<Restrictions>> response = controller.getAllRestrictions();
 
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(1, response.getBody().size());
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
     @Test
     void testGetUsersByName_UserNotFound() {
-        when(userRepo.findById(1)).thenReturn(Optional.empty());
+        // Arrange
+        int userId = 1;
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
-        ResponseEntity<List<FoodClass>> response = restrictionsController.getUsersByName(1);
+        // Act
+        ResponseEntity<List<FoodClass>> response = controller.getUsersByName(userId);
 
-        assertEquals(404, response.getStatusCodeValue());
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
     @Test
-    void testGetUsersByName_UserFound() {
+    void testGetUsersByName_Success() {
+        // Arrange
+        int userId = 1;
         UserData user = new UserData();
-        FoodClass foodClass = new FoodClass();
+        when(userRepo.findById(userId)).thenReturn(Optional.of(user));
 
-        when(userRepo.findById(1)).thenReturn(Optional.of(user));
-        when(restrictRepo.findDistinctClasses(1)).thenReturn(List.of(foodClass));
-        when(foodClassRepo.findAll()).thenReturn(new ArrayList<>(List.of(foodClass)));
+        List<FoodClass> foodClasses = List.of(new FoodClass());
+        List<FoodClass> foodClassList = List.of(new FoodClass());
 
-        ResponseEntity<List<FoodClass>> response = restrictionsController.getUsersByName(1);
+        when(restrictRepo.findDistinctClasses(userId)).thenReturn(foodClasses);
+        when(foodClassRepo.findAll()).thenReturn(foodClassList);
 
-        assertEquals(200, response.getStatusCodeValue());
+        // Act
+        ResponseEntity<List<FoodClass>> response = controller.getUsersByName(userId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 
     @Test
-    void testAddRestriction_RestrictionAlreadyExists() {
-        Restrictions restriction = new Restrictions();
-        restriction.setrestrictedName("ExistingRestriction");
+    void testGetUsersByType_UserNotFound() {
+        // Arrange
+        int userId = 1;
+        String className = "ClassName";
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
-        when(restrictRepo.findByRestrictedName("ExistingRestriction")).thenReturn(Optional.of(restriction));
+        // Act
+        ResponseEntity<List<FoodType>> response = controller.getUsersByType(userId, className);
 
-        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(restriction);
-
-        assertEquals(400, response.getStatusCodeValue());
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
-   /* @Test
-    void testAddRestriction_NewRestriction() {
+    @Test
+    void testGetUsersByGroup_UserNotFound() {
+        // Arrange
+        int userId = 1;
+        String typeName = "TypeName";
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<List<FoodGroup>> response = controller.getUsersByGroup(userId, typeName);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testGetUsersByIngredients_UserNotFound() {
+        // Arrange
+        int userId = 1;
+        String groupName = "GroupName";
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<List<Ingredients>> response = controller.getUsersByIngredients(userId, groupName);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddRestriction_UserNotFound() {
+        // Arrange
+        int userId = 1;
         Restrictions restriction = new Restrictions();
-        restriction.setrestrictedName("NewRestriction");
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
-        when(restrictRepo.findByRestrictedName("NewRestriction")).thenReturn(Optional.empty());
-        when(foodGroupRepo.findById(1)).thenReturn(Optional.of(new FoodGroup()));
-        when(foodClassRepo.findById(1)).thenReturn(Optional.of(new FoodClass()));
-        when(foodTypeRepo.findById(1)).thenReturn(Optional.of(new FoodType()));
-        when(ingredienRepo.findById(1)).thenReturn(Optional.of(new Ingredients()));
+        // Act
+        ResponseEntity<Restrictions> response = controller.addRestriction(userId, restriction);
 
-        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(restriction);
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
 
-        assertEquals(201, response.getStatusCodeValue());
-    }*/
+    @Test
+    void testAddRestriction_RestrictionAlreadyExists() {
+        // Arrange
+        int userId = 1;
+        Restrictions restriction = new Restrictions();
+        UserData user = new UserData();
+        restriction.setRestrictedName("RestrictionName");
+
+        when(userRepo.findById(userId)).thenReturn(Optional.of(user));
+        when(restrictRepo.findByRestrictedName(restriction.getRestrictedName())).thenReturn(Optional.of(restriction));
+
+        // Act
+        ResponseEntity<Restrictions> response = controller.addRestriction(userId, restriction);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddRestriction_Success() {
+        // Arrange
+        int userId = 1;
+        Restrictions restriction = new Restrictions();
+        UserData user = new UserData();
+        restriction.setRestrictedName("RestrictionName");
+        restriction.setFoodClass(new FoodClass());
+        restriction.setFoodGroup(new FoodGroup());
+        restriction.setFoodType(new FoodType());
+        restriction.setIngredients(new Ingredients());
+
+        when(userRepo.findById(userId)).thenReturn(Optional.of(user));
+        when(restrictRepo.findByRestrictedName(restriction.getRestrictedName())).thenReturn(Optional.empty());
+        when(foodGroupRepo.findById(anyInt())).thenReturn(Optional.of(new FoodGroup()));
+        when(foodClassRepo.findById(anyInt())).thenReturn(Optional.of(new FoodClass()));
+        when(foodTypeRepo.findById(anyInt())).thenReturn(Optional.of(new FoodType()));
+        when(ingredienRepo.findById(anyInt())).thenReturn(Optional.of(new Ingredients()));
+
+        // Act
+        ResponseEntity<Restrictions> response = controller.addRestriction(userId, restriction);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
 }

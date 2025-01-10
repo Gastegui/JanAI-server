@@ -18,13 +18,6 @@ import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.foodType.FoodType;
-import com.pbl.demo.model.ingredients.Ingredients;
-import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
 
 
 @RestController

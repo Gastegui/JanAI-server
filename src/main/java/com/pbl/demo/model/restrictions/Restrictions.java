@@ -88,7 +88,7 @@ public class Restrictions {
         return restrictedName;
     }
 
-    public void setrestrictedName(String restrictedName) {
+    public void setRestrictedName(String restrictedName) {
         this.restrictedName = restrictedName;
     }
 

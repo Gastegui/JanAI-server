@@ -1,7 +1,5 @@
 package com.pbl.demo.controller.objects;
 
-
-import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -123,11 +121,12 @@ class CampaignControllerTest {
         // Arrange
         Campaign existingCampaign = new Campaign();
         existingCampaign.setCampName("Test Campaign");
+        int adminId = 1;
 
         when(cmpRepo.findByCampName(existingCampaign.getCampName())).thenReturn(Optional.of(existingCampaign));
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(existingCampaign);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign);
         
         // Assert
         assertEquals(400, response.getStatusCodeValue());
@@ -139,12 +138,13 @@ class CampaignControllerTest {
         // Arrange
         Campaign newCampaign = new Campaign();
         newCampaign.setCampName("New Campaign");
+        int adminId = 1;
 
         when(cmpRepo.findByCampName(newCampaign.getCampName())).thenReturn(Optional.empty());
         when(cmpRepo.save(newCampaign)).thenReturn(newCampaign);
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(newCampaign);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(1, newCampaign);
 
         // Assert
         assertEquals(201, response.getStatusCodeValue());

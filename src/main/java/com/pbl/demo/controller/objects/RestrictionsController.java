@@ -281,7 +281,7 @@ public class RestrictionsController {
         //Optional<UserData> user = userRepo.findById(restriction.getUserData().getUserID());
 
     if (user.isPresent()) {
-        Optional<Restrictions> foundRestriction = restrictRepo.findByRestrictedName(restriction.getrestrictedName());
+        Optional<Restrictions> foundRestriction = restrictRepo.findByRestrictedName(restriction.getRestrictedName());
         if (foundRestriction.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
