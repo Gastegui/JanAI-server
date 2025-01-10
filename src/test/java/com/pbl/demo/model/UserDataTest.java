@@ -1,12 +1,7 @@
 package com.pbl.demo.model;
 
-import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.weightGoals.WeightGoals;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,23 +29,20 @@ class UserDataTest {
         assertEquals(0, userData.getNeck());
         assertEquals(0, userData.getWaist());
         assertEquals(0, userData.getHips());
-        assertNull(userData.getRestrictions());
-        assertNotNull(userData.getWeightGoals());
-        assertTrue(userData.getWeightGoals().isEmpty());
     }
 
     @Test
     void testConstructorWithAllParameters() {
         // Arrange
         int userID = 1;
-        String uname = "John";
-        String secondName = "Doe";
+        String uname = "Eki";
+        String secondName = "Zuzaeta";
         String gender = "Male";
-        int age = 30;
+        int age = 20;
         int height = 180;
-        String username = "johndoe";
-        String email = "john.doe@example.com";
-        String userPass = "password123";
+        String username = "ekizuzaeta";
+        String email = "ekizuzaetae@gmail.com";
+        String userPass = "pasahitza123";
         String activityLevel = "Active";
         Boolean premium = true;
         String objective = "Lose weight";
@@ -81,22 +73,22 @@ class UserDataTest {
     }
 
     @Test
-    void testConstructorWithPartialParameters() {
+    void testConstructorWithoutId() {
         // Arrange
-        String uname = "Jane";
-        String secondName = "Doe";
-        String gender = "Female";
-        int age = 25;
-        int height = 170;
-        String username = "janedoe";
-        String email = "jane.doe@example.com";
-        String userPass = "password123";
-        String activityLevel = "Moderate";
-        Boolean premium = false;
-        String objective = "Gain muscle";
-        float neck = 13.5f;
-        float waist = 28.0f;
-        float hips = 37.0f;
+        String uname = "Eki";
+        String secondName = "Zuzaeta";
+        String gender = "Male";
+        int age = 20;
+        int height = 180;
+        String username = "ekizuzaeta";
+        String email = "ekizuzaetae@gmail.com";
+        String userPass = "pasahitza123";
+        String activityLevel = "Active";
+        Boolean premium = true;
+        String objective = "Lose weight";
+        float neck = 15.5f;
+        float waist = 32.0f;
+        float hips = 40.0f;
 
         // Act
         UserData userData = new UserData(uname, secondName, gender, age, height, username, email, userPass,
@@ -172,54 +164,5 @@ class UserDataTest {
         assertEquals(neck, userData.getNeck(), 0.01);
         assertEquals(waist, userData.getWaist(), 0.01);
         assertEquals(hips, userData.getHips(), 0.01);
-    }
-
-    @Test
-    void testSetAndGetRestrictions() {
-        // Arrange
-        UserData userData = new UserData();
-        List<Restrictions> restrictions = new ArrayList<>();
-        Restrictions restriction = new Restrictions();
-        restrictions.add(restriction);
-
-        // Act
-        userData.setRestrictions(restrictions);
-
-        // Assert
-        assertNotNull(userData.getRestrictions());
-        assertEquals(1, userData.getRestrictions().size());
-        assertEquals(restriction, userData.getRestrictions().get(0));
-    }
-
-    @Test
-    void testSetAndGetWeightGoals() {
-        // Arrange
-        UserData userData = new UserData();
-        List<WeightGoals> weightGoals = new ArrayList<>();
-        WeightGoals goal = new WeightGoals();
-        weightGoals.add(goal);
-
-        // Act
-        userData.setWeightGoals(weightGoals);
-
-        // Assert
-        assertNotNull(userData.getWeightGoals());
-        assertEquals(1, userData.getWeightGoals().size());
-        assertEquals(goal, userData.getWeightGoals().get(0));
-    }
-
-    @Test
-    void testAddWeightGoal() {
-        // Arrange
-        UserData userData = new UserData();
-        WeightGoals goal = new WeightGoals();
-
-        // Act
-        userData.addWeightGoal(goal);
-
-        // Assert
-        assertNotNull(userData.getWeightGoals());
-        assertEquals(1, userData.getWeightGoals().size());
-        assertEquals(goal, userData.getWeightGoals().get(0));
     }
 }

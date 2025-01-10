@@ -1,10 +1,7 @@
 package com.pbl.demo.model.userData;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -16,8 +13,6 @@ import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.weightGoals.WeightGoals;
-import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
-
 
 @Entity
 @Table(name = "userData")
