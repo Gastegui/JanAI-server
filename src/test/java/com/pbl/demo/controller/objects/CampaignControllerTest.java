@@ -1,6 +1,7 @@
 package com.pbl.demo.controller.objects;
 
 
+import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -127,7 +128,7 @@ class CampaignControllerTest {
 
         // Act
         ResponseEntity<Campaign> response = campaignController.addCampaign(existingCampaign);
-
+        
         // Assert
         assertEquals(400, response.getStatusCodeValue());
         assertNull(response.getBody());

@@ -22,29 +22,36 @@ import com.pbl.demo.model.foodClass.FoodClass;
 import com.pbl.demo.model.foodGroup.FoodGroup;
 import com.pbl.demo.model.foodType.FoodType;
 import com.pbl.demo.model.ingredients.Ingredients;
+import com.pbl.demo.model.ingredients.IngredientsRepository;
+import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
+import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaignRepository;
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
 
 @RestController
-@RequestMapping("/campaign")
-public class CampaignController {
+@RequestMapping("/ingredientCampaign")
+public class IngredientsInCampaignController {
     @Autowired
     CampaignRepository cmpRepo;
+    @Autowired
+    IngredientsInCampaignRepository ingCmpRepo;
+    @Autowired
+    IngredientsRepository ingRepo;
     @Autowired
     private AdministratorRepository adminRepo;
 
     @GetMapping
-    public ResponseEntity<List<Campaign>> getAllCampaigns(){
-        List<Campaign> campaigns = cmpRepo.findAll();
-        if(campaigns.isEmpty()){
+    public ResponseEntity<List<IngredientsInCampaign>> getAllIngredientsInCampaign(){
+        List<IngredientsInCampaign> ingredients = ingCmpRepo.findAll();
+        if(ingredients.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
-            return new ResponseEntity<>(campaigns, HttpStatus.OK);
+            return new ResponseEntity<>(ingredients, HttpStatus.OK);
         }
     }
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    /*@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Campaign> getCampaignById(@PathVariable int id){
         Optional<Campaign> campaign = cmpRepo.findById(id);
         if(!campaign.isPresent()){
@@ -62,23 +69,24 @@ public class CampaignController {
         }else{
             return new ResponseEntity<>(campaign.get(), HttpStatus.OK);
         }
-    }
+    }*/
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @RequestBody Campaign campaign) {
+    public ResponseEntity<IngredientsInCampaign> addIngredientInCampaign(@RequestParam int campaignID, @RequestParam int ingredientID, @RequestBody IngredientsInCampaign ingredientCampaign) {
         
-        Optional<Campaign> found_Campaign = cmpRepo.findByCampName(campaign.getCampName());
-        if (found_Campaign.isPresent()) {
+        Optional<Campaign> found_Campaign = cmpRepo.findById(campaignID);
+        Optional<Ingredients> ingredient = ingRepo.findById(ingredientID);
+        if (!found_Campaign.isPresent() && !ingredient.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            
-            Optional<Administrator> admin = adminRepo.findById(adminID); 
-            if(admin.isPresent())
+            boolean exist = ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(found_Campaign.get().getCampaignID(), ingredient.get().getIngredientID());
+            if(!exist)
             {
-                campaign.setAdministrator(admin.get());
-                cmpRepo.save(campaign);
-                return new ResponseEntity<>(campaign, HttpStatus.CREATED);
+                ingredientCampaign.setCampaign(found_Campaign.get());
+                ingredientCampaign.setIngredients(ingredient.get());
+                ingCmpRepo.save(ingredientCampaign);
+                return new ResponseEntity<>(ingredientCampaign, HttpStatus.CREATED);
             }else{
                 return ResponseEntity.badRequest().build();
             }
