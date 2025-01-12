@@ -29,11 +29,16 @@ import com.pbl.demo.model.userData.UserDataRepository;
 @RestController
 @RequestMapping("/email")
 public class EmailVerificationController {
-    @Autowired
+    
     private UserDataRepository userRepo;
 
     /*@Autowired
     private EmailVerificationService verifyMail;*/
+
+    @Autowired
+    public EmailVerificationController(UserDataRepository userRepo){
+        this.userRepo = userRepo;
+    }
 
     @PostMapping(value = "/typedCode", produces = { "application/json", "application/xml" })
     public ResponseEntity<UserData> getVerificationCode(@RequestParam String writtenCode, @RequestParam String verifyMail, @RequestBody UserData user) {

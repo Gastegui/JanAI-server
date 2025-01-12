@@ -89,7 +89,7 @@ class RestrictionsTest {
 
         // Act
         restrictions.setRestrictionID(restrictionID);
-        restrictions.setrestrictedName(restrictedName);
+        restrictions.setRestrictedName(restrictedName);
         restrictions.setFoodGroup(foodGroup);
         restrictions.setFoodClass(foodClass);
         restrictions.setIngredients(ingredients);

@@ -30,18 +30,23 @@ import com.pbl.demo.model.userData.UserDataRepository;
 @RequestMapping(value = "/restrictions")
 public class RestrictionsController {
 
-    @Autowired
+    
     private RestrictionsRepository restrictRepo;
-    @Autowired
     private UserDataRepository userRepo;
-    @Autowired
     private FoodClassRepository foodClassRepo;
-    @Autowired
     private FoodTypeRepository foodTypeRepo;
-    @Autowired
     private FoodGroupRepository foodGroupRepo;
-    @Autowired
     private IngredientsRepository ingredienRepo;
+
+    @Autowired
+    public RestrictionsController(RestrictionsRepository restrictRepo, UserDataRepository userRepo, FoodClassRepository foodClassRepo, FoodTypeRepository foodTypeRepo, FoodGroupRepository foodGroupRepo, IngredientsRepository ingredienRepo){
+        this.restrictRepo = restrictRepo;
+        this.userRepo = userRepo;
+        this.foodClassRepo = foodClassRepo;
+        this.foodGroupRepo = foodGroupRepo;
+        this.foodTypeRepo = foodTypeRepo;
+        this.ingredienRepo = ingredienRepo;
+    }
 
     @GetMapping(produces = {"application/json", "application/xml"})
     public ResponseEntity<List<Restrictions>> getAllRestrictions(){

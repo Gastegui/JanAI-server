@@ -19,8 +19,13 @@ import com.pbl.demo.model.ingredients.IngredientsRepository;
 @RestController
 @RequestMapping(value = "/ingredient")
 public class IngredientController {
-    @Autowired
+    
     IngredientsRepository ingredientRepo;
+
+    @Autowired
+    public IngredientController(IngredientsRepository ingredientRepo){
+        this.ingredientRepo = ingredientRepo;
+    }
 
     @GetMapping(value = "", produces = {"application/json", "application/xml"})
     public ResponseEntity<List<Ingredients>> getAllIngredients(){

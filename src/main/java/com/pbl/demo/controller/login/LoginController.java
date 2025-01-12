@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.userData.UserData;
@@ -34,18 +32,19 @@ import java.util.Date;
 @RequestMapping("/login")
 public class LoginController {
 
-    @Autowired
     JwtUtil jwtUtil;
-
-    @Autowired
     UserDataRepository userRepo;
-
-    @Autowired
     UserDetailsService userDetailsService;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public LoginController(JwtUtil jwtUtil, UserDataRepository userRepo, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
+        this.jwtUtil = jwtUtil;
+        this.userRepo = userRepo;
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
+        
 
     /**
      * @brief This method validates whether or not the login credentials provided

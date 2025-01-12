@@ -23,11 +23,15 @@ import com.pbl.demo.model.campaign.CampaignRepository;
 @RestController
 @RequestMapping("/campaign")
 public class CampaignController {
-    @Autowired
+    
     CampaignRepository cmpRepo;
-    @Autowired
     private AdministratorRepository adminRepo;
 
+    @Autowired
+    public CampaignController(CampaignRepository cmpRepo, AdministratorRepository adminRepo){
+        this.adminRepo = adminRepo;
+        this.cmpRepo = cmpRepo;
+    }
     @GetMapping
     public ResponseEntity<List<Campaign>> getAllCampaigns(){
         List<Campaign> campaigns = cmpRepo.findAll();

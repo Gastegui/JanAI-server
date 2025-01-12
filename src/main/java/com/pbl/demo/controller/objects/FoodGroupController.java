@@ -17,8 +17,13 @@ import com.pbl.demo.model.foodGroup.FoodGroupRepository;
 @RestController
 @RequestMapping("/foodgroup")
 public class FoodGroupController {
-    @Autowired
+    
     private FoodGroupRepository fgRepo;
+
+    @Autowired
+    public FoodGroupController(FoodGroupRepository fgRepo){
+        this.fgRepo = fgRepo;
+    }
 
     @GetMapping( produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodGroup>> getAllGroups(){

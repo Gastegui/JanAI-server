@@ -18,11 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.foodType.FoodType;
-import com.pbl.demo.model.ingredients.Ingredients;
-import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.model.weightGoals.WeightGoals;
@@ -34,10 +29,15 @@ import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
 @RestController
 @RequestMapping("/weight")
 public class WeightController {
-    @Autowired
+   
     private UserDataRepository userRepo;
-    @Autowired
     private WeightGoalsRepository weightRepo;
+
+    @Autowired
+    public WeightController(UserDataRepository userRepo, WeightGoalsRepository weightRepo){
+        this.userRepo = userRepo;
+        this.weightRepo = weightRepo;
+    }
 
     @PostMapping(value = "/addWeight", consumes = { "application/json", "application/xml" }, produces = {
         "application/json", "application/xml" })
@@ -57,6 +57,7 @@ public class WeightController {
         }
 
     }
+    
     
     @GetMapping(value = "/weightList", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<WeightGoals>> getWeightList(@RequestParam String username) {

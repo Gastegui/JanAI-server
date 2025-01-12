@@ -26,12 +26,17 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @PreAuthorize("isAnonymous()")
 public class RegisterController {
-    @Autowired
+    
     private UserDataRepository userRepo;
-    @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
     private EmailVerificationService emailVerificationService;
+
+    @Autowired
+    public RegisterController(UserDataRepository userRepo, PasswordEncoder passwordEncoder, EmailVerificationService emailVerificationService){
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.emailVerificationService = emailVerificationService;
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(HttpSession session, Model model){

@@ -22,12 +22,15 @@ import com.pbl.demo.model.ingredients.IngredientsRepository;
 @RestController
 @RequestMapping("/food")
 public class FoodController {
-    @Autowired
+    
     FoodRepository foodRepo;
-
-    @Autowired
     IngredientsRepository ingredientRepo;
 
+    @Autowired
+    public FoodController(FoodRepository foodRepo, IngredientsRepository ingredientRepo){
+        this.foodRepo = foodRepo;
+        this.ingredientRepo = ingredientRepo;
+    }
     @GetMapping(value = "/show", produces = { "application/json", "application/xml" })
     @ResponseBody
     public ResponseEntity<List<Food>> getFoods() {

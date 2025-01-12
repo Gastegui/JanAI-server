@@ -17,8 +17,13 @@ import com.pbl.demo.model.foodType.FoodTypeRepository;
 @RestController
 @RequestMapping("/foodtype")
 public class FoodTypeController {
-    @Autowired
+    
     private FoodTypeRepository ftRepo;
+
+    @Autowired
+    public FoodTypeController(FoodTypeRepository ftRepo){
+        this.ftRepo = ftRepo;
+    }
 
     @GetMapping( produces = { "application/json", "application/xml" })
     public ResponseEntity<List<FoodType>> getAllTypes(){
