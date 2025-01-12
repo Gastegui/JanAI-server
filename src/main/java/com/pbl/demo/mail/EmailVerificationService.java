@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import com.pbl.demo.model.userData.UserData;
 
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpSession;
 
 @Service
 public class EmailVerificationService {
-    @Autowired
+   
     private EmailService emailService;
+    private Integer verificationCode;
 
     @Autowired
-    private HttpSession session;
-
-    private Integer verificationCode;
+    public EmailVerificationService(EmailService emailService){
+        this.emailService = emailService;
+    }
 
     Random random;
     public void sendVerificationCode(UserData user){

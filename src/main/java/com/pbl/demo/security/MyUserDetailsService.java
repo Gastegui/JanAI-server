@@ -15,11 +15,15 @@ import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
 public class MyUserDetailsService implements UserDetailsService{
-    @Autowired
+ 
     private UserDataRepository userRepo;
+    private AdministratorRepository adminRepo;
 
     @Autowired
-    private AdministratorRepository adminRepo;
+    public MyUserDetailsService(UserDataRepository userRepo, AdministratorRepository adminRepo){
+        this.userRepo = userRepo;
+        this.adminRepo = adminRepo;
+    }
 
     //ToDo
     //Rolak db-an sortzeko, admin eta user

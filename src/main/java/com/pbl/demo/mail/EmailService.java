@@ -12,10 +12,12 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class EmailService {
     
-    @Autowired
     private JavaMailSender emailSender;
 
-    
+    @Autowired
+    public EmailService(JavaMailSender emailSender){
+        this.emailSender = emailSender;
+    }
 
     public void sendSimpleMessage(String to, String subject, String text){
         SimpleMailMessage message = new SimpleMailMessage();

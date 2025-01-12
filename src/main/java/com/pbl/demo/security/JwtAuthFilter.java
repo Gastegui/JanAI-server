@@ -19,11 +19,14 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JwtUtil jwtUtil;
+    MyUserDetailsService userDetailsService;
 
     @Autowired
-    MyUserDetailsService userDetailsService;
+    public JwtAuthFilter(JwtUtil jwtUtil, MyUserDetailsService userDetailsService){
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     /**
      * @brief This is an internal filter to be called before any request
