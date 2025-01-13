@@ -23,7 +23,7 @@ public class HasIngredientsTest {
 
     @Test
     void testConstructorWithAllParameters(){
-        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f);
+        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f, 50f);
         Ingredients ingredients = new Ingredients(1, "Tomato", new FoodGroup());
         HasIngredients hasIngredients = new HasIngredients(food, ingredients);
 
@@ -35,7 +35,7 @@ public class HasIngredientsTest {
 
     @Test
     void testGettersAndSetters(){
-        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f);
+        Food food = new Food(1, "Pasta bolognese", 12f, 34f, 6f, 9f, 50f);
         Ingredients ingredients = new Ingredients(1, "Tomato", new FoodGroup());
         HasIngredients hasIngredients = new HasIngredients();
 

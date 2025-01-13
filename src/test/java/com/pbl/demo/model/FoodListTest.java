@@ -20,7 +20,7 @@ class FoodListTest {
         assertNotNull(foodList);
         assertNull(foodList.getUserData());
         assertNull(foodList.getFood());
-        assertNull(foodList.getConsumption_date());
+        assertNull(foodList.getConsumptionDate());
         assertNull(foodList.getMeal());
     }
 
@@ -38,7 +38,7 @@ class FoodListTest {
         // Assert
         assertEquals(userData, foodList.getUserData());
         assertEquals(food, foodList.getFood());
-        assertEquals(consumptionDate, foodList.getConsumption_date());
+        assertEquals(consumptionDate, foodList.getConsumptionDate());
         assertEquals(meal, foodList.getMeal());
     }
 
@@ -54,7 +54,7 @@ class FoodListTest {
         // Assert
         assertNull(foodList.getUserData());
         assertNull(foodList.getFood());
-        assertEquals(consumptionDate, foodList.getConsumption_date());
+        assertEquals(consumptionDate, foodList.getConsumptionDate());
         assertEquals(meal, foodList.getMeal());
     }
 
@@ -70,13 +70,13 @@ class FoodListTest {
         // Act
         foodList.setUserData(userData);
         foodList.setFood(food);
-        foodList.setConsumption_date(consumptionDate);
+        foodList.setConsumptionDate(consumptionDate);
         foodList.setMeal(meal);
 
         // Assert
         assertEquals(userData, foodList.getUserData());
         assertEquals(food, foodList.getFood());
-        assertEquals(consumptionDate, foodList.getConsumption_date());
+        assertEquals(consumptionDate, foodList.getConsumptionDate());
         assertEquals(meal, foodList.getMeal());
     }
 
@@ -114,11 +114,11 @@ class FoodListTest {
         FoodList foodList = new FoodList();
 
         // Act
-        foodList.setConsumption_date(consumptionDate);
+        foodList.setConsumptionDate(consumptionDate);
         foodList.setMeal(meal);
 
         // Assert
-        assertEquals(consumptionDate, foodList.getConsumption_date());
+        assertEquals(consumptionDate, foodList.getConsumptionDate());
         assertEquals(meal, foodList.getMeal());
     }
 }

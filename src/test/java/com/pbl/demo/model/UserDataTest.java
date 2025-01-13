@@ -49,10 +49,13 @@ class UserDataTest {
         float neck = 15.5f;
         float waist = 32.0f;
         float hips = 40.0f;
+        float waterIntake = 2.0f;
+        int waterCounter = 0;
+        float finalDailyCalorieIntake = 2000.0f;
 
         // Act
         UserData userData = new UserData(userID, uname, secondName, gender, age, height, username, email, userPass,
-                activityLevel, premium, objective, neck, waist, hips);
+                activityLevel, premium, objective, neck, waist, hips, waterIntake, waterCounter, finalDailyCalorieIntake);
 
         // Assert
         assertEquals(userID, userData.getUserID());
@@ -89,10 +92,13 @@ class UserDataTest {
         float neck = 15.5f;
         float waist = 32.0f;
         float hips = 40.0f;
+        float waterIntake = 2.0f;
+        int waterCounter = 0;
+        float finalDailyCalorieIntake = 2000.0f;
 
         // Act
         UserData userData = new UserData(uname, secondName, gender, age, height, username, email, userPass,
-                activityLevel, premium, objective, neck, waist, hips);
+                activityLevel, premium, objective, neck, waist, hips, waterIntake, waterCounter, finalDailyCalorieIntake);
 
         // Assert
         assertEquals(uname, userData.getUname());

@@ -31,9 +31,10 @@ class FoodTest {
         float carbs = 14.0f;
         float fats = 0.2f;
         float fiber = 2.4f;
+        float calories = 52.0f;
 
         // Act
-        Food food = new Food(foodID, foodName, proteins, carbs, fats, fiber);
+        Food food = new Food(foodID, foodName, proteins, carbs, fats, fiber, calories);
 
         // Assert
         assertEquals(foodID, food.getFoodID());
@@ -42,7 +43,6 @@ class FoodTest {
         assertEquals(carbs, food.getCarbs());
         assertEquals(fats, food.getFats());
         assertEquals(fiber, food.getFiber());
-
     }
 
     @Test
@@ -53,9 +53,10 @@ class FoodTest {
         float carbs = 27.0f;
         float fats = 0.3f;
         float fiber = 3.1f;
+        float calories = 89.0f;
 
         // Act
-        Food food = new Food(foodName, proteins, carbs, fats, fiber);
+        Food food = new Food(foodName, proteins, carbs, fats, fiber, calories);
 
         // Assert
         assertEquals(foodName, food.getFoodName());
@@ -63,7 +64,6 @@ class FoodTest {
         assertEquals(carbs, food.getCarbs());
         assertEquals(fats, food.getFats());
         assertEquals(fiber, food.getFiber());
-
     }
 
     @Test
@@ -93,7 +93,4 @@ class FoodTest {
         assertEquals(fats, food.getFats());
         assertEquals(fiber, food.getFiber());
     }
-
-
-
 }
