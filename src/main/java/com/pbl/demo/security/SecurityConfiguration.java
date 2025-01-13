@@ -85,6 +85,4 @@ public class SecurityConfiguration{
         return new BCryptPasswordEncoder();
     }
 
-    //TODO, access checker-a, rolak sortu behar limitatzeko web-eko sarrera, rol simpleak, admin eta normala
-    //adminak kanpainak sortu ahalko ditu, hori da diferentzia bakarra
 }

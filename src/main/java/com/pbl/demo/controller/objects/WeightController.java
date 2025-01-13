@@ -36,7 +36,6 @@ public class WeightController {
     public ResponseEntity<WeightGoals> addWeightGoal(@RequestParam String username, @RequestBody WeightGoals goal) {
         
         Optional<UserData> foundUser = userRepo.findByUsername(username);
-        //Optional<UserData> user = userRepo.findById(goal.getUserData().getUserID());
         if (foundUser.isPresent()) {
             goal.setUserData(foundUser.get());
             weightRepo.save(goal);

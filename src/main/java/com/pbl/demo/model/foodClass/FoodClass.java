@@ -58,8 +58,5 @@ public class FoodClass {
         this.className = className;
     }
 
-    /*public List<FoodType> getFoodType() {
-        return foodType;
-    }*/
     
 }
