@@ -46,9 +46,6 @@ public class WeightController {
         Optional<UserData> found_User = userRepo.findByUsername(username);
         //Optional<UserData> user = userRepo.findById(goal.getUserData().getUserID());
         if (found_User.isPresent()) {
-            /*goal.setUserData(found_User.get());
-            found_User.get().addWeightGoal(goal);
-            userRepo.save(found_User.get());*/
             goal.setUserData(found_User.get());
             weightRepo.save(goal);
             return new ResponseEntity<>(goal, HttpStatus.CREATED);

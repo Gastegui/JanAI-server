@@ -27,6 +27,7 @@ public class Food {
     private float carbs;
     private float fats;
     private float fiber;
+    private float calories;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HasIngredients> foodTypes;
@@ -36,21 +37,23 @@ public class Food {
 
     public Food(){}
 
-    public Food(int foodID, String foodName, float proteins, float carbs, float fats, float fiber) {
+    public Food(int foodID, String foodName, float proteins, float carbs, float fats, float fiber, float calories) {
         this.foodID = foodID;
         this.foodName = foodName;
         this.proteins = proteins;
         this.carbs = carbs;
         this.fats = fats;
         this.fiber = fiber;
+        this.calories = calories;
     }
 
-    public Food(String foodName, float proteins, float carbs, float fats, float fiber) {
+    public Food(String foodName, float proteins, float carbs, float fats, float fiber, float calories) {
         this.foodName = foodName;
         this.proteins = proteins;
         this.carbs = carbs;
         this.fats = fats;
         this.fiber = fiber;
+        this.calories = calories;
     }
 
     public int getFoodID() {
@@ -101,4 +104,11 @@ public class Food {
         this.fiber = fiber;
     }
 
+    public float getCalories() {
+        return calories;
+    }
+
+    public void setCalories(float calories) {
+        this.calories = calories;
+    }
 }

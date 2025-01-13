@@ -18,7 +18,6 @@ import com.pbl.demo.model.weightGoals.WeightGoals;
 @Table(name = "userData")
 public class UserData {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
@@ -37,6 +36,10 @@ public class UserData {
     private float neck;
     private float waist;
     private float hips;
+    private float waterIntake;
+    private int waterCounter;
+    private float finalDailyCalorieIntake;
+
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
@@ -49,7 +52,7 @@ public class UserData {
 
     public UserData(int userID, String uname, String secondName, String gender, int age, int height,
             String username, String email, String userPass, String activityLevel, Boolean premium, String objective,
-            float neck, float waist, float hips) {
+            float neck, float waist, float hips, float waterIntake, int waterCounter, float finalDailyCalorieIntake) {
         this.userID = userID;
         this.uname = uname;
         this.secondName = secondName;
@@ -65,11 +68,14 @@ public class UserData {
         this.neck = neck;
         this.waist = waist;
         this.hips = hips;
+        this.waterIntake = waterIntake;
+        this.waterCounter = waterCounter;
+        this.finalDailyCalorieIntake = finalDailyCalorieIntake;
     }
 
     public UserData(String uname, String secondName, String gender, int age, int height, String username,
             String email, String userPass, String activityLevel, Boolean premium, String objective, float neck,
-            float waist, float hips) {
+            float waist, float hips, float waterIntake, int waterCounter, float finalDailyCalorieIntake) {
         this.uname = uname;
         this.secondName = secondName;
         this.gender = gender;
@@ -84,6 +90,9 @@ public class UserData {
         this.neck = neck;
         this.waist = waist;
         this.hips = hips;
+        this.waterIntake = waterIntake;
+        this.waterCounter = waterCounter;
+        this.finalDailyCalorieIntake = finalDailyCalorieIntake;
     }
 
     public int getUserID() {
@@ -223,9 +232,27 @@ public class UserData {
         this.hips = hips;
     }
 
-    /*public void addWeightGoal(WeightGoals goal){
-        weightGoals.add(goal);
-        //goal.setUserData(this);
-        //goal.setUserData(this);
-    }*/
+    public float getWaterIntake() {
+        return waterIntake;
+    }
+
+    public void setWaterIntake(float waterIntake) {
+        this.waterIntake = waterIntake;
+    }
+
+    public int getWaterCounter() {
+        return waterCounter;
+    }
+
+    public void setWaterCounter(int waterCounter) {
+        this.waterCounter = waterCounter;
+    }
+
+    public float getFinalDailyCalorieIntake() {
+        return finalDailyCalorieIntake;
+    }
+
+    public void setFinalDailyCalorieIntake(float finalDailyCalorieIntake) {
+        this.finalDailyCalorieIntake = finalDailyCalorieIntake;
+    }
 }

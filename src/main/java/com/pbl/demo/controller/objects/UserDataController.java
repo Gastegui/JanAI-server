@@ -22,6 +22,8 @@ import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
+import jakarta.websocket.server.PathParam;
+
 //import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -46,7 +48,6 @@ public class UserDataController {
         } else {
             return new ResponseEntity<>(admin.get(), HttpStatus.OK);
         }
-
     }
 
     @GetMapping(value = "/show", produces = { "application/json", "application/xml" })
@@ -99,6 +100,42 @@ public class UserDataController {
         }
     }
 
+    @GetMapping(value = "/finalDailyCalorieIntakeByUsername", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Float> getFinalDailyCalorieIntakeByUsername(@RequestParam String username) {
+
+        Optional<Float> finalDailyCalorieIntake = userRepo.findFinalDailyCalorieIntakeByUsername(username);
+
+        if (finalDailyCalorieIntake == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(finalDailyCalorieIntake.get(), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping(value = "/waterCounterByUsername", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Integer> getWaterCounterByUsername(@RequestParam String username) {
+
+        Optional<Integer> waterCounter = userRepo.findWaterCounterByUsername(username);
+
+        if (waterCounter == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(waterCounter.get(), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping(value = "/waterIntakeByUserID", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Float> getWaterIntakeByUserID(@RequestParam int userID) {
+
+        Optional<Float> waterIntake = userRepo.findWaterIntakeByUserID(userID);
+
+        if (waterIntake == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(waterIntake.get(), HttpStatus.OK);
+        }
+    }
+
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> addUser(@RequestBody UserData user) {
@@ -130,6 +167,34 @@ public class UserDataController {
             userRepo.save(found_User.get());
             return new ResponseEntity<>(user, HttpStatus.OK);
 
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping(value = "/modifyCalorieIntake", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Float> putFinalDailyCalorieIntake(@RequestParam int userID , @RequestParam float finalDailyCalorieIntake) {
+
+        Optional<UserData> found_User = userRepo.findById(userID);
+
+        if (found_User.isPresent()) {
+            found_User.get().setFinalDailyCalorieIntake(finalDailyCalorieIntake);
+            userRepo.save(found_User.get());
+            return new ResponseEntity<>(finalDailyCalorieIntake, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping(value = "/modifyWaterCounter", produces = { "application/json", "application/xml" })
+    public ResponseEntity<Integer> putWaterCounter(@RequestParam int userID , @RequestParam int waterCounter) {
+
+        Optional<UserData> found_User = userRepo.findById(userID);
+
+        if (found_User.isPresent()) {
+            found_User.get().setWaterCounter(waterCounter+1);
+            userRepo.save(found_User.get());
+            return new ResponseEntity<>(waterCounter+1, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
