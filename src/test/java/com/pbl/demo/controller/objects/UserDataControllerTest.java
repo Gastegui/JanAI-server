@@ -1,35 +1,25 @@
 package com.pbl.demo.controller.objects;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.*;
 
-import com.pbl.demo.model.administrator.Administrator;
-import com.pbl.demo.model.administrator.AdministratorRepository;
-import com.pbl.demo.model.user_data.UserData;
-import com.pbl.demo.model.user_data.UserDataRepository;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-import java.util.Optional;
+import com.pbl.demo.model.administrator.*;
+import com.pbl.demo.model.user_data.*;
 
+class UserDataControllerTest {
 
-
-@SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
-public class UserDataControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+    @InjectMocks
+    private UserDataController userDataController;
 
     @Mock
     private UserDataRepository userRepo;
@@ -37,192 +27,180 @@ public class UserDataControllerTest {
     @Mock
     private AdministratorRepository adminRepo;
 
-    /*@Test
-    void testGetAdminByName_AdminFound() throws Exception {
-        Administrator admin = new Administrator();
-        admin.setUsername("testAdmin");
-
-        when(adminRepo.findByUsername("testAdmin")).thenReturn(Optional.of(admin));
-        
-        mockMvc.perform(get("/user/adminByName")
-                .param("username", "testAdmin")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }*/
-
-    @Test
-    void testGetAdminByName_AdminNotFound() throws Exception {
-        when(adminRepo.findByUsername("unknown")).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/user/adminByName")
-                .param("username", "unknown")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetUsers_UsersFound() throws Exception {
-        List<UserData> users = List.of(new UserData(), new UserData());
+    void testGetAdminByName_NotFound() {
+        when(adminRepo.findByUsername("admin"))
+            .thenReturn(Optional.empty());
+
+        ResponseEntity<Administrator> response = userDataController.getAdminByName("admin");
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testGetAdminByName_Found() {
+        Administrator admin = new Administrator();
+        when(adminRepo.findByUsername("admin"))
+            .thenReturn(Optional.of(admin));
+
+        ResponseEntity<Administrator> response = userDataController.getAdminByName("admin");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(admin, response.getBody());
+    }
+
+    @Test
+    void testGetUsers_EmptyList() {
+        when(userRepo.findAll()).thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<UserData>> response = userDataController.getUsers();
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testGetUsers_NonEmptyList() {
+        UserData user = new UserData();
+        List<UserData> users = List.of(user);
         when(userRepo.findAll()).thenReturn(users);
 
-        mockMvc.perform(get("/user/show")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+        ResponseEntity<List<UserData>> response = userDataController.getUsers();
 
-    /*@Test
-    void testGetUsers_NoUsersFound() throws Exception {
-        when(userRepo.findAll()).thenReturn(List.of());
-
-        mockMvc.perform(get("/user/show")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }*/
-
-    @Test
-    void testGetUserDataById_UserFound() throws Exception {
-        UserData user = new UserData();
-        when(userRepo.findById(1)).thenReturn(Optional.of(user));
-
-        mockMvc.perform(get("/user/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(users, response.getBody());
     }
 
     @Test
-    void testGetUserDataById_UserNotFound() throws Exception {
+    void testGetUserDataById_NotFound() {
         when(userRepo.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/user/15")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
+        ResponseEntity<UserData> response = userDataController.getUserDataById(1);
 
-    
-
-    /*@Test
-    void testGetUsersByName_UserFound() throws Exception {
-        UserData user = new UserData();
-        when(userRepo.findByUsername("username")).thenReturn(Optional.of(user));
-
-        mockMvc.perform(get("/user/usersByUsername")
-                .param("username", "username")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }*/
-
-    @Test
-    void testGetUsersByName_UserNotFound() throws Exception {
-        when(userRepo.findByUsername("username")).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/user/usersByUsername")
-                .param("username", "username")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-    /*@Test
-    void testAddUser_UserAlreadyExists() throws Exception {
-        UserData user = new UserData();
-        user.setUsername("existingUser");
-        when(userRepo.findByUsername("existingUser")).thenReturn(Optional.of(user));
-
-        mockMvc.perform(post("/user/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "username": "existingUser"
-                        }
-                        """))
-                .andExpect(status().isBadRequest());
-    }*/
-
-    @Test
-    void testAddUser_UserAdded() throws Exception {
-        UserData user = new UserData();
-        user.setUsername("newUser");
-        user.setUname("user");
-        user.setSecondName("user");
-        user.setGender("male");
-        user.setAge(12);
-        user.setHeight(100);
-        user.setEmail("usermail@gmail.com");
-        user.setUserPass("abcdfghijk1234.H");
-        user.setActivityLevel("high");
-        user.setPremium(false);
-        user.setObjective("lose weight");
-        user.setWaist(10);
-        when(userRepo.findByUsername("newUser")).thenReturn(Optional.empty());
-        when(userRepo.save(any(UserData.class))).thenReturn(user);
-
-        mockMvc.perform(post("/user/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "userID" : 1,
-                            "uname" : "user",
-                            "secondName" : "user",
-                            "gender" : "male",
-                            "age" : 12,
-                            "height" : 100,
-                            "username" : "newUser",
-                            "email" : "usermail@gmail.com",
-                            "userPass" : "abcdfghijk1234.H",
-                            "activityLevel" : "high",
-                            "premium" : false,
-                            "objective" : "lose weight",
-                            "waist" : 10
-
-                        }
-                        """))
-                .andExpect(status().isCreated());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    void testPutUsers_UserFound() throws Exception {
+    void testGetUserDataById_Found() {
         UserData user = new UserData();
         when(userRepo.findById(1)).thenReturn(Optional.of(user));
 
-        mockMvc.perform(put("/user/modify/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "username": "updatedUser"
-                        }
-                        """))
-                .andExpect(status().isOk());
+        ResponseEntity<UserData> response = userDataController.getUserDataById(1);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(user, response.getBody());
     }
 
     @Test
-    void testPutUsers_UserNotFound() throws Exception {
-        when(userRepo.findById(16)).thenReturn(Optional.empty());
+    void testGetUsersByName_NotFound() {
+        when(userRepo.findByUsername("username"))
+            .thenReturn(Optional.empty());
 
-        mockMvc.perform(put("/user/modify/16")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "username": "updatedUser"
-                        }
-                        """))
-                .andExpect(status().isNotFound());
+        ResponseEntity<UserData> response = userDataController.getUsersByName("username");
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
-    /*@Test
-    void testDeleteUser_UserFound() throws Exception {
+    @Test
+    void testGetUsersByName_Found() {
+        UserData user = new UserData();
+        when(userRepo.findByUsername("username"))
+            .thenReturn(Optional.of(user));
+
+        ResponseEntity<UserData> response = userDataController.getUsersByName("username");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(user, response.getBody());
+    }
+
+    @Test
+    void testGetFinalDailyCalorieIntakeByUsername_NotFound() {
+        when(userRepo.findFinalDailyCalorieIntakeByUsername("username"))
+            .thenReturn(Optional.empty());
+
+        ResponseEntity<Float> response = userDataController.getFinalDailyCalorieIntakeByUsername("username");
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testGetFinalDailyCalorieIntakeByUsername_Found() {
+        when(userRepo.findFinalDailyCalorieIntakeByUsername("username"))
+            .thenReturn(Optional.of(2000.0f));
+
+        ResponseEntity<Float> response = userDataController.getFinalDailyCalorieIntakeByUsername("username");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(2000.0f, response.getBody());
+    }
+
+    @Test
+    void testAddUser_DuplicateUser() {
+        UserData user = new UserData();
+        user.setUsername("username");
+        when(userRepo.findByUsername("username"))
+            .thenReturn(Optional.of(user));
+
+        ResponseEntity<UserData> response = userDataController.addUser(user);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAddUser_Valid() {
+        UserData user = new UserData();
+        when(userRepo.findByUsername("username"))
+            .thenReturn(Optional.empty());
+
+        ResponseEntity<UserData> response = userDataController.addUser(user);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        verify(userRepo, times(1)).save(user);
+    }
+
+    @Test
+    void testPutUsers_NotFound() {
+        UserData user = new UserData();
+        when(userRepo.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<UserData> response = userDataController.putUsers(1, user);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testPutUsers_Found() {
+        UserData existingUser = new UserData();
+        UserData updatedUser = new UserData();
+        when(userRepo.findById(1)).thenReturn(Optional.of(existingUser));
+
+        ResponseEntity<UserData> response = userDataController.putUsers(1, updatedUser);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userRepo, times(1)).save(existingUser);
+    }
+
+    @Test
+    void testDeleteUser_NotFound() {
+        when(userRepo.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<UserData> response = userDataController.deleteUser(1);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testDeleteUser_Found() {
         UserData user = new UserData();
         when(userRepo.findById(1)).thenReturn(Optional.of(user));
 
-        mockMvc.perform(delete("/user/delete/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }*/
+        ResponseEntity<UserData> response = userDataController.deleteUser(1);
 
-    @Test
-    void testDeleteUser_UserNotFound() throws Exception {
-        when(userRepo.findById(17)).thenReturn(Optional.empty());
-
-        mockMvc.perform(delete("/user/delete/17")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userRepo, times(1)).delete(user);
     }
 }

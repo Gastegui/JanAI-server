@@ -41,7 +41,7 @@ public class WeightController {
             weightRepo.save(goal);
             return new ResponseEntity<>(goal, HttpStatus.CREATED);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
 
     }

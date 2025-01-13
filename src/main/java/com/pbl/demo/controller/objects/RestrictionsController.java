@@ -263,7 +263,7 @@ private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, L
             restrictRepo.save(restriction);
             return new ResponseEntity<>(restriction, HttpStatus.CREATED);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

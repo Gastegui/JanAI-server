@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.food_type.FoodType;
@@ -38,7 +39,7 @@ public class FoodTypeControllerTest {
         ResponseEntity<List<FoodType>> response = foodTypeController.getAllTypes();
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -52,7 +53,7 @@ public class FoodTypeControllerTest {
         ResponseEntity<List<FoodType>> response = foodTypeController.getAllTypes();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(groups, response.getBody());
     }
 
@@ -66,7 +67,7 @@ public class FoodTypeControllerTest {
         ResponseEntity<FoodType> response = foodTypeController.getTypeByTypeName(typeName);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -81,7 +82,7 @@ public class FoodTypeControllerTest {
         ResponseEntity<FoodType> response = foodTypeController.getTypeByTypeName(typeName);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(foodType, response.getBody());
     }
 }

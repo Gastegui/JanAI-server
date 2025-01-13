@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ class CampaignControllerTest {
         ResponseEntity<List<Campaign>> response = campaignController.getAllCampaigns();
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -58,7 +59,7 @@ class CampaignControllerTest {
         ResponseEntity<List<Campaign>> response = campaignController.getAllCampaigns();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
     }
@@ -73,7 +74,7 @@ class CampaignControllerTest {
         ResponseEntity<Campaign> response = campaignController.getCampaignById(campaignId);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -88,7 +89,7 @@ class CampaignControllerTest {
         ResponseEntity<Campaign> response = campaignController.getCampaignById(campaignId);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 
@@ -102,7 +103,7 @@ class CampaignControllerTest {
         ResponseEntity<Campaign> response = campaignController.getCampaignByName(campName);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -117,7 +118,7 @@ class CampaignControllerTest {
         ResponseEntity<Campaign> response = campaignController.getCampaignByName(campName);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 
@@ -134,7 +135,7 @@ class CampaignControllerTest {
         ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign);
         
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -148,12 +149,13 @@ class CampaignControllerTest {
 
         when(cmpRepo.findByCampName(newCampaign.getCampName())).thenReturn(Optional.empty());
         when(cmpRepo.save(newCampaign)).thenReturn(newCampaign);
+        when(adminRepo.findById(adminId)).thenReturn(Optional.of(admin));
 
         // Act
         ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, newCampaign);
 
         // Assert
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 }

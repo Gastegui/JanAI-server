@@ -45,11 +45,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 List<String> roles = jwtUtil.extractRoles(token);
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    System.out.println("USERNAME IS NOT NULL");
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     if (jwtUtil.validateToken(token, userDetails.getUsername())) {
-                        System.out.println("TOKEN IS VALID");
                         List<SimpleGrantedAuthority> authorities = roles.stream()
                                 .map(SimpleGrantedAuthority::new)
                                 .toList();
@@ -63,7 +61,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             } catch (Exception e) {
                 // Log error and reject token
-                System.out.println("Invalid token: " + e.getMessage());
             }
         }
 

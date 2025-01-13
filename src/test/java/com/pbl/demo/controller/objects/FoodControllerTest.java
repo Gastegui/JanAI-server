@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.food.Food;
@@ -38,7 +39,7 @@ class FoodControllerTest {
         ResponseEntity<List<Food>> response = foodController.getFoods();
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -52,7 +53,7 @@ class FoodControllerTest {
         ResponseEntity<List<Food>> response = foodController.getFoods();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(foods, response.getBody());
     }
 
@@ -67,7 +68,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.addFood(food);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -83,7 +84,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.addFood(food);
 
         // Assert
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(food, response.getBody());
     }
 
@@ -97,7 +98,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.findById(id);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -112,7 +113,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.findById(id);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(food, response.getBody());
     }
 
@@ -126,7 +127,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.findByName(foodName);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -141,7 +142,7 @@ class FoodControllerTest {
         ResponseEntity<Food> response = foodController.findByName(foodName);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(food, response.getBody());
     }
 }

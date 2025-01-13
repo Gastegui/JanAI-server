@@ -61,9 +61,8 @@ public class SecurityConfiguration{
     }
 
     private LogoutHandler logoutHandler() {
-        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(
+        return new HeaderWriterLogoutHandler(
             new ClearSiteDataHeaderWriter(Directive.COOKIES));
-        return clearSiteData;
     }
 
     private AuthenticationFailureHandler authenticationFailureHandler() {

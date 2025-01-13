@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.user_data.UserData;
@@ -38,7 +39,7 @@ class EmailVerificationControllerTest {
         ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user);
 
         // Assert
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(userRepo, times(1)).save(user);
     }
 
@@ -53,7 +54,7 @@ class EmailVerificationControllerTest {
         ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         verify(userRepo, never()).save(user);
     }
 }

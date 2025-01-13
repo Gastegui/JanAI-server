@@ -1,25 +1,28 @@
 package com.pbl.demo.controller.login;
 
-import com.pbl.demo.model.user_data.UserData;
-import com.pbl.demo.model.user_data.UserDataRepository;
-import com.pbl.demo.security.AuthRequest;
-import com.pbl.demo.security.JwtUtil;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
+import com.pbl.demo.security.AuthRequest;
+import com.pbl.demo.security.AuthResponse;
+import com.pbl.demo.security.JwtUtil;
 
 class LoginControllerTest {
 
@@ -30,7 +33,7 @@ class LoginControllerTest {
     private JwtUtil jwtUtil;
 
     @Mock
-    private UserDataRepository userRepository;
+    private UserDataRepository userRepo;
 
     @Mock
     private UserDetailsService userDetailsService;
@@ -43,116 +46,143 @@ class LoginControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    /*@Test
-    void authenticate_ValidCredentials_ReturnsAuthResponse() {
-        AuthRequest authRequest = new AuthRequest("testuser", "password");
-        UserDetails userDetails = new User("testuser", "password", new ArrayList<>());
-        String token = "mockToken";
-        String role = "ROLE_USER";
-        Date expiration = new Date();
+    @Test
+    void testAuthenticate_Success() {
+        AuthRequest authRequest = new AuthRequest("username", "password");
+        UserDetails userDetails = User.withUsername("username").password("password").roles("USER").build();
 
-        when(userDetailsService.loadUserByUsername(authRequest.getUsername())).thenReturn(userDetails);
-        when(jwtUtil.generateToken(userDetails)).thenReturn(token);
-        when(jwtUtil.extractExpiration(token)).thenReturn(expiration);
+        when(userDetailsService.loadUserByUsername("username")).thenReturn(userDetails);
+        when(jwtUtil.generateToken(userDetails)).thenReturn("mockToken");
+        when(jwtUtil.extractExpiration("mockToken")).thenReturn(new Date());
 
         ResponseEntity<Object> response = loginController.authenticate(authRequest);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK , response.getStatusCode());
         AuthResponse authResponse = (AuthResponse) response.getBody();
         assertNotNull(authResponse);
-        assertEquals(token, authResponse.getToken());
-        assertEquals(role, authResponse.getRole());
-        assertEquals(expiration, authResponse.getTimeout());
-    }*/
+        assertEquals("mockToken", authResponse.getToken());
+        assertEquals("ROLE_USER", authResponse.getRole());
+    }
 
     @Test
-    void authenticate_InvalidUsername_ReturnsUnauthorized() {
-        AuthRequest authRequest = new AuthRequest("invaliduser", "password");
+    void testAuthenticate_InvalidCredentials() {
+        AuthRequest authRequest = new AuthRequest("username", "wrongPassword");
+        UserDetails userDetails = User.withUsername("username").password("password").roles("USER").build();
 
-        when(userDetailsService.loadUserByUsername(authRequest.getUsername()))
-                .thenThrow(new UsernameNotFoundException("User not found"));
+        when(userDetailsService.loadUserByUsername("username")).thenReturn(userDetails);
 
         ResponseEntity<Object> response = loginController.authenticate(authRequest);
 
-        assertEquals(401, response.getStatusCodeValue());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertEquals("Invalid username or password", response.getBody());
     }
 
     @Test
-    void getUserss_ReturnsUserList() {
-        List<UserData> userList = new ArrayList<>();
-        userList.add(new UserData());
+    void testAuthenticate_UserNotFound() {
+        AuthRequest authRequest = new AuthRequest("username", "password");
 
-        when(userRepository.findAll()).thenReturn(userList);
+        when(userDetailsService.loadUserByUsername("username")).thenThrow(new UsernameNotFoundException("User not found"));
+
+        ResponseEntity<Object> response = loginController.authenticate(authRequest);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Invalid username or password", response.getBody());
+    }
+
+    @Test
+    void testGetUsers_NoUsersFound() {
+        when(userRepo.findAll()).thenReturn(Collections.emptyList());
 
         ResponseEntity<List<UserData>> response = loginController.getUsers();
 
-        assertEquals(202, response.getStatusCodeValue());
-        assertEquals(userList, response.getBody());
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
     }
 
     @Test
-    void addUser_ValidUser_ReturnsCreated() {
-        UserData newUser = new UserData();
-        newUser.setUsername("newuser");
+    void testGetUsers_UsersFound() {
+        UserData user = new UserData();
+        user.setUsername("username");
+        when(userRepo.findAll()).thenReturn(Collections.singletonList(user));
 
-        when(userRepository.findByUsername(newUser.getUsername())).thenReturn(Optional.empty());
-        when(userRepository.save(newUser)).thenReturn(newUser);
+        ResponseEntity<List<UserData>> response = loginController.getUsers();
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals(1, response.getBody().size());
+        assertEquals("username", response.getBody().get(0).getUsername());
+    }
+
+    @Test
+    void testAddUser_Success() {
+        UserData newUser = new UserData();
+        newUser.setUsername("newUser");
+
+        when(userRepo.findByUsername("newUser")).thenReturn(Optional.empty());
+        when(userRepo.save(newUser)).thenReturn(newUser);
 
         ResponseEntity<UserData> response = loginController.addUser(newUser);
 
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals(newUser, response.getBody());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("newUser", response.getBody().getUsername());
     }
 
     @Test
-    void addUser_ExistingUser_ReturnsBadRequest() {
+    void testAddUser_Conflict() {
         UserData existingUser = new UserData();
-        existingUser.setUsername("existinguser");
+        existingUser.setUsername("existingUser");
 
-        when(userRepository.findByUsername(existingUser.getUsername())).thenReturn(Optional.of(existingUser));
+        when(userRepo.findByUsername("existingUser")).thenReturn(Optional.of(existingUser));
 
         ResponseEntity<UserData> response = loginController.addUser(existingUser);
 
-        assertEquals(400, response.getStatusCodeValue());
-        assertNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
-    void putUsers_ExistingUser_ReturnsOk() {
-        UserData updatedUser = new UserData();
-        updatedUser.setUsername("updateduser");
-        updatedUser.setUname("Updated Name");
-        UserData existingUser = new UserData();
+    void testPutUsers_UserNotFound() {
+        UserData user = new UserData();
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(existingUser));
-        when(userRepository.save(existingUser)).thenReturn(existingUser);
+        when(userRepo.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<UserData> response = loginController.putUsers(1, user);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testPutUsers_Success() {
+        UserData existingUser = new UserData();
+        existingUser.setUsername("oldUsername");
+        UserData updatedUser = new UserData();
+        updatedUser.setUsername("newUsername");
+
+        when(userRepo.findById(1)).thenReturn(Optional.of(existingUser));
+        when(userRepo.save(existingUser)).thenReturn(updatedUser);
 
         ResponseEntity<UserData> response = loginController.putUsers(1, updatedUser);
 
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(updatedUser.getUsername(), existingUser.getUsername());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("newUsername", response.getBody().getUsername());
     }
 
     @Test
-    void deleteUser_ExistingUser_ReturnsOk() {
-        UserData existingUser = new UserData();
-
-        when(userRepository.findById(1)).thenReturn(Optional.of(existingUser));
-        doNothing().when(userRepository).delete(existingUser);
+    void testDeleteUser_UserNotFound() {
+        when(userRepo.findById(1)).thenReturn(Optional.empty());
 
         ResponseEntity<UserData> response = loginController.deleteUser(1);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    void deleteUser_NonExistingUser_ReturnsNotFound() {
-        when(userRepository.findById(1)).thenReturn(Optional.empty());
+    void testDeleteUser_Success() {
+        UserData user = new UserData();
+
+        when(userRepo.findById(1)).thenReturn(Optional.of(user));
+        doNothing().when(userRepo).delete(user);
 
         ResponseEntity<UserData> response = loginController.deleteUser(1);
 
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
-

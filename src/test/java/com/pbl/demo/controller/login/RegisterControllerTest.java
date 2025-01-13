@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -65,7 +66,7 @@ class RegisterControllerTest {
         ResponseEntity<EmailVerificationService> response = registerController.registerUser(null);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -81,7 +82,7 @@ class RegisterControllerTest {
         ResponseEntity<EmailVerificationService> response = registerController.registerUser(existingUser);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -100,7 +101,7 @@ class RegisterControllerTest {
         ResponseEntity<EmailVerificationService> response = registerController.registerUser(newUser);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         verify(passwordEncoder, times(1)).encode("plaintextpassword");
         verify(emailVerificationService, times(1)).sendVerificationCode(newUser);

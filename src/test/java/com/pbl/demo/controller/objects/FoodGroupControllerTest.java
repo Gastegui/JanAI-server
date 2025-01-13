@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.food_group.FoodGroup;
@@ -38,7 +39,7 @@ class FoodGroupControllerTest {
         ResponseEntity<List<FoodGroup>> response = foodGroupController.getAllGroups();
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -52,7 +53,7 @@ class FoodGroupControllerTest {
         ResponseEntity<List<FoodGroup>> response = foodGroupController.getAllGroups();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(groups, response.getBody());
     }
 
@@ -66,7 +67,7 @@ class FoodGroupControllerTest {
         ResponseEntity<FoodGroup> response = foodGroupController.getGroupByGroupName(groupName);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -81,7 +82,7 @@ class FoodGroupControllerTest {
         ResponseEntity<FoodGroup> response = foodGroupController.getGroupByGroupName(groupName);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(foodGroup, response.getBody());
     }
 }

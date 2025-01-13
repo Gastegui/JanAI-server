@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.pbl.demo.model.ingredients.Ingredients;
@@ -35,7 +36,7 @@ public class IngredientControllerTest {
 
         ResponseEntity<List<Ingredients>> response = ingredientController.getAllIngredients();
 
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
@@ -49,28 +50,28 @@ public class IngredientControllerTest {
         ResponseEntity<List<Ingredients>> response = ingredientController.getAllIngredients();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(groups, response.getBody());
     }
 
     @Test
     void getIngredientByName_NotFound() {
         // Arrange
-        String ingName = "BlueTomato";
+        String ingName = "Unicorn meat";
         when(ingRepo.findByIngName(ingName)).thenReturn(Optional.empty());
 
         // Act
         ResponseEntity<Ingredients> response = ingredientController.getIngredientByName(ingName);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
 
     @Test
     void getIngredientByName_IngredientFound() {
         // Arrange
-        String ingName = "Tomato";
+        String ingName = "Beef";
         Ingredients ingredient = new Ingredients();
         when(ingRepo.findByIngName(ingName)).thenReturn(Optional.of(ingredient));
 
@@ -78,7 +79,7 @@ public class IngredientControllerTest {
         ResponseEntity<Ingredients> response = ingredientController.getIngredientByName(ingName);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ingredient, response.getBody());
     }
 
