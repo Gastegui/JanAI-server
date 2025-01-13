@@ -14,17 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
-
-import jakarta.websocket.server.PathParam;
-
-//import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user")
@@ -51,15 +46,14 @@ public class UserDataController {
     }
 
     @GetMapping(value = "/show", produces = { "application/json", "application/xml" })
-    @ResponseBody
     public ResponseEntity<List<UserData>> getUsers() {
 
-        List<UserData> Users_list = userRepo.findAll();
+        List<UserData> userList = userRepo.findAll();
 
-        if (Users_list.isEmpty()) {
+        if (userList.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return new ResponseEntity<>(Users_list, HttpStatus.OK);
+            return new ResponseEntity<>(userList, HttpStatus.OK);
         }
     }
 
@@ -73,20 +67,6 @@ public class UserDataController {
         }
     }
 
-    //If we save the user in the http session, we can get it from here instead of communicating with the database
-    /*@GetMapping(produces = {"application/json", "application/xml"})
-    public ResponseEntity<UserData> getUserDataBySession(HttpSession session){
-        Object userObj = session.getAttribute("user");
-        if(userObj instanceof UserData && userObj != null){
-            UserData user = (UserData) userObj;
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
-    }*/
-
-    //This is the same but if we decide to use the security context from spring security
-    
 
     @GetMapping(value = "/usersByUsername", produces = { "application/json", "application/xml" })
     public ResponseEntity<UserData> getUsersByName(@RequestParam String username) {
@@ -105,7 +85,7 @@ public class UserDataController {
 
         Optional<Float> finalDailyCalorieIntake = userRepo.findFinalDailyCalorieIntakeByUsername(username);
 
-        if (finalDailyCalorieIntake == null) {
+        if (finalDailyCalorieIntake.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(finalDailyCalorieIntake.get(), HttpStatus.OK);
@@ -117,7 +97,7 @@ public class UserDataController {
 
         Optional<Integer> waterCounter = userRepo.findWaterCounterByUsername(username);
 
-        if (waterCounter == null) {
+        if (waterCounter.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(waterCounter.get(), HttpStatus.OK);
@@ -129,7 +109,7 @@ public class UserDataController {
 
         Optional<Float> waterIntake = userRepo.findWaterIntakeByUserID(userID);
 
-        if (waterIntake == null) {
+        if (waterIntake.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(waterIntake.get(), HttpStatus.OK);
@@ -140,8 +120,8 @@ public class UserDataController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> addUser(@RequestBody UserData user) {
         
-        Optional<UserData> found_Users = userRepo.findByUsername(user.getUsername());
-        if (found_Users.isPresent()) {
+        Optional<UserData> foundUsers = userRepo.findByUsername(user.getUsername());
+        if (foundUsers.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             userRepo.save(user);
@@ -152,19 +132,19 @@ public class UserDataController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> putUsers(@PathVariable int id, @RequestBody UserData user) {
 
-        Optional<UserData> found_User = userRepo.findById(id);
+        Optional<UserData> foundUser = userRepo.findById(id);
 
-        if (found_User.isPresent()) {
+        if (foundUser.isPresent()) {
 
-            found_User.get().setUname(user.getUname());
-            found_User.get().setSecondName(user.getSecondName());
-            found_User.get().setUsername(user.getUsername());
-            found_User.get().setEmail(user.getEmail());
-            found_User.get().setActivityLevel(user.getActivityLevel());
-            found_User.get().setGender(user.getGender());
-            found_User.get().setNeck(user.getNeck());
-            found_User.get().setWaist(user.getWaist());
-            userRepo.save(found_User.get());
+            foundUser.get().setUname(user.getUname());
+            foundUser.get().setSecondName(user.getSecondName());
+            foundUser.get().setUsername(user.getUsername());
+            foundUser.get().setEmail(user.getEmail());
+            foundUser.get().setActivityLevel(user.getActivityLevel());
+            foundUser.get().setGender(user.getGender());
+            foundUser.get().setNeck(user.getNeck());
+            foundUser.get().setWaist(user.getWaist());
+            userRepo.save(foundUser.get());
             return new ResponseEntity<>(user, HttpStatus.OK);
 
         } else {
@@ -175,11 +155,11 @@ public class UserDataController {
     @PutMapping(value = "/modifyCalorieIntake", produces = { "application/json", "application/xml" })
     public ResponseEntity<Float> putFinalDailyCalorieIntake(@RequestParam int userID , @RequestParam float finalDailyCalorieIntake) {
 
-        Optional<UserData> found_User = userRepo.findById(userID);
+        Optional<UserData> foundUser = userRepo.findById(userID);
 
-        if (found_User.isPresent()) {
-            found_User.get().setFinalDailyCalorieIntake(finalDailyCalorieIntake);
-            userRepo.save(found_User.get());
+        if (foundUser.isPresent()) {
+            foundUser.get().setFinalDailyCalorieIntake(finalDailyCalorieIntake);
+            userRepo.save(foundUser.get());
             return new ResponseEntity<>(finalDailyCalorieIntake, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
@@ -189,11 +169,11 @@ public class UserDataController {
     @PutMapping(value = "/modifyWaterCounter", produces = { "application/json", "application/xml" })
     public ResponseEntity<Integer> putWaterCounter(@RequestParam int userID , @RequestParam int waterCounter) {
 
-        Optional<UserData> found_User = userRepo.findById(userID);
+        Optional<UserData> foundUser = userRepo.findById(userID);
 
-        if (found_User.isPresent()) {
-            found_User.get().setWaterCounter(waterCounter+1);
-            userRepo.save(found_User.get());
+        if (foundUser.isPresent()) {
+            foundUser.get().setWaterCounter(waterCounter+1);
+            userRepo.save(foundUser.get());
             return new ResponseEntity<>(waterCounter+1, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
@@ -203,11 +183,11 @@ public class UserDataController {
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<UserData> deleteUser(@PathVariable int id) {
 
-        Optional<UserData> found_Users = userRepo.findById(id);
+        Optional<UserData> foundUsers = userRepo.findById(id);
 
-        if (found_Users.isPresent()) {
+        if (foundUsers.isPresent()) {
 
-            userRepo.delete(found_Users.get());
+            userRepo.delete(foundUsers.get());
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

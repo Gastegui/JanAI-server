@@ -3,19 +3,13 @@ package com.pbl.demo.controller.objects;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.foodList.FoodList;
@@ -24,11 +18,15 @@ import com.pbl.demo.model.foodList.FoodListRepository;
 @RestController
 @RequestMapping("/foodList")
 public class FoodListController {
-    @Autowired
+    
     FoodListRepository foodListRepo;    
 
+    @Autowired
+    public FoodListController(FoodListRepository foodListRepo){
+        this.foodListRepo = foodListRepo;
+    }
+
     @GetMapping(value = "/macrosByUser", produces = { "application/json", "application/xml" })
-    @ResponseBody
     public ResponseEntity<Map<String, Double>> getMacrosByUser(@RequestParam int userID) {
 
         List<FoodList> foodList = foodListRepo.findByUserId(userID);

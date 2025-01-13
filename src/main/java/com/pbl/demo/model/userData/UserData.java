@@ -131,27 +131,11 @@ public class UserData {
         return age;
     }
 
-    /*public List<Restrictions> getRestrictions() {
-        return restrictions;
-    }
-
-    public void setRestrictions(List<Restrictions> restrictions) {
-        this.restrictions = restrictions;
-    }*/
 
 
     public void setAge(int age) {
         this.age = age;
     }
-
-    /*public List<WeightGoals> getWeightGoals() {
-        return weightGoals;
-    }
-
-    public void setWeightGoals(List<WeightGoals> weightGoals) {
-        this.weightGoals = weightGoals;
-    }*/
-
     public int getHeight() {
         return height;
     }

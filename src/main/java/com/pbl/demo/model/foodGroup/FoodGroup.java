@@ -45,10 +45,6 @@ public class FoodGroup {
         this.foodType = foodType;
     }
 
-
-
-    
-
     public FoodGroup(String groupName, FoodType foodType) {
         this.groupName = groupName;
         this.foodType = foodType;
@@ -70,13 +66,6 @@ public class FoodGroup {
         this.groupName = groupName;
     }
 
-    /*public List<Restrictions> getRestrictions() {
-        return restrictions;
-    }*/
-
-    /*public void setRestrictions(List<Restrictions> restrictions) {
-        this.restrictions = restrictions;
-    }*/
 
     public FoodType getFoodType() {
         return foodType;

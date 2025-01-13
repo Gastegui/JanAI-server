@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.pbl.demo.model.foodClass.FoodClass;
 
 public interface FoodTypeRepository extends JpaRepository<FoodType, Integer>{
     @Query("SELECT ft FROM FoodType ft WHERE ft.foodClass.classID = :classID")

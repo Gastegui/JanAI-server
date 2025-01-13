@@ -4,8 +4,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-//import com.pbl.demo.model.userData.UserDataRepository;
 import com.pbl.demo.model.userData.UserData;
 
 import jakarta.mail.MessagingException;
@@ -31,36 +29,12 @@ public class EmailVerificationService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-        /*session.setAttribute("userToRegister", user);
-        session.setAttribute("sentCode", verificationCode);*/
     }
 
     public Integer getVerificationCode() {
         return verificationCode;
     }
 
-    /*public boolean verifyEmail(Integer introducedCode){
-        Integer sentCode = (Integer) session.getAttribute("sentCode");
-        UserData userToRegister = (UserData) session.getAttribute("userToRegister");
-
-        if(sentCode == null || userToRegister == null){
-            session.setAttribute("error", "There is no email to verify");
-            return false;
-        }
-
-        session.removeAttribute("userToRegister");
-        session.removeAttribute("sentCode");
-
-        if(sentCode.equals(introducedCode)){
-            userRepo.save(userToRegister);
-            session.setAttribute("info", "Registered correctly");
-            return true;
-        }
-
-        session.setAttribute("error", "Incorrect code");
-        return false;
-    }*/
 
     private Integer generateVerificationCode(){
         random = new Random();
@@ -68,7 +42,7 @@ public class EmailVerificationService {
     }
 
     private String getHtmlBody(Integer verificationCode) {
-        String htmlTemplate = "<!DOCTYPE html>"
+        return "<!DOCTYPE html>"
             + "<html lang=\"en\">"
             + "<head>"
             + "    <meta charset=\"UTF-8\">"
@@ -100,7 +74,6 @@ public class EmailVerificationService {
             + "</body>"
             + "</html>";
 
-        return htmlTemplate;
     }
 
  

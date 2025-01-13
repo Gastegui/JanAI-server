@@ -157,64 +157,57 @@ private boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<
 
     return false;
 }
-    @GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam String typeName) {
+@GetMapping(value = "/restrictionsByGroup", produces = { "application/json", "application/xml" })
+public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID, @RequestParam String typeName) {
 
+    Optional<UserData> user = userRepo.findById(userID);
+    if (!user.isPresent()) {
+        return ResponseEntity.notFound().build();
+    }
 
-        Optional<UserData> users = userRepo.findById(userID);
-        if (!users.isPresent()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            Optional<FoodType> foodType = foodTypeRepo.findByTypeName(typeName);
-            if(foodType.isEmpty()){
-                return ResponseEntity.notFound().build();
-            } else{
-                List<FoodGroup> foodGroupList = foodGroupRepo.findByTypeID(foodType.get().getTypeId());
-                List<FoodGroup> foodGroupsList = restrictRepo.findDistinctGruopIDsByTypeID(foodType.get().getTypeId(), userID);
-                for(FoodGroup foodGroup: foodGroupsList)
-                {
-                    //System.out.println("food type "+ foodGroup );
-                    if(foodGroupList.contains(foodGroup))
-                    {
-                        /*List<Ingredients> ingredientsList = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.getGroupID(), userID);
-                        for(Ingredients ingredient: ingredientsList)
-                        {
-                            count++;
-                            if(ingredient.getIngredientID()==0)
-                            {
-                                remove++;
-                                
-                            }
-                        }  
-                        if(count == remove)
-                        {
-                            foodGroupList.remove(foodGroup);
-                        }
-                        count=0;
-                        remove=0;*/
-                        List<Ingredients> ingredientsList = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.getGroupID(), userID);
-                        List<Ingredients> foodIngredientList = ingredienRepo.findByGroupID(foodGroup.getGroupID());
-                    
-                        if(ingredientsList.size() == foodIngredientList.size())
-                        {
-                            foodGroupList.remove(foodGroup);
-                        }
-                        else{
-                            for(Ingredients ingredient: ingredientsList)
-                            {
-                                if(ingredient.getIngredientID()==0)
-                                {
-                                    foodGroupList.remove(foodGroup);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }  
-                return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
-            }
+    Optional<FoodType> foodType = foodTypeRepo.findByTypeName(typeName);
+    if (foodType.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    List<FoodGroup> foodGroupList = foodGroupRepo.findByTypeID(foodType.get().getTypeId());
+    List<FoodGroup> restrictedFoodGroups = restrictRepo.findDistinctGruopIDsByTypeID(foodType.get().getTypeId(), userID);
+
+    filterInvalidFoodGroups(userID, restrictedFoodGroups, foodGroupList);
+
+    return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
+}
+
+private void filterInvalidFoodGroups(int userID, List<FoodGroup> restrictedFoodGroups, List<FoodGroup> foodGroupList) {
+    for (FoodGroup foodGroup : restrictedFoodGroups) {
+        if (!foodGroupList.contains(foodGroup)) {
+            continue;
+        }
+
+        List<Ingredients> restrictedIngredients = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.getGroupID(), userID);
+        List<Ingredients> allIngredients = ingredienRepo.findByGroupID(foodGroup.getGroupID());
+
+        if (shouldRemoveFoodGroup(restrictedIngredients, allIngredients)) {
+            foodGroupList.remove(foodGroup);
         }
     }
+}
+
+private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, List<Ingredients> allIngredients) {
+    // If all ingredients are restricted, remove the group
+    if (restrictedIngredients.size() == allIngredients.size()) {
+        return true;
+    }
+
+    // If any restricted ingredient has an ID of 0, remove the group
+    for (Ingredients ingredient : restrictedIngredients) {
+        if (ingredient.getIngredientID() == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
     @GetMapping(value = "/restrictionsByIngredients", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<Ingredients>> getUsersByIngredients(@RequestParam int userID, @RequestParam String groupName) {
@@ -233,7 +226,6 @@ private boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<
                 List<Ingredients> ingredientsList = restrictRepo.findDistinctIngredientIDsByGroupID(foodGroup.get().getGroupID(), userID);
                 for(Ingredients ingredient: ingredientsList)
                 {
-                    System.out.println("food type "+ foodGroup );
                     if(foodIngredientList.contains(ingredient))
                     {
                         foodIngredientList.remove(ingredient);
@@ -253,7 +245,6 @@ private boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<
             "application/json", "application/xml" })
     public ResponseEntity<Restrictions> addRestriction(@RequestParam int userID, @RequestBody Restrictions restriction) {
         Optional<UserData> user = userRepo.findById(userID);
-        //Optional<UserData> user = userRepo.findById(restriction.getUserData().getUserID());
 
     if (user.isPresent()) {
         Optional<Restrictions> foundRestriction = restrictRepo.findByRestrictedName(restriction.getRestrictedName());
@@ -279,20 +270,6 @@ private boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<
         } else {
             return ResponseEntity.badRequest().build();
         }
-        /*if (user.isPresent()) {
-            Optional<Restrictions> found_restriction = restrictRepo.findByRestrictedName(restrictedName);
-            if (found_restriction.isPresent()) {
-                return ResponseEntity.badRequest().build();
-            } else {
-                Optional<FoodGroup> groupObject = foodGroupRepo.findById(groupID);
-                Optional<Ingredients> ingredientObject = ingredienRepo.findById(ingredientId);
-                Restrictions restriction = new Restrictions(restrictedName, groupObject.get(), groupObject.get().getFoodType().getFoodClass(), ingredientObject.get(), groupObject.get().getFoodType());
-                restrictRepo.save(restriction);
-                return new ResponseEntity<>(restriction, HttpStatus.CREATED);
-            }
-        } else {
-            return ResponseEntity.badRequest().build();
-        }   */
 
     }
 

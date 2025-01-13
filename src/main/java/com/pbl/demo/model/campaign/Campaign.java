@@ -85,14 +85,6 @@ public class Campaign {
         this.company = company;
     }
 
-    /*public List<IngredientsInCampaign> getCampaignFoodList() {
-        return campaignFoodList;
-    }
-
-    public void setCampaignFoodList(List<IngredientsInCampaign> campaignFoodList) {
-        this.campaignFoodList = campaignFoodList;
-    }*/
-
     public Administrator getAdministrator() {
         return administrator;
     }

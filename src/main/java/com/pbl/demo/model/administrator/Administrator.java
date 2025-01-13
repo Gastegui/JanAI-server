@@ -128,16 +128,4 @@ public class Administrator {
 
 
 
-    /*public List<Campaign> getCampaignList() {
-        return campaignList;
-    }
-
-
-
-    public void setCampaignList(List<Campaign> campaignList) {
-        this.campaignList = campaignList;
-    }*/
-
-
-
 }

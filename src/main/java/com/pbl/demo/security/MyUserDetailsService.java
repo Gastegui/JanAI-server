@@ -27,9 +27,6 @@ public class MyUserDetailsService implements UserDetailsService{
         this.adminRepo = adminRepo;
     }
 
-    //ToDo
-    //Rolak db-an sortzeko, admin eta user
-    //dbRole etorkizunean aldatu
     /**
      * @brief Method to query a user or administrator based on username
      * @return A spring security User object with all necessary information

@@ -32,11 +32,7 @@ public class WeightGoals {
     private Float goalWeight;
     private int durationToAchieveGoalWeight;
     private Date registerDate;
-    /*private Float recommendedCalories;
-    private Float recommendedProteins;
-    private Float recommendedCarbs;
-    private Float recommendedFats;
-    private Float recommendedFiber;*/
+
 
     public WeightGoals(){
     }
@@ -115,47 +111,4 @@ public class WeightGoals {
         this.registerDate = registerDate;
     }
 
-    
-
-    /*public Float getRecommendedCalories() {
-        return recommendedCalories;
-    }
-
-    public void setRecommendedCalories(Float recommendedCalories) {
-        this.recommendedCalories = recommendedCalories;
-    }
-
-    public Float getRecommendedProteins() {
-        return recommendedProteins;
-    }
-
-    public void setRecommendedProteins(Float recommendedProteins) {
-        this.recommendedProteins = recommendedProteins;
-    }
-
-    public Float getRecommendedCarbs() {
-        return recommendedCarbs;
-    }
-
-    public void setRecommendedCarbs(Float recommendedCarbs) {
-        this.recommendedCarbs = recommendedCarbs;
-    }
-
-    public Float getRecommendedFats() {
-        return recommendedFats;
-    }
-
-    public void setRecommendedFats(Float recommendedFats) {
-        this.recommendedFats = recommendedFats;
-    }
-
-    public Float getRecommendedFiber() {
-        return recommendedFiber;
-    }
-
-    public void setRecommendedFiber(Float recommendedFiber) {
-        this.recommendedFiber = recommendedFiber;
-    }*/
-
-    
 }
