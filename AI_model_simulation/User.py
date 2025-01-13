@@ -1,29 +1,29 @@
-import threading
-from QueryBuffer import QueryBuffer
-from AnswerBuffer import AnswerBuffer
+from Request import Request
 import random
 
-class User(threading.Thread):
-    def __init__(self, QBuffer, ABuffer):
+class User():
+    def __init__(self, QBuffer, ABuffer, id):
         super().__init__()
-        self._stop_event = threading.Event()
         self.query = QBuffer
         self.answer = ABuffer
-        self.end = False
+        self.reqs = []
+        self.userID = id
 
-    def run(self):
-        #while not self._stop_event.is_set() or self.end or QueryBuffer.isNotEmpty(self.NewBuffer):
-        try:
-            rand = random.randint(0, 50)
-            QueryBuffer.add(self.query, rand)
+    def sendRequests(self):
+        reqNum = random.randint(1, 5)
+        print("USER " + str(self.userID) + " GENERATED " + str(reqNum) + " REQUESTS")
+        for i in range(reqNum):
+            self.reqs.append(Request(self.query, self.answer, self.userID))
+            
+        for requests in self.reqs:
+            requests.start()
 
-            AnswerBuffer.remove(self.answer)
+    def interruptRequests(self):
+        for requests in self.reqs:
+            requests.interrupt()
 
+    def joinThreads(self):
+        for requests in self.reqs:
+            requests.join()
 
-        except InterruptedError as e:
-            print(f"Error in USER thread {self.name}: {e}")
-            self.end = True
-            #break
-
-    def interrupt(self):
-        self._stop_event.set()
+            

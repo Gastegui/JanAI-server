@@ -1,6 +1,5 @@
 import threading
-from QueryBuffer import QueryBuffer
-from AnswerBuffer import AnswerBuffer
+from Answer import Answer
 import random
 
 class Model(threading.Thread):
@@ -9,20 +8,14 @@ class Model(threading.Thread):
         self._stop_event = threading.Event()
         self.query = QBuffer
         self.answer = ABuffer
-        self.end = False
+        self.mainAnswer = None
 
-    def run(self):
-        #while not self._stop_event.is_set():
-        try:
-            QueryBuffer.remove(self.query)
+    def answerRequests(self):
+        self.mainAnswer = Answer(self.query, self.answer)
+        self.mainAnswer.start()
 
-            rand = random.randint(0, 50)
-            AnswerBuffer.add(self.answer, rand)
+    def interruptAnswer(self):
+        self.mainAnswer.interrupt()
 
-        except InterruptedError as e:
-            print(f"Error in Producer thread {self.name}: {e}")
-            self.interrupt()
-            #break
-
-    def interrupt(self):
-        self._stop_event.set()
+    def joinThreads(self):
+        self.mainAnswer.join()

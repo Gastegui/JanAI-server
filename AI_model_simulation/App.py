@@ -3,37 +3,53 @@ import time
 from AI_model import Model
 from User import User
 from QueryBuffer import QueryBuffer
+from AnswerBuffer import AnswerBuffer
 
 class App:
     def __init__(self):
-        self.buffer = QueryBuffer(10)
+        self.QBuffer = QueryBuffer(5)
+        self.ABuffer = AnswerBuffer(5)
 
-        self.producer = Model(self.buffer)
-        self.consumer = User(self.buffer)
+        self.model = Model(self.QBuffer, self.ABuffer)
+
+        self.users = []
+        for i in range(5):
+            self.users.append(User(self.QBuffer, self.ABuffer, i))
 
     def start_threads(self):
-        self.producer.start()
-        self.consumer.start()
+        """
+        self.model.start()
+        self.user.start()
+        """
+        for user in self.users:
+            user.sendRequests()
+
+        self.model.answerRequests()
 
     def interrupt_threads(self):
-        self.producer.interrupt()
+        self.model.interruptAnswer()
+        
         try:
-            self.producer.join()
+            self.model.joinThreads()
         except InterruptedError as e:
             e.with_traceback()
 
-        self.consumer.interrupt()
-        try:
-            self.consumer.join()
-        except InterruptedError as e:
-            e.with_traceback()
-        print(self.buffer.show())
+        for user in self.users:
+            user.interruptRequests()
+            try:
+                self.user.joinThreads()
+            except InterruptedError as e:
+                e.with_traceback()
+
+
+        print(self.QBuffer.show())
+        print(self.ABuffer.show())
 
     def run(self):
         self.start_threads()
 
         try:
-            time.sleep(1/100)
+            time.sleep(1)
         except InterruptedError as e:
             e.with_traceback()
 

@@ -1,4 +1,6 @@
 import threading
+import queue
+from collections import defaultdict
 
 class AnswerBuffer:
     def __init__(self, size):
@@ -6,8 +8,11 @@ class AnswerBuffer:
         self.items = threading.Semaphore(0)
         self.spaces = threading.Semaphore(size)
         self.list = []
+        self.bq = queue.Queue(maxsize=size)
+        self.userItemMap = defaultdict(list)
 
-    def add(self, item):
+    def add(self, item, userID):
+        self.userID = userID
         self.spaces.acquire()
         try:
             self.mutex.acquire()
@@ -15,7 +20,9 @@ class AnswerBuffer:
             self.spaces.release()
             print("Something went wrong on the add function")
         self.list.append(item)
-        print("ADD ANSWER >  " + str(item))
+        self.userItemMap[userID].append(item)
+
+        print(str(userID) + " ADD ANSWER >  " + str(item) + "\n")
         self.mutex.release()
         self.items.release()
 
@@ -28,13 +35,25 @@ class AnswerBuffer:
             self.items.release()
             print("Something went wrong on the remove function")
         item = self.list.pop(0)
-        print("TAKE ANSWER < " + str(item))
+        #item = self.bq.get()
+        userID = self.find_user_id(item, self.userItemMap)
+
+        print(str(userID) + " TAKE ANSWER < " + str(item) + "\n")
+        self.userItemMap[userID].remove(item)
+
         self.mutex.release()
         self.spaces.release()
-        return item
+        return item, userID
 
     def show(self):
         return str(self.list)
+        #return str(self.bq)
 
     def isNotEmpty(self):
         return not (len(self.list) == 0)
+    
+    def find_user_id(self, item_to_find, userItemMap):
+        for user_id, items in userItemMap.items():
+            if item_to_find in items:
+                return user_id
+        return None
