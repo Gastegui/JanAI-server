@@ -9,6 +9,7 @@ create table food( #Macros will be per 100 g
     carbs float,
     fats float,
     fiber float,
+    calories float,
     PRIMARY KEY (foodID)
 );
 
@@ -96,6 +97,8 @@ create table userData(
     neck float, -- cm
     waist float, -- cm
     hips float, -- cm
+    waterIntake float, -- L
+    waterCounter int,
     finalDailyCalorieIntake float, -- kcal/day
     -- Variables only for the LLM
     bmrMifflin float, -- kcal
@@ -115,9 +118,9 @@ create table userData(
 create table foodList(
 	foodID bigint,
     userID bigint,
-    consumption_date date,
+    consumptionDate date,
     meal char(255),
-    PRIMARY KEY (foodID, userID, consumption_date, meal),
+    PRIMARY KEY (foodID, userID, consumptionDate, meal),
     FOREIGN KEY (userID) REFERENCES userData(userID),
     FOREIGN KEY (foodID) REFERENCES food(foodID)
 );

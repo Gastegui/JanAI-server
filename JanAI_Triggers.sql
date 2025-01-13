@@ -29,6 +29,7 @@ BEGIN
     DECLARE v_hips FLOAT;
     DECLARE v_bodyFatPercentage FLOAT;
     DECLARE v_activityLevel CHAR(255);
+    DECLARE v_dailyWaterIntake FLOAT;
 
     SELECT gender, height, age, waist, neck, hips, bodyFat, activityLevel
     INTO v_gender, v_height, v_age, v_waist, v_neck, v_hips, v_bodyFatPercentage, v_activityLevel
@@ -91,10 +92,14 @@ BEGIN
     SET v_dailyCalorieIntakeMifflin = v_tdeeMifflin - (v_weeklyDeficit / 7);
     SET v_dailyCalorieIntakeHarrisBenedict = v_tdeeHarrisBenedict - (v_weeklyDeficit / 7);
     SET v_dailyCalorieIntakeKatchMcArdle = v_tdeeKatchMcArdle - (v_weeklyDeficit / 7);
+    
+    -- Calcular la ingesta diaria de agua
+    SET v_dailyWaterIntake = NEW.weight * 0.033;
 
     -- Actualizar los datos del usuario directamente en userData
     UPDATE userData
     SET
+        waterIntake = v_dailyWaterIntake,
         bodyFat = v_body_fat,
         bmrMifflin = v_bmrMifflin,
         bmrHarrisBenedict = v_bmrHarrisBenedict,
