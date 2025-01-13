@@ -1,11 +1,12 @@
 package com.pbl.demo.model;
 
 import org.junit.jupiter.api.Test;
+
+import com.pbl.demo.model.food_class.FoodClass;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
-import com.pbl.demo.model.foodClass.FoodClass;
 
 public class FoodClassTest {
     @Test

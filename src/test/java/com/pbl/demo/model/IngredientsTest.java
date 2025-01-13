@@ -1,6 +1,6 @@
 package com.pbl.demo.model;
 
-import com.pbl.demo.model.foodGroup.FoodGroup;
+import com.pbl.demo.model.food_group.FoodGroup;
 import com.pbl.demo.model.ingredients.Ingredients;
 import org.junit.jupiter.api.Test;
 

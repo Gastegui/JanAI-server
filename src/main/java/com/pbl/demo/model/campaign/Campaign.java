@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.administrator.Administrator;
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
+import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
 
 
 @Entity

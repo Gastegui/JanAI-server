@@ -2,7 +2,7 @@ package com.pbl.demo.model;
 
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.ingredients.Ingredients;
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
+import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
 
 import org.junit.jupiter.api.Test;
 

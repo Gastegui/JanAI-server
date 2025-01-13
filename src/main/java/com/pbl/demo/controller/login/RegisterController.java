@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.pbl.demo.controller.ControllerUtils;
 import com.pbl.demo.mail.EmailVerificationService;
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
-
-
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
 
 import jakarta.servlet.http.HttpSession;
 

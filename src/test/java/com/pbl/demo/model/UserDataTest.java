@@ -1,7 +1,8 @@
 package com.pbl.demo.model;
 
-import com.pbl.demo.model.userData.UserData;
 import org.junit.jupiter.api.Test;
+
+import com.pbl.demo.model.user_data.UserData;
 
 import static org.junit.jupiter.api.Assertions.*;
 

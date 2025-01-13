@@ -1,7 +1,7 @@
 package com.pbl.demo.model;
 
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.weightGoals.WeightGoals;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.weight_goals.WeightGoals;
 
 import org.junit.jupiter.api.Test;
 

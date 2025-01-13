@@ -4,8 +4,8 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.pbl.demo.model.food.Food;
-import com.pbl.demo.model.foodList.FoodList;
-import com.pbl.demo.model.foodList.FoodListRepository;
+import com.pbl.demo.model.food_list.FoodList;
+import com.pbl.demo.model.food_list.FoodListRepository;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

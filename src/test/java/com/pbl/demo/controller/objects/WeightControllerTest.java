@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
-import com.pbl.demo.model.weightGoals.WeightGoals;
-import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
+import com.pbl.demo.model.weight_goals.WeightGoals;
+import com.pbl.demo.model.weight_goals.WeightGoalsRepository;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 
 import jakarta.persistence.CascadeType;
 
-import com.pbl.demo.model.foodList.FoodList;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
+import com.pbl.demo.model.food_list.FoodList;
+import com.pbl.demo.model.has_ingredients.HasIngredients;
 
 @Entity
 @Table(name = "food")

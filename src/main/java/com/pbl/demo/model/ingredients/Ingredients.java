@@ -13,8 +13,8 @@ import jakarta.persistence.Table;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
+import com.pbl.demo.model.food_group.FoodGroup;
+import com.pbl.demo.model.has_ingredients.HasIngredients;
 import com.pbl.demo.model.restrictions.Restrictions;
 
 @Entity

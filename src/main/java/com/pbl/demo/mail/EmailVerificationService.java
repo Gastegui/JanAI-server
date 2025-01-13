@@ -4,7 +4,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.user_data.UserData;
 
 import jakarta.mail.MessagingException;
 

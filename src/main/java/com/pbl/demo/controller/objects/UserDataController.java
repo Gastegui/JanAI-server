@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.administrator.AdministratorRepository;
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
 
 @RestController
 @RequestMapping("/user")

@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodClass.FoodClassRepository;
+import com.pbl.demo.model.food_class.FoodClass;
+import com.pbl.demo.model.food_class.FoodClassRepository;
 
 import java.util.List;
 import java.util.Optional;

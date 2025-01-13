@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
-import com.pbl.demo.model.weightGoals.WeightGoals;
-import com.pbl.demo.model.weightGoals.WeightGoalsRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
+import com.pbl.demo.model.weight_goals.WeightGoals;
+import com.pbl.demo.model.weight_goals.WeightGoalsRepository;
 
 @RestController
 @RequestMapping("/weight")

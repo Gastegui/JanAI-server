@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.foodType.FoodType;
-import com.pbl.demo.model.foodType.FoodTypeRepository;
+import com.pbl.demo.model.food_type.FoodType;
+import com.pbl.demo.model.food_type.FoodTypeRepository;
 
 @RestController
 @RequestMapping("/foodtype")

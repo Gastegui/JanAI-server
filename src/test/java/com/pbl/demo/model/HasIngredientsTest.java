@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import com.pbl.demo.model.food.Food;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.hasIngredients.HasIngredients;
+import com.pbl.demo.model.food_group.FoodGroup;
+import com.pbl.demo.model.has_ingredients.HasIngredients;
 import com.pbl.demo.model.ingredients.Ingredients;
 
 public class HasIngredientsTest {

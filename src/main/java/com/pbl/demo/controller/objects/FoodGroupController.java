@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.foodGroup.FoodGroupRepository;
+import com.pbl.demo.model.food_group.FoodGroup;
+import com.pbl.demo.model.food_group.FoodGroupRepository;
 
 @RestController
 @RequestMapping("/foodgroup")

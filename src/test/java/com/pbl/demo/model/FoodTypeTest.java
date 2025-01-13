@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.food_class.FoodClass;
+import com.pbl.demo.model.food_type.FoodType;
 
 public class FoodTypeTest {
     @Test

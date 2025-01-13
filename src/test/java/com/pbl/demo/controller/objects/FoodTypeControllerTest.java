@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import com.pbl.demo.model.foodType.FoodType;
-import com.pbl.demo.model.foodType.FoodTypeRepository;
+import com.pbl.demo.model.food_type.FoodType;
+import com.pbl.demo.model.food_type.FoodTypeRepository;
 
 public class FoodTypeControllerTest {
      @InjectMocks

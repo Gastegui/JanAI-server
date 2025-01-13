@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.food_class.FoodClass;
+import com.pbl.demo.model.food_group.FoodGroup;
+import com.pbl.demo.model.food_type.FoodType;
 import com.pbl.demo.model.ingredients.Ingredients;
 
 @Repository

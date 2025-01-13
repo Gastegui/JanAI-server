@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodClass.FoodClassRepository;
-import com.pbl.demo.model.foodGroup.FoodGroup;
-import com.pbl.demo.model.foodGroup.FoodGroupRepository;
-import com.pbl.demo.model.foodType.FoodType;
-import com.pbl.demo.model.foodType.FoodTypeRepository;
+import com.pbl.demo.model.food_class.FoodClass;
+import com.pbl.demo.model.food_class.FoodClassRepository;
+import com.pbl.demo.model.food_group.FoodGroup;
+import com.pbl.demo.model.food_group.FoodGroupRepository;
+import com.pbl.demo.model.food_type.FoodType;
+import com.pbl.demo.model.food_type.FoodTypeRepository;
 import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.restrictions.RestrictionsRepository;
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
 
 @RestController
 @RequestMapping(value = "/restrictions")

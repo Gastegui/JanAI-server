@@ -1,8 +1,9 @@
 package com.pbl.demo.model;
 
 import com.pbl.demo.model.food.Food;
-import com.pbl.demo.model.foodList.FoodList;
-import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.food_list.FoodList;
+import com.pbl.demo.model.user_data.UserData;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

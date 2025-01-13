@@ -7,8 +7,9 @@ import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
 import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaign;
-import com.pbl.demo.model.ingredientsInCampaign.IngredientsInCampaignRepository;
+import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
+import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaignRepository;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
