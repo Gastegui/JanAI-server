@@ -15,7 +15,7 @@ import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.userData.UserDataRepository;
 
 public class MyUserDetailsService implements UserDetailsService{
- 
+
     private UserDataRepository userRepo;
     private AdministratorRepository adminRepo;
 

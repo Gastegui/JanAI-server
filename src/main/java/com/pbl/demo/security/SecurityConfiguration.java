@@ -21,6 +21,9 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
 
+import com.pbl.demo.model.administrator.AdministratorRepository;
+import com.pbl.demo.model.userData.UserDataRepository;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -87,7 +90,8 @@ public class SecurityConfiguration{
 
     @Bean
     MyUserDetailsService myUserDetailsService(){
-        return new MyUserDetailsService();
+        
+        return new MyUserDetailsService(null, null);
     }
 
     //TODO, access checker-a, rolak sortu behar limitatzeko web-eko sarrera, rol simpleak, admin eta normala
