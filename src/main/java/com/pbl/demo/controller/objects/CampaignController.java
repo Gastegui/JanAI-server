@@ -65,8 +65,8 @@ public class CampaignController {
             "application/json", "application/xml" })
     public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @RequestBody Campaign campaign) {
         
-        Optional<Campaign> found_Campaign = cmpRepo.findByCampName(campaign.getCampName());
-        if (found_Campaign.isPresent()) {
+        Optional<Campaign> foundCampaign = cmpRepo.findByCampName(campaign.getCampName());
+        if (foundCampaign.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             

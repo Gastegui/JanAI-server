@@ -45,39 +45,20 @@ public class IngredientsInCampaignController {
             return new ResponseEntity<>(ingredients, HttpStatus.OK);
         }
     }
-    /*@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
-    public ResponseEntity<Campaign> getCampaignById(@PathVariable int id){
-        Optional<Campaign> campaign = cmpRepo.findById(id);
-        if(!campaign.isPresent()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return new ResponseEntity<>(campaign.get(), HttpStatus.OK);
-        }
-    }
-
-    @GetMapping(produces = {"application/json", "application/xml"})
-    public ResponseEntity<Campaign> getCampaignByName(@RequestParam String campName){
-        Optional<Campaign> campaign = cmpRepo.findByCampName(campName);
-        if(!campaign.isPresent()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return new ResponseEntity<>(campaign.get(), HttpStatus.OK);
-        }
-    }*/
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
     public ResponseEntity<IngredientsInCampaign> addIngredientInCampaign(@RequestParam int campaignID, @RequestParam int ingredientID, @RequestBody IngredientsInCampaign ingredientCampaign) {
         
-        Optional<Campaign> found_Campaign = cmpRepo.findById(campaignID);
+        Optional<Campaign> foundCampaign = cmpRepo.findById(campaignID);
         Optional<Ingredients> ingredient = ingRepo.findById(ingredientID);
-        if (!found_Campaign.isPresent() && !ingredient.isPresent()) {
+        if (!foundCampaign.isPresent() && !ingredient.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            boolean exist = ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(found_Campaign.get().getCampaignID(), ingredient.get().getIngredientID());
+            boolean exist = ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(foundCampaign.get().getCampaignID(), ingredient.get().getIngredientID());
             if(!exist)
             {
-                ingredientCampaign.setCampaign(found_Campaign.get());
+                ingredientCampaign.setCampaign(foundCampaign.get());
                 ingredientCampaign.setIngredients(ingredient.get());
                 ingCmpRepo.save(ingredientCampaign);
                 return new ResponseEntity<>(ingredientCampaign, HttpStatus.CREATED);

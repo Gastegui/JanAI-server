@@ -15,8 +15,11 @@ import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 
 public final class ControllerUtils {
-    static Random random = new Random();
-    static final String ERROR = "error";
+    private static Random random = new Random();
+    private static final String ERROR = "error";
+
+    private ControllerUtils(){
+    }
 
     public static void setSessionMessages(HttpSession session, Model model){
         String errorMsg = (String) session.getAttribute(ERROR);

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,27 +36,8 @@ public class IngredientController {
         }
     }
 
-    /*@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
-    public ResponseEntity<Ingredients> getIngredientById(@PathVariable int id){
-       Optional<Ingredients> optIngredient = ingredientRepo.findById(id);
-        if(!optIngredient.isPresent()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return new ResponseEntity<>(optIngredient.get(), HttpStatus.OK);
-        }
-    }*/
-
     @GetMapping(value = "/search", produces = {"application/json", "application/xml"})
     public ResponseEntity<Ingredients> getIngredientByName(@RequestParam String ingName){
-        Optional<Ingredients> optIngredient = ingredientRepo.findByIngName(ingName);
-        if(!optIngredient.isPresent()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return new ResponseEntity<>(optIngredient.get(), HttpStatus.OK);
-        }
-    }
-    @GetMapping(value = "/searchIngredientId", produces = {"application/json", "application/xml"})
-    public ResponseEntity<Ingredients> getIngredientIDByName(@RequestParam String ingName){
         Optional<Ingredients> optIngredient = ingredientRepo.findByIngName(ingName);
         if(!optIngredient.isPresent()){
             return ResponseEntity.notFound().build();
