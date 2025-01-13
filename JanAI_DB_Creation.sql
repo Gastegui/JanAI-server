@@ -142,8 +142,7 @@ create table weightGoals(
 );
 
 create table restrictions(
-	restrictionID bigint,
-    restrictedName varchar(255),
+	restrictionID bigint auto_increment,
     userID bigint,
     groupID bigint,
     typeID bigint,

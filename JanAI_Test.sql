@@ -77,8 +77,8 @@ INSERT INTO weightGoals VALUES
 
 -- Insert data into restrictions table
 INSERT INTO restrictions VALUES
-  (1, 'Fish', 1, 1, 1, 1, 1),
-  (2, 'Ice Cream', 2, 3, 3, 3, 3);
+  (1, 1, 1, 1, 1, 1),
+  (2, 2, 3, 3, 3, 3);
 
 select * from food;
 select * from foodClass;
