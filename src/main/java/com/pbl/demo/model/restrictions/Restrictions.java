@@ -24,8 +24,6 @@ public class Restrictions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restrictionID;
 
-    private String restrictedName;
-
     @ManyToOne
     @JoinColumn(name = "userID")
     private UserData userData;
@@ -51,10 +49,9 @@ public class Restrictions {
 
     
 
-    public Restrictions(int restrictionID, String restrictedName, UserData userData, FoodGroup foodGroup,
+    public Restrictions(int restrictionID, UserData userData, FoodGroup foodGroup,
             FoodClass foodClass, Ingredients ingredient, FoodType foodType) {
         this.restrictionID = restrictionID;
-        this.restrictedName = restrictedName;
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
@@ -64,9 +61,8 @@ public class Restrictions {
 
 
 
-    public Restrictions(String restrictedName, UserData userData, FoodGroup foodGroup, FoodClass foodClass,
+    public Restrictions(UserData userData, FoodGroup foodGroup, FoodClass foodClass,
             Ingredients ingredient, FoodType foodType) {
-        this.restrictedName = restrictedName;
         this.userData = userData;
         this.foodGroup = foodGroup;
         this.foodClass = foodClass;
@@ -82,14 +78,6 @@ public class Restrictions {
 
     public void setRestrictionID(int restrictionID) {
         this.restrictionID = restrictionID;
-    }
-
-    public String getRestrictedName() {
-        return restrictedName;
-    }
-
-    public void setRestrictedName(String restrictedName) {
-        this.restrictedName = restrictedName;
     }
 
     public UserData getUserData() {

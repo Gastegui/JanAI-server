@@ -19,7 +19,11 @@ public interface RestrictionsRepository extends JpaRepository<Restrictions, Inte
         @Query("SELECT DISTINCT foodClass FROM Restrictions WHERE userData.userID = :userID")
         List<FoodClass> findDistinctClasses(@Param("userID") Integer userID);
 
-        Optional<Restrictions> findByRestrictedName(String restrictedName);
+        /*@Query(value = "SELECT DISTINCT IFNULL(fc.classID, 0) AS classID FROM Restrictions r LEFT JOIN FoodClass fc")
+        List<Integer> findDistinctClassIDsWithDefault();*/
+
+        /*@Query("SELECT DISTINCT foodType FROM Restrictions WHERE foodClass.classID = :classID and userData.userID = :userID")
+        List<FoodType> findDistinctTypeIDsByClassID(@Param("classID") Integer classID, @Param("userID") Integer userID);*/
 
         @Query("SELECT DISTINCT r.foodType FROM Restrictions r WHERE r.foodClass.classID = :classID AND r.userData.userID = :userID")
         List<FoodType> findDistinctTypeIDsByClassID(@Param("classID") Integer classID, @Param("userID") Integer userID);

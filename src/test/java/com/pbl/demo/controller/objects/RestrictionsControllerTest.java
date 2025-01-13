@@ -282,7 +282,7 @@ void testGetUsersByName_Success() {
         Ingredients ingredient = new Ingredients();
 
         when(userRepo.findById(userID)).thenReturn(Optional.of(user));
-        when(restrictRepo.findByRestrictedName(restriction.getRestrictedName())).thenReturn(Optional.empty());
+        //when(restrictRepo.findByRestrictedName(restriction.getRestrictedName())).thenReturn(Optional.empty());
         when(foodGroupRepo.findById(group.getGroupID())).thenReturn(Optional.of(group));
         when(foodClassRepo.findById(foodClass.getClassID())).thenReturn(Optional.of(foodClass));
         when(foodTypeRepo.findById(type.getTypeId())).thenReturn(Optional.of(type));
@@ -318,10 +318,10 @@ void testGetUsersByName_Success() {
     void testAddRestriction_DuplicateRestriction() {
         UserData user = new UserData();
         Restrictions restriction = new Restrictions();
-        restriction.setRestrictedName("Test");
+        //restriction.setRestrictedName("Test");
 
         when(userRepo.findById(1)).thenReturn(Optional.of(user));
-        when(restrictRepo.findByRestrictedName("Test")).thenReturn(Optional.of(restriction));
+        //when(restrictRepo.findByRestrictedName("Test")).thenReturn(Optional.of(restriction));
 
         ResponseEntity<Restrictions> response = controller.addRestriction(1, restriction);
 

@@ -16,7 +16,7 @@ public interface UserDataRepository extends JpaRepository<UserData, Integer> {
 
     List<UserData> findAll();
 
-    @Query(value = "SELECT u.userID AS userID, r.restrictionID AS restrictionID, r.restrictedName AS restrictedName, r.groupID AS groupID, r.typeID AS typeID, r.classID as classID, r.ingredientID as ingredientID FROM userData u JOIN restrictions r ON u.userID = r.userID", nativeQuery = true)
+    @Query(value = "SELECT u.userID AS userID, r.restrictionID AS restrictionID, r.groupID AS groupID, r.typeID AS typeID, r.classID as classID, r.ingredientID as ingredientID FROM userData u JOIN restrictions r ON u.userID = r.userID", nativeQuery = true)
     List<Map<String, Object>> findUsersWithRestrictionsNative();
 
     @Query("SELECT u.finalDailyCalorieIntake FROM UserData u WHERE u.username = :username")
