@@ -52,7 +52,7 @@ public class IngredientsInCampaignController {
         
         Optional<Campaign> foundCampaign = cmpRepo.findById(campaignID);
         Optional<Ingredients> ingredient = ingRepo.findById(ingredientID);
-        if (!foundCampaign.isPresent() && !ingredient.isPresent()) {
+        if (!foundCampaign.isPresent() || !ingredient.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             boolean exist = ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(foundCampaign.get().getCampaignID(), ingredient.get().getIngredientID());

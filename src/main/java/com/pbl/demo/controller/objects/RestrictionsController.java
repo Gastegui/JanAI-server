@@ -1,5 +1,6 @@
 package com.pbl.demo.controller.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ public ResponseEntity<List<FoodClass>> getUsersByName(@RequestParam int userID) 
     }
 
     List<FoodClass> foodClasses = restrictRepo.findDistinctClasses(userID);
-    List<FoodClass> foodClassList = foodClassRepo.findAll();
+    List<FoodClass> foodClassList = new ArrayList<>(foodClassRepo.findAll());
 
     filterInvalidFoodClasses(userID, foodClasses, foodClassList);
 
