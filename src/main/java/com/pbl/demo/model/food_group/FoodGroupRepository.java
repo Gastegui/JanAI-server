@@ -1,4 +1,4 @@
-package com.pbl.demo.model.foodGroup;
+package com.pbl.demo.model.food_group;
 
 import java.util.List;
 import java.util.Optional;

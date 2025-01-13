@@ -1,4 +1,4 @@
-package com.pbl.demo.model.foodType;
+package com.pbl.demo.model.food_type;
 
 import java.util.List;
 import java.util.Optional;

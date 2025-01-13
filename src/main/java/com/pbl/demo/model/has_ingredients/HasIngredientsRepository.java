@@ -1,4 +1,4 @@
-package com.pbl.demo.model.hasIngredients; //FIX JpaRepository
+package com.pbl.demo.model.has_ingredients; //FIX JpaRepository
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

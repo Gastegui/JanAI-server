@@ -1,9 +1,8 @@
 package com.pbl.demo.controller.login;
 
-import com.pbl.demo.model.userData.UserData;
-import com.pbl.demo.model.userData.UserDataRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
 import com.pbl.demo.security.AuthRequest;
-import com.pbl.demo.security.AuthResponse;
 import com.pbl.demo.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,14 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,9 +1,8 @@
-package com.pbl.demo.model.weightGoals;
+package com.pbl.demo.model.weight_goals;
 
 import java.util.Date;
 
-
-import com.pbl.demo.model.userData.UserData;
+import com.pbl.demo.model.user_data.UserData;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.pbl.demo.model.userData;
+package com.pbl.demo.model.user_data;
 
 import java.util.Optional;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.pbl.demo.model.foodType;
+package com.pbl.demo.model.food_type;
 
 import java.util.List;
 
 import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.foodClass.FoodClass;
-import com.pbl.demo.model.foodGroup.FoodGroup;
+import com.pbl.demo.model.food_class.FoodClass;
+import com.pbl.demo.model.food_group.FoodGroup;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

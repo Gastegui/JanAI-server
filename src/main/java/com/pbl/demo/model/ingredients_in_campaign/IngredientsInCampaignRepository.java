@@ -1,4 +1,4 @@
-package com.pbl.demo.model.ingredientsInCampaign;
+package com.pbl.demo.model.ingredients_in_campaign;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

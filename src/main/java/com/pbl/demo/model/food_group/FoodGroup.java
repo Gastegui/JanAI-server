@@ -1,4 +1,4 @@
-package com.pbl.demo.model.foodGroup;
+package com.pbl.demo.model.food_group;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.foodType.FoodType;
+import com.pbl.demo.model.food_type.FoodType;
 import com.pbl.demo.model.ingredients.Ingredients;
 
 @Entity

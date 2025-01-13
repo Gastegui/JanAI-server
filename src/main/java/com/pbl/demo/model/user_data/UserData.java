@@ -1,4 +1,4 @@
-package com.pbl.demo.model.userData;
+package com.pbl.demo.model.user_data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.weightGoals.WeightGoals;
+import com.pbl.demo.model.weight_goals.WeightGoals;
 
 @Entity
 @Table(name = "userData")

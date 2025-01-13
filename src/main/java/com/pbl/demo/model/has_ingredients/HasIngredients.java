@@ -1,4 +1,4 @@
-package com.pbl.demo.model.hasIngredients;
+package com.pbl.demo.model.has_ingredients;
 
 
 import com.pbl.demo.model.food.Food;

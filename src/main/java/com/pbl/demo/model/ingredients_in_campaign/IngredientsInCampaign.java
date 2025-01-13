@@ -1,4 +1,4 @@
-package com.pbl.demo.model.ingredientsInCampaign;
+package com.pbl.demo.model.ingredients_in_campaign;
 
 import java.util.Date;
 

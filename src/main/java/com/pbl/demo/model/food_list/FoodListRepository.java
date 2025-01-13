@@ -1,4 +1,4 @@
-package com.pbl.demo.model.foodList;
+package com.pbl.demo.model.food_list;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

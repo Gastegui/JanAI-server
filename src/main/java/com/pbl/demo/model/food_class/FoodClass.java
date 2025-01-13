@@ -1,4 +1,4 @@
-package com.pbl.demo.model.foodClass;
+package com.pbl.demo.model.food_class;
 
 
 import java.util.List;
@@ -11,8 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import com.pbl.demo.model.food_type.FoodType;
 import com.pbl.demo.model.restrictions.Restrictions;
-import com.pbl.demo.model.foodType.FoodType;
 
 @Entity
 @Table(name = "foodClass")

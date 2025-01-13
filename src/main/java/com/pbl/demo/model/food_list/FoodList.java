@@ -1,9 +1,9 @@
-package com.pbl.demo.model.foodList;
+package com.pbl.demo.model.food_list;
 
 import java.util.Date;
 
-import com.pbl.demo.model.userData.UserData;
 import com.pbl.demo.model.food.Food;
+import com.pbl.demo.model.user_data.UserData;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

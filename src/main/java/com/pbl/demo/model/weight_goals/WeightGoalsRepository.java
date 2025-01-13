@@ -1,4 +1,4 @@
-package com.pbl.demo.model.weightGoals;
+package com.pbl.demo.model.weight_goals;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
