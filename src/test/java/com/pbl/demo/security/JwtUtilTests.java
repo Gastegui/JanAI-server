@@ -55,7 +55,7 @@ class JwtUtilTests {
     }
 
     @Test
-    void testTokenValidation() throws InterruptedException {
+    void testTokenValidation(){
         JwtUtil shortLivedJwtUtil = new JwtUtil("an-incredibly-safe-testing-key-with-over-256-bits", 1000);
         String shortLivedToken = shortLivedJwtUtil.generateToken(userDetails);
     
