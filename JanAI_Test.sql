@@ -12,24 +12,28 @@ INSERT INTO food VALUES
 
 -- Insert data into foodClass table
 INSERT INTO foodClass VALUES
+  (0, ' '),
   (1, 'Sea food'),
   (2, 'Healthy Food'),
   (3, 'Dessert');
 
 -- Insert data into foodType table
 INSERT INTO foodType VALUES
+  (0, 0, ' '),
   (1, 1, 'Fish'),
   (2, 2, 'Vegan'),
   (3, 3, 'Sweet');
 
 -- Insert data into foodGroup table
 INSERT INTO foodGroup VALUES
+  (0, 0, ' '),
   (1, 1, 'Blue fish'),
   (2, 2, 'Vegetables'),
   (3, 3, 'Ice Creams');
 
 -- Insert data into ingredients table
 INSERT INTO ingredients VALUES
+  (0, ' ', 0),
   (1, 'Tuna', 1),
   (2, 'Lettuce', 2),
   (3, 'Vanilla', 3);
