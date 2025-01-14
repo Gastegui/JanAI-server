@@ -28,10 +28,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
         run: |
-          wget -q -O sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-          unzip sonar-scanner-cli.zip -d /opt/
-          export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
-          sonar-scanner \
+          mvn clean verify sonar:sonar \
             -Dsonar.projectKey=$SONAR_KEY \
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONAR_HOST_URL \
