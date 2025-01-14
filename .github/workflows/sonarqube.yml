@@ -18,9 +18,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          
-      - name: Build the project
-        run: mvn clean compile
+
+      - name: Build and Test the project
+        run: mvn clean test
 
       - name: SonarQube Analysis
         env:
@@ -28,9 +28,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
         run: |
-          mvn clean verify sonar:sonar \
+          wget -q -O sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-cli.zip -d /opt/
+          export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+          sonar-scanner \
             -Dsonar.projectKey=$SONAR_KEY \
-            -Dsonar.sources=. \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.junit.reportPaths=target/surefire-reports \
             -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.qualitygate.wait=true \
