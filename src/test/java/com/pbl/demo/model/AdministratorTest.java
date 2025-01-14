@@ -6,7 +6,7 @@ import com.pbl.demo.model.administrator.Administrator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AdministratorTest {
+class AdministratorTest {
     @Test
     void testDefaultConstructor(){
         Administrator admin = new Administrator();
