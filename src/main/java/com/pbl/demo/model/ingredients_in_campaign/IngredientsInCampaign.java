@@ -29,22 +29,22 @@ public class IngredientsInCampaign {
     @JoinColumn(name = "ingredientID")
     private Ingredients ingredients;
     
-    private Date init_date;
-    private Date end_date;
+    private Date initDate;
+    private Date endDate;
 
     public IngredientsInCampaign(){
     }
 
-    public IngredientsInCampaign(Campaign campaign, Ingredients ingredients, Date init_date, Date end_date) {
+    public IngredientsInCampaign(Campaign campaign, Ingredients ingredients, Date initDate, Date endDate) {
         this.campaign = campaign;
         this.ingredients = ingredients;
-        this.init_date = init_date;
-        this.end_date = end_date;
+        this.initDate = initDate;
+        this.endDate = endDate;
     }
 
-    public IngredientsInCampaign(Date init_date, Date end_date) {
-        this.init_date = init_date;
-        this.end_date = end_date;
+    public IngredientsInCampaign(Date initDate, Date endDate) {
+        this.initDate = initDate;
+        this.endDate = endDate;
     }
 
     public Campaign getCampaign() {
@@ -63,20 +63,20 @@ public class IngredientsInCampaign {
         this.ingredients = ingredients;
     }
 
-    public Date getInit_date() {
-        return init_date;
+    public Date getInitDate() {
+        return initDate;
     }
 
-    public void setInit_date(Date init_date) {
-        this.init_date = init_date;
+    public void setInitDate(Date initDate) {
+        this.initDate = initDate;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
 }
