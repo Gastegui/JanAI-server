@@ -15,7 +15,7 @@ class Request(threading.Thread):
     def run(self):
         #while not self._stop_event.is_set() or self.end:
         try:
-            rand = random.randint(0, 50)
+            rand = random.randint(1, 50)
             QueryBuffer.add(self.query, rand, self.userID)
 
             item, userID = AnswerBuffer.remove(self.answer)

@@ -17,31 +17,21 @@ class App:
             self.users.append(User(self.QBuffer, self.ABuffer, i))
 
     def start_threads(self):
-        """
-        self.model.start()
-        self.user.start()
-        """
         for user in self.users:
             user.sendRequests()
 
         self.model.answerRequests()
 
     def interrupt_threads(self):
-        self.model.interruptAnswer()
-        
-        try:
-            self.model.joinThreads()
-        except InterruptedError as e:
-            e.with_traceback()
-
         for user in self.users:
             user.interruptRequests()
             try:
-                self.user.joinThreads()
+                user.joinThreads()
             except InterruptedError as e:
                 e.with_traceback()
 
-
+        self.model.interruptAnswer()
+        
         print(self.QBuffer.show())
         print(self.ABuffer.show())
 

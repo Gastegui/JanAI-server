@@ -35,7 +35,6 @@ class AnswerBuffer:
             self.items.release()
             print("Something went wrong on the remove function")
         item = self.list.pop(0)
-        #item = self.bq.get()
         userID = self.find_user_id(item, self.userItemMap)
 
         print(str(userID) + " TAKE ANSWER < " + str(item) + "\n")
@@ -47,7 +46,6 @@ class AnswerBuffer:
 
     def show(self):
         return str(self.list)
-        #return str(self.bq)
 
     def isNotEmpty(self):
         return not (len(self.list) == 0)

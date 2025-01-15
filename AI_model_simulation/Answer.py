@@ -9,14 +9,19 @@ class Answer(threading.Thread):
         self._stop_event = threading.Event()
         self.query = QBuffer
         self.answer = ABuffer
-        self.end = False
         self.userID = 0
 
     def run(self):
-        while not self._stop_event.is_set() or self.end:
+        while not self._stop_event.is_set():
             try:
                 item, self.userID = QueryBuffer.remove(self.query)
-                AnswerBuffer.add(self.answer, item, self.userID)
+
+                if item != 0:
+                    print("ITEM FOR ANSWER: " + str(item))
+                    AnswerBuffer.add(self.answer, item, self.userID)
+                else:
+                    self.interrupt()
+                    break
 
             except InterruptedError as e:
                 print(f"Error in ANSWER thread {self.name}: {e}")

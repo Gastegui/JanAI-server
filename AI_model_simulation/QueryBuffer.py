@@ -13,7 +13,6 @@ class QueryBuffer:
         self.ready = threading.Semaphore(0)
         self.bq = queue.Queue(maxsize=size)
         self.userItemMap = defaultdict(list)
-        
 
     def add(self, item, userID):
         self.spaces.acquire()
@@ -32,33 +31,35 @@ class QueryBuffer:
         self.items.release()
 
         if self.bq.full():
-            #print(dict(self.userItemMap))
             self.ready.release(5)
         self.ready.acquire()
 
 
     def remove(self):
         item = 0
-        #self.bq.join()
-        self.items.acquire()
-        try:
-            self.mutex.acquire()
-        except InterruptedError:
-            self.items.release()
-            print("Something went wrong on the remove function")
-        item = self.bq.get()
+        userID = 0
+        if not self.bq.empty():
+            self.items.acquire()
+            try:
+                self.mutex.acquire()
+            except InterruptedError:
+                self.items.release()
+                print("Something went wrong on the remove function")
 
-        userID = self.find_user_id(item, self.userItemMap)
-        
-        print(str(userID) + " TAKE QUERY < " + str(item) + "\n")
-        self.userItemMap[userID].remove(item)
+            item = self.bq.get()
+            print(list(self.bq.queue))
 
-        self.mutex.release()
-        self.spaces.release()
+            userID = self.find_user_id(item, self.userItemMap)
+            
+            print(str(userID) + " TAKE QUERY < " + str(item) + "\n")
+            self.userItemMap[userID].remove(item)
+
+            self.mutex.release()
+            self.spaces.release()
         return item, userID
 
     def show(self):
-        return str(self.bq)
+        return list(self.bq.queue)
 
     def isNotEmpty(self):
         return not (len(self.bq) == 0)

@@ -16,6 +16,7 @@ class Model(threading.Thread):
 
     def interruptAnswer(self):
         self.mainAnswer.interrupt()
+        print("MODEL: " + str(self.mainAnswer.is_alive()))
 
     def joinThreads(self):
         self.mainAnswer.join()
