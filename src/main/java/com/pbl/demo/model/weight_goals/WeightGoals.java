@@ -1,7 +1,9 @@
 package com.pbl.demo.model.weight_goals;
 
-import java.util.Date;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pbl.demo.model.user_data.UserData;
 
 import jakarta.persistence.Entity;
@@ -11,6 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -26,11 +31,21 @@ public class WeightGoals {
     @JoinColumn(name = "userID")
     private UserData userData;
 
-    
+    @NotNull(message = "El nombre no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
     private Float weight;
+
+    @NotNull(message = "El nombre no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
     private Float goalWeight;
+
+    @NotNull(message = "El nombre no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
     private int durationToAchieveGoalWeight;
-    private Date registerDate;
+
+    @NotNull(message = "La fecha no puede ser nulo")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate registerDate;
 
 
     public WeightGoals(){
@@ -39,7 +54,7 @@ public class WeightGoals {
     
 
     public WeightGoals(int weightGoalsID, UserData userData, Float weight, Float goalWeight,
-            int durationToAchieveGoalWeight, Date registerDate) {
+            int durationToAchieveGoalWeight, LocalDate registerDate) {
         this.weightGoalsID = weightGoalsID;
         this.userData = userData;
         this.weight = weight;
@@ -51,7 +66,7 @@ public class WeightGoals {
 
 
     public WeightGoals(UserData userData, Float weight, Float goalWeight, int durationToAchieveGoalWeight,
-            Date registerDate) {
+            LocalDate registerDate) {
         this.userData = userData;
         this.weight = weight;
         this.goalWeight = goalWeight;
@@ -102,11 +117,11 @@ public class WeightGoals {
         this.durationToAchieveGoalWeight = durationToAchieveGoalWeight;
     }
 
-    public Date getRegisterDate() {
+    public LocalDate getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public void setRegisterDate(LocalDate registerDate) {
         this.registerDate = registerDate;
     }
 

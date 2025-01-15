@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.user_data.UserData;
 import com.pbl.demo.model.user_data.UserDataRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -118,7 +121,7 @@ public class UserDataController {
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<UserData> addUser(@RequestBody UserData user) {
+    public ResponseEntity<UserData> addUser(@Valid @RequestBody UserData user, BindingResult result) {
         
         Optional<UserData> foundUsers = userRepo.findByUsername(user.getUsername());
         if (foundUsers.isPresent()) {

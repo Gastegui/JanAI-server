@@ -10,7 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.weight_goals.WeightGoals;
 
@@ -22,6 +28,78 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
 
+    @NotNull(message = "El nombre no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
+    private String uname;
+
+    @NotNull(message = "El segundo nombre no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El segundo nombre debe tener entre 1 y 100 caracteres")
+    private String secondName;
+
+    @NotNull(message = "El género no puede ser nulo")
+    @Pattern(regexp = "M|F", message = "El género debe ser 'M' o 'F'")
+    private String gender;
+
+    @NotNull(message = "La edad no puede ser nula")
+    @Min(value = 0, message = "La edad debe ser un valor positivo")
+    @Max(value = 150, message = "La edad no puede ser mayor a 150")
+    private int age;
+
+    @NotNull(message = "La altura no puede ser nula")
+    @Min(value = 0, message = "La altura debe ser un valor positivo")
+    private int height;
+
+    @NotNull(message = "El nombre de usuario no puede ser nulo")
+    @Size(min = 1, max = 50, message = "El nombre de usuario debe tener entre 5 y 50 caracteres")
+    private String username;
+
+    @NotNull(message = "El correo electrónico no puede ser nulo")
+    @Email(message = "El correo electrónico debe tener un formato válido")
+    private String email;
+
+    @NotNull(message = "La contraseña no puede ser nula")
+    @Size(min = 1, message = "La contraseña debe tener al menos 6 caracteres")
+    private String userPass;
+
+    @NotNull(message = "El nivel de actividad no puede ser nulo")
+    @Pattern(regexp = "Sedentary|Light|Moderate|Active|Very Active", message = "El nivel de actividad debe ser uno de los valores: 'Sedentary', 'Light', 'Moderate', 'Active', 'Very Active'")
+    private String activityLevel;
+
+    @NotNull(message = "El estado de premium no puede ser nulo")
+    private Boolean premium;
+
+    @NotNull(message = "El objetivo no puede ser nulo")
+    @Pattern(regexp = "Lose weight|Gain weight|Keep fit", message = "El objetivo debe ser uno de los valores: 'Lose weight', 'Gain weight', 'Keep fit'")
+    private String objective;
+
+    @NotNull(message = "El tamaño del cuello no puede ser nulo NECK")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0 NECK")
+    private float neck;
+
+    @NotNull(message = "El tamaño de la cintura no puede ser nulo WAIST")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de la cintura debe ser mayor que 0 WAIST")
+    private float waist;
+
+    @NotNull(message = "El tamaño de las caderas no puede ser nulo HIPS")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    private float hips;
+
+    
+    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    private Float waterIntake;
+
+    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    private Integer waterCounter;
+    
+    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    private Float finalDailyCalorieIntake;
+
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Restrictions> restrictions;
+
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WeightGoals> weightGoals = new ArrayList<>();
+    /*
     private String uname;
     private String secondName;
     private String gender;
@@ -46,7 +124,7 @@ public class UserData {
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WeightGoals> weightGoals = new ArrayList<>();
-
+ */
     public UserData(){
     }
 

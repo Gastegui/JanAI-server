@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,8 @@ import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
 import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
 import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaignRepository;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -48,7 +51,7 @@ public class IngredientsInCampaignController {
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<IngredientsInCampaign> addIngredientInCampaign(@RequestParam int campaignID, @RequestParam int ingredientID, @RequestBody IngredientsInCampaign ingredientCampaign) {
+    public ResponseEntity<IngredientsInCampaign> addIngredientInCampaign(@RequestParam int campaignID, @RequestParam int ingredientID, @Valid @RequestBody IngredientsInCampaign ingredientCampaign, BindingResult result) {
         
         Optional<Campaign> foundCampaign = cmpRepo.findById(campaignID);
         Optional<Ingredients> ingredient = ingRepo.findById(ingredientID);

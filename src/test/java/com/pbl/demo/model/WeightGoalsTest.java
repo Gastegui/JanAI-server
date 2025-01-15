@@ -5,6 +5,7 @@ import com.pbl.demo.model.weight_goals.WeightGoals;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +35,7 @@ class WeightGoalsTest {
         Float weight = 70.5f;
         Float goalWeight = 65.0f;
         int duration = 90;
-        Date registerDate = new Date();
+        LocalDate registerDate = LocalDate.now();
 
         // Act
         WeightGoals weightGoal = new WeightGoals(weightGoalsID, userData, weight, goalWeight, duration, registerDate);
@@ -55,7 +56,7 @@ class WeightGoalsTest {
         Float weight = 75.0f;
         Float goalWeight = 70.0f;
         int duration = 60;
-        Date registerDate = new Date();
+        LocalDate registerDate = LocalDate.now();
 
         // Act
         WeightGoals weightGoal = new WeightGoals(userData, weight, goalWeight, duration, registerDate);
@@ -78,7 +79,7 @@ class WeightGoalsTest {
         Float weight = 80.0f;
         Float goalWeight = 75.0f;
         int duration = 30;
-        Date registerDate = new Date();
+        LocalDate registerDate = LocalDate.now();
 
         // Act
         weightGoal.setWeightGoalsID(weightGoalsID);
@@ -138,7 +139,7 @@ class WeightGoalsTest {
     void testDateBehavior() {
         // Arrange
         WeightGoals weightGoal = new WeightGoals();
-        Date currentDate = new Date();
+        LocalDate currentDate = LocalDate.now();
 
         // Act
         weightGoal.setRegisterDate(currentDate);

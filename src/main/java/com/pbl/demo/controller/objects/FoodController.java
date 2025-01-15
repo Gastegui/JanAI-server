@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pbl.demo.model.food.Food;
 import com.pbl.demo.model.food.FoodRepository;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/food")
@@ -44,7 +47,7 @@ public class FoodController {
     }
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Food> addFood(@RequestBody Food food) {
+    public ResponseEntity<Food> addFood(@Valid @RequestBody Food food, BindingResult result) {
         
         Optional<Food> foundFoods = foodRepo.findByFoodName(food.getFoodName());
         if (foundFoods.isPresent()) {

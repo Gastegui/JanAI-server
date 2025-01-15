@@ -38,7 +38,7 @@ class WeightControllerTest {
             .thenReturn(Optional.empty());
 
         WeightGoals goal = new WeightGoals();
-        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal);
+        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal, null);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -50,7 +50,7 @@ class WeightControllerTest {
             .thenReturn(Optional.of(user));
 
         WeightGoals goal = new WeightGoals();
-        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal);
+        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal, null);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(goal, response.getBody());

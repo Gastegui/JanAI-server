@@ -74,7 +74,7 @@ class RestrictionsControllerTest {
         when(userRepo.findById(1)).thenReturn(Optional.empty());
 
         Restrictions restriction = new Restrictions();
-        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction);
+        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction, null);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -97,7 +97,7 @@ class RestrictionsControllerTest {
         restriction.setFoodGroup(fGroup);
         restriction.setFoodType(fType);
         restriction.setIngredients(ing);
-        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction);
+        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction, null);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -121,7 +121,7 @@ class RestrictionsControllerTest {
         restriction.setFoodGroup(fGroup);
         restriction.setFoodType(fType);
         restriction.setIngredients(ing);
-        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction);
+        ResponseEntity<Restrictions> response = restrictionsController.addRestriction(1, restriction, null);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(restrictRepo, times(1)).save(restriction);

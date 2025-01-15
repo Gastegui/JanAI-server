@@ -10,6 +10,9 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.pbl.demo.model.campaign.Campaign;
 
@@ -29,7 +32,12 @@ public class IngredientsInCampaign {
     @JoinColumn(name = "ingredientID")
     private Ingredients ingredients;
     
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @FutureOrPresent(message = "La fecha debe ser hoy o en el futuro")
     private Date init_date;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @FutureOrPresent(message = "La fecha debe ser hoy o en el futuro")
     private Date end_date;
 
     public IngredientsInCampaign(){

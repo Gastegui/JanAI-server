@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
@@ -25,13 +27,22 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int campaignID;
     
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String town;
+    
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String campName;
+    
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String company;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientsInCampaign> campaignFoodList;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "adminID")
     private Administrator administrator;

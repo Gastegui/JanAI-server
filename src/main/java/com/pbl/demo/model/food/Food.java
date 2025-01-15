@@ -8,7 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.CascadeType;
 
 import com.pbl.demo.model.food_list.FoodList;
@@ -22,11 +24,28 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int foodID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String foodName;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
     private float proteins;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
     private float carbs;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
     private float fats;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
     private float fiber;
+
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
     private float calories;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
