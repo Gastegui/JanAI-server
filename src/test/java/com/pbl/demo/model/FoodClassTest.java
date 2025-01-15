@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class FoodClassTest {
+class FoodClassTest {
     @Test
     void testDefaultConstructor(){
         FoodClass fClass = new FoodClass();

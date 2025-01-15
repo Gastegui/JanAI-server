@@ -11,7 +11,7 @@ import com.pbl.demo.model.food_group.FoodGroup;
 import com.pbl.demo.model.has_ingredients.HasIngredients;
 import com.pbl.demo.model.ingredients.Ingredients;
 
-public class HasIngredientsTest {
+class HasIngredientsTest {
     @Test
     void testDefaultConstructor(){
         HasIngredients hasIngredients = new HasIngredients();

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.campaign.Campaign;
 
-public class CampaignTest {
+class CampaignTest {
     @Test
     void testDefaultConstructor(){
         Campaign campaign = new Campaign();

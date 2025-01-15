@@ -21,8 +21,8 @@ class IngredientsInCampaignTest {
         assertNotNull(ingredientsInCampaign);
         assertNull(ingredientsInCampaign.getCampaign());
         assertNull(ingredientsInCampaign.getIngredients());
-        assertNull(ingredientsInCampaign.getInit_date());
-        assertNull(ingredientsInCampaign.getEnd_date());
+        assertNull(ingredientsInCampaign.getInitDate());
+        assertNull(ingredientsInCampaign.getEndDate());
     }
 
     @Test
@@ -39,8 +39,8 @@ class IngredientsInCampaignTest {
         // Assert
         assertEquals(campaign, ingredientsInCampaign.getCampaign());
         assertEquals(ingredients, ingredientsInCampaign.getIngredients());
-        assertEquals(initDate, ingredientsInCampaign.getInit_date());
-        assertEquals(endDate, ingredientsInCampaign.getEnd_date());
+        assertEquals(initDate, ingredientsInCampaign.getInitDate());
+        assertEquals(endDate, ingredientsInCampaign.getEndDate());
     }
 
     @Test
@@ -55,8 +55,8 @@ class IngredientsInCampaignTest {
         // Assert
         assertNull(ingredientsInCampaign.getCampaign());
         assertNull(ingredientsInCampaign.getIngredients());
-        assertEquals(initDate, ingredientsInCampaign.getInit_date());
-        assertEquals(endDate, ingredientsInCampaign.getEnd_date());
+        assertEquals(initDate, ingredientsInCampaign.getInitDate());
+        assertEquals(endDate, ingredientsInCampaign.getEndDate());
     }
 
     @Test
@@ -71,14 +71,14 @@ class IngredientsInCampaignTest {
         // Act
         ingredientsInCampaign.setCampaign(campaign);
         ingredientsInCampaign.setIngredients(ingredients);
-        ingredientsInCampaign.setInit_date(initDate);
-        ingredientsInCampaign.setEnd_date(endDate);
+        ingredientsInCampaign.setInitDate(initDate);
+        ingredientsInCampaign.setEndDate(endDate);
 
         // Assert
         assertEquals(campaign, ingredientsInCampaign.getCampaign());
         assertEquals(ingredients, ingredientsInCampaign.getIngredients());
-        assertEquals(initDate, ingredientsInCampaign.getInit_date());
-        assertEquals(endDate, ingredientsInCampaign.getEnd_date());
+        assertEquals(initDate, ingredientsInCampaign.getInitDate());
+        assertEquals(endDate, ingredientsInCampaign.getEndDate());
     }
 
     @Test
@@ -115,11 +115,11 @@ class IngredientsInCampaignTest {
         IngredientsInCampaign ingredientsInCampaign = new IngredientsInCampaign();
 
         // Act
-        ingredientsInCampaign.setInit_date(initDate);
-        ingredientsInCampaign.setEnd_date(endDate);
+        ingredientsInCampaign.setInitDate(initDate);
+        ingredientsInCampaign.setEndDate(endDate);
 
         // Assert
-        assertEquals(initDate, ingredientsInCampaign.getInit_date());
-        assertEquals(endDate, ingredientsInCampaign.getEnd_date());
+        assertEquals(initDate, ingredientsInCampaign.getInitDate());
+        assertEquals(endDate, ingredientsInCampaign.getEndDate());
     }
 }

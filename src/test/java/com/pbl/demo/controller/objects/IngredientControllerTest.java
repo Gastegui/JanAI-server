@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import com.pbl.demo.model.ingredients.Ingredients;
 import com.pbl.demo.model.ingredients.IngredientsRepository;
 
-public class IngredientControllerTest {
+class IngredientControllerTest {
     @InjectMocks
     IngredientController ingredientController;
 

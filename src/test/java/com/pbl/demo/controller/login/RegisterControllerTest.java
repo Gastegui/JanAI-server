@@ -47,19 +47,6 @@ class RegisterControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-   /*@Test
-    void showRegistrationForm_ReturnsRegisterView() {
-        // Arrange
-        doNothing().when(model).addAttribute(eq("user"), any(UserData.class));
-
-        // Act
-        String viewName = registerController.showRegistrationForm(session, model);
-
-        // Assert
-        assertEquals("register", viewName);
-        verify(model, times(1)).addAttribute(eq("user"), any(UserData.class));
-    }*/
-
     @Test
     void registerUser_NullBody_ReturnsBadRequest() {
         // Act

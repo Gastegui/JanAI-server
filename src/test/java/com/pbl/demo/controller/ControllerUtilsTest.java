@@ -116,50 +116,6 @@ class ControllerUtilsTest {
         assertEquals("testUser", username);
     }
 
-    /*@Test
-    void testGetLoggedInRole() {
-        // Arrange
-        Authentication authentication = mock(Authentication.class);
-        UserDetails userDetails = mock(UserDetails.class);
-        GrantedAuthority authority = mock(GrantedAuthority.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        when(authentication.isAuthenticated()).thenReturn(true);
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(userDetails.getAuthorities()).thenReturn((Collection<? extends GrantedAuthority>) Collections.singletonList(authority));
-
-        when(authority.getAuthority()).thenReturn("ROLE_USER");
-
-        // Act
-        String role = ControllerUtils.getLoggedInRole();
-
-        // Assert
-        assertEquals("ROLE_USER", role);
-    }*/
-
-    /*@Test
-    void testHasAuthority() {
-        // Arrange
-        Authentication authentication = mock(Authentication.class);
-        GrantedAuthority authority = mock(GrantedAuthority.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        when(authentication.getAuthorities()).thenReturn(Collections.singletonList(authority));
-        when(authority.getAuthority()).thenReturn("ROLE_ADMIN");
-
-        // Act
-        boolean result = ControllerUtils.hasAuthority("ROLE_ADMIN");
-
-        // Assert
-        assertTrue(result);
-    }*/
-
     @Test
     void testGenerateRandomString() {
         // Act

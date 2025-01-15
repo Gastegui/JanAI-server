@@ -63,8 +63,6 @@ class JwtUtilTests {
         assertTrue(shortLivedJwtUtil.validateToken(shortLivedToken, userDetails.getUsername()), "Token should be valid right after creation.");
         assertFalse(shortLivedJwtUtil.validateToken(shortLivedToken, "wrong__username"),"Token should be invalid if wrong username provided.");
     
-        // Wait for the token to expire
-        Thread.sleep(1500); // Sleep for 1.5 seconds (longer than 1-second expiration)
         // Validate token again, expecting it to be expired
         assertThrows(ExpiredJwtException.class, () -> {
             shortLivedJwtUtil.validateToken(shortLivedToken, userDetails.getUsername());

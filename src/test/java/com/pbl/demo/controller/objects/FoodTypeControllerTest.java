@@ -18,8 +18,8 @@ import org.springframework.http.ResponseEntity;
 import com.pbl.demo.model.food_type.FoodType;
 import com.pbl.demo.model.food_type.FoodTypeRepository;
 
-public class FoodTypeControllerTest {
-     @InjectMocks
+class FoodTypeControllerTest {
+    @InjectMocks
     private FoodTypeController foodTypeController;
 
     @Mock

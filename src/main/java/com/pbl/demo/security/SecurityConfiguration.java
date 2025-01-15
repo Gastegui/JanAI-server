@@ -1,30 +1,15 @@
 package com.pbl.demo.security;
 
-import java.io.IOException;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
-
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -45,38 +30,6 @@ public class SecurityConfiguration{
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    private AuthenticationSuccessHandler loginSuccessHandler(){
-        return new AuthenticationSuccessHandler() {
-
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                    Authentication authentication) throws IOException, ServletException {
-                        request.getSession(true).setAttribute("info", "You logged in successfully!");
-                        response.sendRedirect("/");
-            }
-            
-        };
-    }
-
-    private LogoutHandler logoutHandler() {
-        return new HeaderWriterLogoutHandler(
-            new ClearSiteDataHeaderWriter(Directive.COOKIES));
-    }
-
-    private AuthenticationFailureHandler authenticationFailureHandler() {
-        return (request, response, exception) -> {
-            request.getSession().setAttribute("error", "Invalid username or password");
-            response.sendRedirect("/login");
-        };
-    }
-
-    private LogoutSuccessHandler logoutSuccessHandler() {
-        return (request, response, exception) -> {
-            request.getSession().setAttribute("info", "Logged out successfully!");
-            response.sendRedirect("/login");
-        };
     }
 
     @Bean
