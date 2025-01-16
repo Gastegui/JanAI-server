@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,8 @@ import com.pbl.demo.model.user_data.UserData;
 import com.pbl.demo.model.user_data.UserDataRepository;
 import com.pbl.demo.model.weight_goals.WeightGoals;
 import com.pbl.demo.model.weight_goals.WeightGoalsRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/weight")
@@ -33,7 +36,13 @@ public class WeightController {
 
     @PostMapping(value = "/addWeight", consumes = { "application/json", "application/xml" }, produces = {
         "application/json", "application/xml" })
-    public ResponseEntity<WeightGoals> addWeightGoal(@RequestParam String username, @RequestBody WeightGoals goal) {
+    public ResponseEntity<WeightGoals> addWeightGoal(@RequestParam String username, @Valid @RequestBody WeightGoals goal, BindingResult result) {
+        
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
         
         Optional<UserData> foundUser = userRepo.findByUsername(username);
         if (foundUser.isPresent()) {
@@ -55,9 +64,8 @@ public class WeightController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<WeightGoals> listWeight = weightRepo.findAll();
+            List<WeightGoals> listWeight = weightRepo.findByUserDataUsername(username);
             return new ResponseEntity<>(listWeight, HttpStatus.OK);
         }
-
     }
 }

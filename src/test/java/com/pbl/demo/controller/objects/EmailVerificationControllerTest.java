@@ -36,7 +36,7 @@ class EmailVerificationControllerTest {
         UserData user = new UserData();
 
         // Act
-        ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user);
+        ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user, null);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -51,7 +51,7 @@ class EmailVerificationControllerTest {
         UserData user = new UserData();
 
         // Act
-        ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user);
+        ResponseEntity<UserData> response = emailVerificationController.getVerificationCode(writtenCode, verifyMail, user, null);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

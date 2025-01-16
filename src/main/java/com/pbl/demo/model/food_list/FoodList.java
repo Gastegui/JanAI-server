@@ -32,19 +32,23 @@ public class FoodList {
     @Column(name = "meal")
     private String meal;
 
+    private Float grams;
+
     public FoodList(){
     }
 
-    public FoodList(UserData userData, Food food, Date consumptionDate, String meal) {
+    public FoodList(UserData userData, Food food, Date consumptionDate, String meal, Float grams) {
         this.userData = userData;
         this.food = food;
         this.consumptionDate = consumptionDate;
         this.meal = meal;
+        this.grams = grams;
     }
 
-    public FoodList(Date consumptionDate, String meal) {
+    public FoodList(Date consumptionDate, String meal, Float grams) {
         this.consumptionDate = consumptionDate;
         this.meal = meal;
+        this.grams = grams;
     }
 
     public UserData getUserData() {
@@ -70,5 +74,11 @@ public class FoodList {
     }
     public void setMeal(String meal) {
         this.meal = meal;
+    }
+    public Float getGrams() {
+        return grams;
+    }
+    public void setGrams(Float grams) {
+        this.grams = grams;
     }
 }

@@ -132,7 +132,7 @@ class CampaignControllerTest {
         when(cmpRepo.findByCampName(existingCampaign.getCampName())).thenReturn(Optional.of(existingCampaign));
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign, null);
         
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -152,7 +152,7 @@ class CampaignControllerTest {
         when(adminRepo.findById(adminId)).thenReturn(Optional.of(admin));
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, newCampaign);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, newCampaign, null);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());

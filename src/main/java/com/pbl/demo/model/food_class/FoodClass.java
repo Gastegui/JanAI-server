@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.pbl.demo.model.food_type.FoodType;
 import com.pbl.demo.model.restrictions.Restrictions;
@@ -22,6 +24,8 @@ public class FoodClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int classID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String className;
     
     @OneToMany(mappedBy = "foodClass", cascade = CascadeType.ALL, orphanRemoval = true)

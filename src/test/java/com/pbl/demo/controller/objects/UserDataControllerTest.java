@@ -148,7 +148,7 @@ class UserDataControllerTest {
         when(userRepo.findByUsername("username"))
             .thenReturn(Optional.of(user));
 
-        ResponseEntity<UserData> response = userDataController.addUser(user);
+        ResponseEntity<UserData> response = userDataController.addUser(user, null);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -159,7 +159,7 @@ class UserDataControllerTest {
         when(userRepo.findByUsername("username"))
             .thenReturn(Optional.empty());
 
-        ResponseEntity<UserData> response = userDataController.addUser(user);
+        ResponseEntity<UserData> response = userDataController.addUser(user, null);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(userRepo, times(1)).save(user);

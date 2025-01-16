@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.food_type.FoodType;
@@ -24,6 +26,8 @@ public class FoodGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String groupName;
 
     @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)

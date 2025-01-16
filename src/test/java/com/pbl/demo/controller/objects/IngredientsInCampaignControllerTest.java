@@ -1,6 +1,7 @@
 package com.pbl.demo.controller.objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.pbl.demo.model.campaign.Campaign;
@@ -85,7 +86,7 @@ class IngredientsInCampaignControllerTest {
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
         when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(false);
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -115,7 +116,7 @@ class IngredientsInCampaignControllerTest {
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
         when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(true);
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -134,7 +135,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.empty());
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.empty());
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, new IngredientsInCampaign());
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, new IngredientsInCampaign(), null);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -155,7 +156,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.empty());
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -176,7 +177,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.of(campaign));
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.empty());
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());

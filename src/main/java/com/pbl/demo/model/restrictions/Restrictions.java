@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import com.pbl.demo.model.food_class.FoodClass;
 import com.pbl.demo.model.food_group.FoodGroup;
@@ -24,22 +25,27 @@ public class Restrictions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restrictionID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "userID")
     private UserData userData;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "groupID")
     private FoodGroup foodGroup;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "classID")
     private FoodClass foodClass;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "ingredientID")
     private Ingredients ingredient;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "typeID")
     private FoodType foodType;

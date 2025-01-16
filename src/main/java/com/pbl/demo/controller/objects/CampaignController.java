@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ import com.pbl.demo.model.administrator.Administrator;
 import com.pbl.demo.model.administrator.AdministratorRepository;
 import com.pbl.demo.model.campaign.Campaign;
 import com.pbl.demo.model.campaign.CampaignRepository;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -63,7 +66,7 @@ public class CampaignController {
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @RequestBody Campaign campaign) {
+    public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @Valid @RequestBody Campaign campaign, BindingResult result) {
         
         Optional<Campaign> foundCampaign = cmpRepo.findByCampName(campaign.getCampName());
         if (foundCampaign.isPresent()) {

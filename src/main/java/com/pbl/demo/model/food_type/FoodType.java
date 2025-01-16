@@ -15,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "foodType")
@@ -24,11 +26,14 @@ public class FoodType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int typeID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String typeName;
     
     @OneToMany(mappedBy = "foodType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restrictions> restrictions;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "classID")
     private FoodClass foodClass;

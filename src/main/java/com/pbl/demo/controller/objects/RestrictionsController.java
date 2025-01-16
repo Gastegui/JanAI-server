@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,8 @@ import com.pbl.demo.model.restrictions.Restrictions;
 import com.pbl.demo.model.restrictions.RestrictionsRepository;
 import com.pbl.demo.model.user_data.UserData;
 import com.pbl.demo.model.user_data.UserDataRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/restrictions")
@@ -244,7 +247,14 @@ private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, L
 
     @PostMapping(value = "/addRestriction", consumes = { "application/json", "application/xml" }, produces = {
             "application/json", "application/xml" })
-    public ResponseEntity<Restrictions> addRestriction(@RequestParam int userID, @RequestBody Restrictions restriction) {
+    public ResponseEntity<Restrictions> addRestriction(@RequestParam int userID, @Valid @RequestBody Restrictions restriction, BindingResult result) {
+        
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+        
         Optional<UserData> user = userRepo.findById(userID);
         if (user.isPresent()) {
             restriction.setUserData(user.get());

@@ -9,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -25,8 +27,11 @@ public class Ingredients {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ingredientID;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String ingName;
 
+    @NotNull(message = "El tipo de alimento no puede ser nulo")
     @ManyToOne
     @JoinColumn(name = "groupID")
     private FoodGroup groupID;
