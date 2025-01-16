@@ -4,54 +4,73 @@ from collections import defaultdict
 
 class AnswerBuffer:
     def __init__(self, size):
-        self.mutex = threading.Semaphore(1)
+        #self.mutex = threading.Semaphore(1)
+        self.mutex = threading.Lock()
         self.items = threading.Semaphore(0)
         self.spaces = threading.Semaphore(size)
+        self.waitingReqs = threading.Semaphore(0)
         self.list = []
-        self.bq = queue.Queue(maxsize=size)
-        self.userItemMap = defaultdict(list)
+        self.condition = threading.Condition(self.mutex)
 
-    def add(self, item, userID):
-        self.userID = userID
+    def add(self, item):
         self.spaces.acquire()
-        try:
-            self.mutex.acquire()
-        except InterruptedError:
-            self.spaces.release()
-            print("Something went wrong on the add function")
-        self.list.append(item)
-        self.userItemMap[userID].append(item)
+        with self.mutex:
+            self.list.append(item)
+            print(str(item[0]) + " ADD ANSWER >  " + str(item[2]) + "\n")
+            self.condition.notify_all()
 
-        print(str(userID) + " ADD ANSWER >  " + str(item) + "\n")
-        self.mutex.release()
         self.items.release()
 
-    def remove(self):
+    def remove(self, reqData): #TODO: removerako erantzunak buzoietan jarriko dia. Erabiltzaileak bere erantzunak jasoteko in bida. Monitore batekin ahal da iñ buzoi danak beiketako beria topau arte(ez efizientia)
+        #Bestela remove-ian semaforo bat sartu erabiltzaile batek bere erantzuna bakarrik hartzeko.
         item = 0
-        self.items.acquire()
+
+        with self.mutex:
+            while True:
+                print(str(self.list))
+                index = self.findRequestByID(reqData)
+                if index is not None:
+                    item = self.list.pop(index)
+                    print(str(item[0]) + " TAKE ANSWER < " + str(item[2]) + "\n")
+                    self.spaces.release()
+                    return item
+
+                print(f"Request {reqData} not found. Waiting...")
+                self.condition.wait()
+        """
         try:
             self.mutex.acquire()
         except InterruptedError:
             self.items.release()
             print("Something went wrong on the remove function")
-        item = self.list.pop(0)
-        userID = self.find_user_id(item, self.userItemMap)
 
-        print(str(userID) + " TAKE ANSWER < " + str(item) + "\n")
-        self.userItemMap[userID].remove(item)
+        self.items.acquire()
+
+        
+        while index == None:
+            self.waitingReqs.acquire()
+            print(str(self.list))
+            index = self.findRequestByID(reqData)
+
+        #itemIndex = self.findRequestByID(reqData)
+        #if itemIndex != None:
+        item = self.list.pop(index)
+
+        print(str(item[0]) + " TAKE ANSWER < " + str(item[2]) + "\n")
 
         self.mutex.release()
         self.spaces.release()
-        return item, userID
+        return item"""
+
+    def findRequestByID(self, reqData):
+        for i in range(len(self.list)):
+            if self.list[i][0] == reqData[0] and self.list[i][1] == reqData[1]:
+                print(f"INDEX OF ORIGINAL ELEMENT: {i} {reqData}")
+                return i
+        return None
 
     def show(self):
         return str(self.list)
 
     def isNotEmpty(self):
         return not (len(self.list) == 0)
-    
-    def find_user_id(self, item_to_find, userItemMap):
-        for user_id, items in userItemMap.items():
-            if item_to_find in items:
-                return user_id
-        return None

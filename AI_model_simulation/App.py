@@ -1,4 +1,3 @@
-import threading
 import time
 from AI_model import Model
 from User import User
@@ -17,6 +16,7 @@ class App:
             self.users.append(User(self.QBuffer, self.ABuffer, i))
 
     def start_threads(self):
+        #self.QBuffer.start_timer()
         for user in self.users:
             user.sendRequests()
 
@@ -39,7 +39,7 @@ class App:
         self.start_threads()
 
         try:
-            time.sleep(1)
+            time.sleep(10)
         except InterruptedError as e:
             e.with_traceback()
 

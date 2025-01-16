@@ -1,7 +1,7 @@
 import threading
 from QueryBuffer import QueryBuffer
 from AnswerBuffer import AnswerBuffer
-import random
+import time
 
 class Answer(threading.Thread):
     def __init__(self, QBuffer, ABuffer):
@@ -14,11 +14,11 @@ class Answer(threading.Thread):
     def run(self):
         while not self._stop_event.is_set():
             try:
-                item, self.userID = QueryBuffer.remove(self.query)
+                item = self.query.remove()
 
-                if item != 0:
-                    print("ITEM FOR ANSWER: " + str(item))
-                    AnswerBuffer.add(self.answer, item, self.userID)
+                if item[2] != 0:
+                    time.sleep(1/2)
+                    self.answer.add(item)
                 else:
                     self.interrupt()
                     break
