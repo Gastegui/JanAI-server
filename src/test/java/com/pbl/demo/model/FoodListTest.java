@@ -32,9 +32,10 @@ class FoodListTest {
         Food food = new Food();
         Date consumptionDate = new Date();
         String meal = "Breakfast";
+        Float grams = 100.0f;
 
         // Act
-        FoodList foodList = new FoodList(userData, food, consumptionDate, meal);
+        FoodList foodList = new FoodList(userData, food, consumptionDate, meal, grams);
 
         // Assert
         assertEquals(userData, foodList.getUserData());
@@ -48,9 +49,10 @@ class FoodListTest {
         // Arrange
         Date consumptionDate = new Date();
         String meal = "Dinner";
+        Float grams = 200.0f;
 
         // Act
-        FoodList foodList = new FoodList(consumptionDate, meal);
+        FoodList foodList = new FoodList(consumptionDate, meal, grams);
 
         // Assert
         assertNull(foodList.getUserData());

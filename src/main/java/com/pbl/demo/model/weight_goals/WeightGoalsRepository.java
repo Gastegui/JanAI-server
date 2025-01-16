@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WeightGoalsRepository extends JpaRepository<WeightGoals, Integer>{
     List<WeightGoals> findAll();
-
+    List<WeightGoals> findByUserDataUsername(String username);
 }

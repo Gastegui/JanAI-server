@@ -64,9 +64,8 @@ public class WeightController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<WeightGoals> listWeight = weightRepo.findAll();
+            List<WeightGoals> listWeight = weightRepo.findByUserDataUsername(username);
             return new ResponseEntity<>(listWeight, HttpStatus.OK);
         }
-
     }
 }

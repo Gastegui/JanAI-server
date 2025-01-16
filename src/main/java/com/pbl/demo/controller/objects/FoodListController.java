@@ -1,35 +1,58 @@
 package com.pbl.demo.controller.objects;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl.demo.model.food.Food;
+import com.pbl.demo.model.food.FoodRepository;
 import com.pbl.demo.model.food_list.FoodList;
 import com.pbl.demo.model.food_list.FoodListRepository;
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
 
 @RestController
 @RequestMapping("/foodList")
 public class FoodListController {
     
-    FoodListRepository foodListRepo;    
+    FoodListRepository foodListRepo;
+    FoodRepository foodRepo;
+    UserDataRepository userDataRepo;    
 
     @Autowired
-    public FoodListController(FoodListRepository foodListRepo){
+    public FoodListController(FoodListRepository foodListRepo, FoodRepository foodRepo, UserDataRepository userDataRepo){
         this.foodListRepo = foodListRepo;
+        this.foodRepo = foodRepo;
+        this.userDataRepo = userDataRepo;
     }
 
     @GetMapping(value = "/macrosByUser", produces = { "application/json", "application/xml" })
     public ResponseEntity<Map<String, Double>> getMacrosByUser(@RequestParam int userID) {
 
-        List<FoodList> foodList = foodListRepo.findByUserId(userID);
+        // Obtener la fecha actual
+        LocalDate today = LocalDate.now();
+
+        // Filtrar los alimentos por userID y fecha actual
+        List<FoodList> foodList = foodListRepo.findByUserId(userID).stream()
+                .filter(foodEntry -> {
+                    LocalDate consumptionDate = foodEntry.getConsumptionDate().toInstant()
+                            .atZone(ZoneId.systemDefault()).toLocalDate();
+                    return consumptionDate.isEqual(today);
+                })
+                .toList();
 
         if (foodList.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -42,11 +65,11 @@ public class FoodListController {
         double totalCalories = 0.0;
 
         for (FoodList foodEntry : foodList) {
-            totalProteins += foodEntry.getFood().getProteins();
-            totalCarbs += foodEntry.getFood().getCarbs();
-            totalFats += foodEntry.getFood().getFats();
-            totalFiber += foodEntry.getFood().getFiber();
-            totalCalories += foodEntry.getFood().getCalories();
+            totalProteins += foodEntry.getFood().getProteins() * foodEntry.getGrams();
+            totalCarbs += foodEntry.getFood().getCarbs() * foodEntry.getGrams();
+            totalFats += foodEntry.getFood().getFats() * foodEntry.getGrams();
+            totalFiber += foodEntry.getFood().getFiber() * foodEntry.getGrams();
+            totalCalories += foodEntry.getFood().getCalories() * foodEntry.getGrams();
         }
 
         totalProteins = Math.round(totalProteins * 100.0) / 100.0;
@@ -63,5 +86,27 @@ public class FoodListController {
         macros.put("totalCalories", totalCalories);
 
         return new ResponseEntity<>(macros, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
+        "application/json", "application/xml" })
+    public ResponseEntity<FoodList> addFoodList(@RequestParam int foodID, @RequestParam int userID, @RequestBody FoodList foodList) {
+        Optional<Food> foundFood = foodRepo.findById(foodID);
+        Optional<UserData> foundUserData = userDataRepo.findById(userID);
+        if (!foundFood.isPresent() || !foundUserData.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            //boolean exist = foodListRepo.findFoodListByFoodIDAndUserID(foundCampaign.get().getCampaignID(), ingredient.get().getIngredientID());
+            //if(!exist)
+            //{
+                foodList.setFood(foundFood.get());
+                foodList.setUserData(foundUserData.get());
+                foodListRepo.save(foodList);
+                return new ResponseEntity<>(foodList, HttpStatus.CREATED);
+            //}else{
+                //return ResponseEntity.badRequest().build();
+            //}
+            
+        }
     }
 }
