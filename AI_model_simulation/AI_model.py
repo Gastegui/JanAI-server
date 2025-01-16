@@ -14,7 +14,7 @@ class Model():
 
     def interruptAnswer(self):
         self.mainAnswer.interrupt()
-        print("MODEL: " + str(self.mainAnswer.is_alive()))
+        print("MODEL answer is alive: " + str(self.mainAnswer.is_alive()))
 
     def joinThreads(self):
         self.mainAnswer.join()

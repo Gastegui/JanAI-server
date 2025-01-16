@@ -1,5 +1,6 @@
 from Request import Request
 import random
+import time
 
 class User():
     def __init__(self, QBuffer, ABuffer, id):
@@ -16,12 +17,13 @@ class User():
             self.reqs.append(Request(self.query, self.answer, self.userID, i)) 
             
         for requests in self.reqs:
+            time.sleep(1)
             requests.start()
 
     def interruptRequests(self):
         for requests in self.reqs:
             requests.interrupt()
-            print("USER: " + str(requests.is_alive()))
+            print("USER request is alive: " + str(requests.is_alive()))
 
     def joinThreads(self):
         for requests in self.reqs:

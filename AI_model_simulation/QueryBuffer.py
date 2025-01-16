@@ -1,6 +1,5 @@
 import threading
 import queue
-from collections import defaultdict
 import time
 
 #QueryBuffer eta AnswerBuffer fitxategi berdiñian ahalko zian eon. Klase ezberdiñak definitu ahalko zian
@@ -11,11 +10,12 @@ class QueryBuffer:
         self.items = threading.Semaphore(0)
         self.spaces = threading.Semaphore(size)
         self.ready = threading.Semaphore(0)
-        self.ready = threading.Semaphore(0)
+        self.waiting = threading.Semaphore(0)
         self.bq = queue.Queue(maxsize=size)
+        self.waitingCount = 0
 
-        self.add_timeout = 1
-        self.allow_additions = True  # Flag to control adding items
+        self.add_timeout = 2
+        self.allow_additions = True
         self.timer_thread = None
 
     def start_timer(self):
@@ -25,7 +25,7 @@ class QueryBuffer:
 
     def stop_additions(self):
         self.allow_additions = False
-        print("NO MORE REQUESTS FOR NOW --------------------------------------------------------------------------")
+        print("REQUESTS ARE NOT ALLOWER UNTIL QUEUE IS EMPTY AGAIN ------------------------------------------------------- queue size: " + str(self.bq.qsize()))
         self._wait_for_empty()
 
     def _wait_for_empty(self):
@@ -35,8 +35,6 @@ class QueryBuffer:
         self.start_timer()
 
     def add(self, reqData):
-        if not self.allow_additions:
-            return 
         self.spaces.acquire()
 
         try:
@@ -44,20 +42,31 @@ class QueryBuffer:
         except InterruptedError:
             self.spaces.release()
             print("Something went wrong on the add function")
-        self.bq.put(reqData)
-        #print(list(self.bq.queue))
 
+        if self.allow_additions == False:
+
+            if self.bq.qsize() > 0 and self.waitingCount == 0: self.ready.release(self.bq.qsize())
+
+            print("THREAD IS GOING TO BLOCKING STATE")
+            
+            self.waitingCount += 1
+            self.mutex.release()
+            self.waiting.acquire()            
+
+        self.bq.put(reqData)
         print(str(reqData[0]) + " ADD QUERY >  " + str(reqData[2]) + "\n")
 
         self.mutex.release()
         self.items.release()
 
         if self.bq.full() or self.allow_additions == False: #or timeout reached
+            print("Releasing the threads that are ready..." + str(self.bq.qsize()))
             self.ready.release(self.bq.qsize()) #self.bq.size 5 TODO: Hau beste modu batera jarri
-        self.ready.acquire()
+        else:
+            self.ready.acquire()
 
     def remove(self):
-        item = 0
+        item = [0, 0, 0]
         if not self.bq.empty(): #TODO: kondizio hau mutex batekin babestu
             self.items.acquire()
             try:
@@ -72,6 +81,11 @@ class QueryBuffer:
 
             self.mutex.release()
             self.spaces.release()
+        else:
+            if self.waitingCount >= 1:
+                self.waiting.release(self.waitingCount) #maxsize of the queue
+                self.waitingCount = 0
+            print("******************************************************************\n******************************************************************")
 
         return item
 

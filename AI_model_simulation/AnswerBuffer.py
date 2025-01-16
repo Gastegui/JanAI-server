@@ -4,7 +4,6 @@ from collections import defaultdict
 
 class AnswerBuffer:
     def __init__(self, size):
-        #self.mutex = threading.Semaphore(1)
         self.mutex = threading.Lock()
         self.items = threading.Semaphore(0)
         self.spaces = threading.Semaphore(size)
@@ -27,11 +26,10 @@ class AnswerBuffer:
 
         with self.mutex:
             while True:
-                print(str(self.list))
                 index = self.findRequestByID(reqData)
                 if index is not None:
                     item = self.list.pop(index)
-                    print(str(item[0]) + " TAKE ANSWER < " + str(item[2]) + "\n")
+                    print(str(item[0]) + " TAKE ANSWER < " + str(item[2]))
                     self.spaces.release()
                     return item
 
