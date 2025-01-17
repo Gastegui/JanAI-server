@@ -32,6 +32,7 @@ class App:
             except InterruptedError as e:
                 e.with_traceback()
 
+        self.QBuffer.stop_timer()
         self.model.interruptAnswer()
         
         print(self.QBuffer.show())

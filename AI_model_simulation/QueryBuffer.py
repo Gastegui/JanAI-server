@@ -12,16 +12,22 @@ class QueryBuffer:
         self.ready = threading.Semaphore(0)
         self.waiting = threading.Semaphore(0)
         self.bq = queue.Queue(maxsize=size)
+        self.modelReady = threading.Semaphore(0)
         self.waitingCount = 0
 
         self.add_timeout = 2
         self.allow_additions = True
         self.timer_thread = None
+        self.released = False
 
     def start_timer(self):
         self.allow_additions = True
         self.timer_thread = threading.Timer(self.add_timeout, self.stop_additions)
         self.timer_thread.start()
+
+    def stop_timer(self):
+        self.allow_additions = False
+        self.timer_thread.cancel()
 
     def stop_additions(self):
         self.allow_additions = False
@@ -42,31 +48,40 @@ class QueryBuffer:
         except InterruptedError:
             self.spaces.release()
             print("Something went wrong on the add function")
+        
+        if not self.allow_additions or self.bq.full():
+            #print("THREAD IS GOING TO BLOCKING STATE")
 
-        if self.allow_additions == False:
-
-            if self.bq.qsize() > 0 and self.waitingCount == 0: self.ready.release(self.bq.qsize())
-
-            print("THREAD IS GOING TO BLOCKING STATE")
-            
             self.waitingCount += 1
             self.mutex.release()
+            #print("AMOUNT OF WAITING THREADS: " + str(self.waitingCount))
             self.waiting.acquire()            
 
         self.bq.put(reqData)
+     
         print(str(reqData[0]) + " ADD QUERY >  " + str(reqData[2]) + "\n")
 
         self.mutex.release()
         self.items.release()
 
-        if self.bq.full() or self.allow_additions == False: #or timeout reached
+        self.mutex.acquire()
+        if (self.bq.full() and not self.released) or (not self.allow_additions and not self.released): #or timeout reached
+            self.released = True
+            #print("THE VALUE OF BOOLEAN RELEASED: -------------------------------------- " + str(self.released))
+
+            self.stop_timer()
             print("Releasing the threads that are ready..." + str(self.bq.qsize()))
-            self.ready.release(self.bq.qsize()) #self.bq.size 5 TODO: Hau beste modu batera jarri
+            self.ready.release(self.bq.qsize()) #TODO: Hau beste modu batera jarri
+            self.modelReady.release()
+
+            self.mutex.release()
         else:
+            
+            self.mutex.release()
             self.ready.acquire()
 
     def remove(self):
-        item = [0, 0, 0]
+        item = None
         if not self.bq.empty(): #TODO: kondizio hau mutex batekin babestu
             self.items.acquire()
             try:
@@ -78,14 +93,18 @@ class QueryBuffer:
             item = self.bq.get()
             
             print(str(item[0]) + " TAKE QUERY < " + str(item[2]) + "\n")
-
             self.mutex.release()
             self.spaces.release()
+            
         else:
             if self.waitingCount >= 1:
+                self.released = False
+                print("RELEASING " + str(self.waitingCount) + " WAITING THREADS")
                 self.waiting.release(self.waitingCount) #maxsize of the queue
                 self.waitingCount = 0
             print("******************************************************************\n******************************************************************")
+            self.start_timer()
+            self.modelReady.acquire()
 
         return item
 
