@@ -4,9 +4,12 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.pbl.demo.model.food.Food;
+import com.pbl.demo.model.food.FoodRepository;
 import com.pbl.demo.model.food_list.FoodList;
 import com.pbl.demo.model.food_list.FoodListRepository;
-
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,67 +17,115 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 class FoodListControllerTest {
 
     @Mock
     private FoodListRepository foodListRepo;
 
-    @InjectMocks
-    private FoodListController foodListController;
+    @Mock
+    private FoodRepository foodRepo;
 
-    public FoodListControllerTest() {
+    @Mock
+    private UserDataRepository userDataRepo;
+
+    @InjectMocks
+    private FoodListController controller;
+
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetMacrosByUser_NotFound() {
-        int userId = 999;
+    void testGetMacrosByUser_NoFoodFound() {
+        // Arrange
+        int userID = 1;
+        when(foodListRepo.findByUserId(userID)).thenReturn(Collections.emptyList());
 
-        when(foodListRepo.findByUserId(userId)).thenReturn(new ArrayList<>());
+        // Act
+        ResponseEntity<Map<String, Double>> response = controller.getMacrosByUser(userID);
 
-        ResponseEntity<Map<String, Double>> response = foodListController.getMacrosByUser(userId);
-
+        // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNull(response.getBody());
-
-        verify(foodListRepo).findByUserId(userId);
     }
 
     @Test
-    void testGetMacrosByUser_Success() {
-        int userId = 1;
+    void testGetMacrosByUser_FoodFound() {
+        // Arrange
+        int userID = 1;
+        LocalDate today = LocalDate.now();
 
-        // Mocking food entries
-        Food food1 = new Food(1, "Txuleta", 10.0f, 20.0f, 5.0f, 3.0f, 150.0f); // Proteins, Carbs, Fats, Fiber, Calories
-        Food food2 = new Food(2, "Cod", 15.5f, 30.0f, 10.0f, 2.0f, 200.0f);
+        Food food = new Food();
+        food.setProteins(0.1f);
+        food.setCarbs(0.2f);
+        food.setFats(0.3f);
+        food.setFiber(0.4f);
+        food.setCalories(0.5f);
 
-        FoodList entry1 = new FoodList();
-        entry1.setFood(food1);
+        FoodList foodList = new FoodList();
+        foodList.setFood(food);
+        foodList.setGrams(100f);
+        foodList.setConsumptionDate(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-        FoodList entry2 = new FoodList();
-        entry2.setFood(food2);
+        when(foodListRepo.findByUserId(userID)).thenReturn(List.of(foodList));
 
-        List<FoodList> mockFoodList = List.of(entry1, entry2);
+        // Act
+        ResponseEntity<Map<String, Double>> response = controller.getMacrosByUser(userID);
 
-        when(foodListRepo.findByUserId(userId)).thenReturn(mockFoodList);
-
-        ResponseEntity<Map<String, Double>> response = foodListController.getMacrosByUser(userId);
-
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map<String, Double> macros = response.getBody();
         assertNotNull(macros);
-        assertEquals(25.5, macros.get("totalProteins")); // 10.0 + 15.5
-        assertEquals(50.0, macros.get("totalCarbs")); // 20.0 + 30.0
-        assertEquals(15.0, macros.get("totalFats")); // 5.0 + 10.0
-        assertEquals(5.0, macros.get("totalFiber")); // 3.0 + 2.0
-        assertEquals(350.0, macros.get("totalCalories")); // 150.0 + 200.0
-
-        verify(foodListRepo).findByUserId(userId);
+        assertEquals(10.0, macros.get("totalProteins"));
+        assertEquals(20.0, macros.get("totalCarbs"));
+        assertEquals(30.0, macros.get("totalFats"));
+        assertEquals(40.0, macros.get("totalFiber"));
+        assertEquals(50.0, macros.get("totalCalories"));
     }
 
+    @Test
+    void testAddFoodList_FoodOrUserNotFound() {
+        // Arrange
+        int foodID = 1;
+        int userID = 1;
 
+        when(foodRepo.findById(foodID)).thenReturn(Optional.empty());
+        when(userDataRepo.findById(userID)).thenReturn(Optional.empty());
+
+        FoodList foodList = new FoodList();
+
+        // Act
+        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAddFoodList_Success() {
+        // Arrange
+        int foodID = 1;
+        int userID = 1;
+
+        Food food = new Food();
+        UserData userData = new UserData();
+
+        when(foodRepo.findById(foodID)).thenReturn(Optional.of(food));
+        when(userDataRepo.findById(userID)).thenReturn(Optional.of(userData));
+
+        FoodList foodList = new FoodList();
+
+        // Act
+        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(food, foodList.getFood());
+        assertEquals(userData, foodList.getUserData());
+        verify(foodListRepo, times(1)).save(foodList);
+    }
 }

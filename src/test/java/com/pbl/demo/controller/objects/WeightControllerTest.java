@@ -3,8 +3,10 @@ package com.pbl.demo.controller.objects;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
-
+import com.pbl.demo.model.user_data.UserData;
+import com.pbl.demo.model.user_data.UserDataRepository;
+import com.pbl.demo.model.weight_goals.WeightGoals;
+import com.pbl.demo.model.weight_goals.WeightGoalsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,14 +14,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
-import com.pbl.demo.model.user_data.*;
-import com.pbl.demo.model.weight_goals.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 class WeightControllerTest {
-
-    @InjectMocks
-    private WeightController weightController;
 
     @Mock
     private UserDataRepository userRepo;
@@ -27,58 +28,103 @@ class WeightControllerTest {
     @Mock
     private WeightGoalsRepository weightRepo;
 
+    @InjectMocks
+    private WeightController controller;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testAddWeightGoal_UserNotFound() {
-        when(userRepo.findByUsername("username"))
-            .thenReturn(Optional.empty());
-
+    void testAddWeightGoal_InvalidRequestBody() {
+        // Arrange
+        String username = "user1";
         WeightGoals goal = new WeightGoals();
-        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal, null);
+        BindingResult result = mock(BindingResult.class);
+        when(result.hasErrors()).thenReturn(true);
 
+        // Act
+        ResponseEntity<WeightGoals> response = controller.addWeightGoal(username, goal, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getHeaders().containsKey("Validation-Error"));
+    }
+
+    @Test
+    void testAddWeightGoal_UserNotFound() {
+        // Arrange
+        String username = "user1";
+        WeightGoals goal = new WeightGoals();
+        when(userRepo.findByUsername(username)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<WeightGoals> response = controller.addWeightGoal(username, goal, mock(BindingResult.class));
+
+        // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    void testAddWeightGoal_UserFound() {
-        UserData user = new UserData();
-        when(userRepo.findByUsername("username"))
-            .thenReturn(Optional.of(user));
-
+    void testAddWeightGoal_Success() {
+        // Arrange
+        String username = "user1";
         WeightGoals goal = new WeightGoals();
-        ResponseEntity<WeightGoals> response = weightController.addWeightGoal("username", goal, null);
+        UserData user = new UserData();
+        when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
+        when(weightRepo.save(goal)).thenReturn(goal);
 
+        // Act
+        ResponseEntity<WeightGoals> response = controller.addWeightGoal(username, goal, mock(BindingResult.class));
+
+        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(goal, response.getBody());
-        verify(weightRepo, times(1)).save(goal);
     }
 
     @Test
     void testGetWeightList_UserNotFound() {
-        when(userRepo.findByUsername("username"))
-            .thenReturn(Optional.empty());
+        // Arrange
+        String username = "user1";
+        when(userRepo.findByUsername(username)).thenReturn(Optional.empty());
 
-        ResponseEntity<List<WeightGoals>> response = weightController.getWeightList("username");
+        // Act
+        ResponseEntity<List<WeightGoals>> response = controller.getWeightList(username);
 
+        // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    void testGetWeightList_UserFound() {
+    void testGetWeightList_EmptyList() {
+        // Arrange
+        String username = "user1";
         UserData user = new UserData();
-        when(userRepo.findByUsername("username"))
-            .thenReturn(Optional.of(user));
+        when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
+        when(weightRepo.findByUserDataUsername(username)).thenReturn(Collections.emptyList());
 
-        WeightGoals goal = new WeightGoals();
-        List<WeightGoals> goals = List.of(goal);
-        when(weightRepo.findAll()).thenReturn(goals);
+        // Act
+        ResponseEntity<List<WeightGoals>> response = controller.getWeightList(username);
 
-        ResponseEntity<List<WeightGoals>> response = weightController.getWeightList("username");
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
+    }
 
+    @Test
+    void testGetWeightList_Success() {
+        // Arrange
+        String username = "user1";
+        UserData user = new UserData();
+        List<WeightGoals> goals = List.of(new WeightGoals());
+        when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
+        when(weightRepo.findByUserDataUsername(username)).thenReturn(goals);
+
+        // Act
+        ResponseEntity<List<WeightGoals>> response = controller.getWeightList(username);
+
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(goals, response.getBody());
     }

@@ -37,7 +37,7 @@ public class UserData {
     private String secondName;
 
     @NotNull(message = "El género no puede ser nulo")
-    @Pattern(regexp = "M|F", message = "El género debe ser 'M' o 'F'")
+    @Pattern(regexp = "^[MF]$", message = "El género debe ser 'M' o 'F'")
     private String gender;
 
     @NotNull(message = "La edad no puede ser nula")
