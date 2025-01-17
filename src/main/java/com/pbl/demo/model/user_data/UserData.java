@@ -99,32 +99,7 @@ public class UserData {
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WeightGoals> weightGoals = new ArrayList<>();
-    /*
-    private String uname;
-    private String secondName;
-    private String gender;
-    private int age;
-    private int height;
-    private String username;
-    private String email;
-    private String userPass;
-    private String activityLevel;
-    private Boolean premium;
-    private String objective;
-    private float neck;
-    private float waist;
-    private float hips;
-    private float waterIntake;
-    private int waterCounter;
-    private float finalDailyCalorieIntake;
-
-
-    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Restrictions> restrictions;
-
-    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WeightGoals> weightGoals = new ArrayList<>();
- */
+   
     public UserData(){
     }
 
