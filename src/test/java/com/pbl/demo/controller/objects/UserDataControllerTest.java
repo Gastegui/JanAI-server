@@ -107,12 +107,15 @@ class UserDataControllerTest {
 
     @Test
     void testGetUsersByName_Found() {
+        //Arrange
         UserData user = new UserData();
         when(userRepo.findByUsername("username"))
             .thenReturn(Optional.of(user));
 
+        //Act
         ResponseEntity<UserData> response = userDataController.getUsersByName("username");
 
+        //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(user, response.getBody());
     }

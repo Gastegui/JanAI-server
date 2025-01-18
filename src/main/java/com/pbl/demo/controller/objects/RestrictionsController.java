@@ -249,6 +249,7 @@ private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, L
             "application/json", "application/xml" })
     public ResponseEntity<Restrictions> addRestriction(@RequestParam int userID, @Valid @RequestBody Restrictions restriction, BindingResult result) {
         
+
         if (result.hasErrors()) {
             StringBuilder errorMessages = new StringBuilder("Error: ");
             result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
@@ -256,7 +257,8 @@ private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, L
         }
         
         Optional<UserData> user = userRepo.findById(userID);
-        if (user.isPresent()) {
+        boolean componentsPresent = restriction.getFoodGroup() != null && restriction.getFoodClass() != null && restriction.getFoodType() != null && restriction.getIngredient() != null;
+        if (user.isPresent() && componentsPresent) {
             restriction.setUserData(user.get());
             Optional<FoodGroup> groupObject = foodGroupRepo.findById(restriction.getFoodGroup().getGroupID());
             Optional<FoodClass> classObject = foodClassRepo.findById(restriction.getFoodClass().getClassID());
