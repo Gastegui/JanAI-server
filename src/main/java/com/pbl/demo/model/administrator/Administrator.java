@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.pbl.demo.model.campaign.Campaign;
 
@@ -21,10 +24,24 @@ public class Administrator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int adminID;
 
+    @NotNull(message = "The name can not be null")
+    @Size(min = 1, max = 50, message = "The name must be between 1 and 50 characters long")
     private String uname;
+    
+    @NotNull(message = "Surname can not be null")
+    @Size(min = 1, max = 50, message = "Surname must have between 1 and 50 characters long")
     private String surname;
+
+    @NotNull(message = "Username can not be null")
+    @Size(min = 1, max = 50, message = "The name must be between 1 and 50 characters long")
     private String username;
+
+    @NotNull(message = "The e-mail can not be null")
+    @Email(message = "The e-mail must be in a valid format")
     private String email;
+
+    @NotNull(message = "The password can not be null")
+    @Size(min = 6, message = "The password must be at least 6 characters long")
     private String userPass;
 
     @OneToMany(mappedBy = "administrator", cascade = CascadeType.ALL, orphanRemoval = true)

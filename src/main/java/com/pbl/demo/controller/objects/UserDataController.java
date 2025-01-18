@@ -123,6 +123,12 @@ public class UserDataController {
             "application/json", "application/xml" })
     public ResponseEntity<UserData> addUser(@Valid @RequestBody UserData user, BindingResult result) {
         
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+        
         Optional<UserData> foundUsers = userRepo.findByUsername(user.getUsername());
         if (foundUsers.isPresent()) {
             return ResponseEntity.badRequest().build();

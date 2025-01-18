@@ -49,6 +49,12 @@ public class FoodController {
             "application/json", "application/xml" })
     public ResponseEntity<Food> addFood(@Valid @RequestBody Food food, BindingResult result) {
         
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+
         Optional<Food> foundFoods = foodRepo.findByFoodName(food.getFoodName());
         if (foundFoods.isPresent()) {
             return ResponseEntity.badRequest().build();

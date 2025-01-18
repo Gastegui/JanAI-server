@@ -1,5 +1,6 @@
 package com.pbl.demo.model.ingredients_in_campaign;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.pbl.demo.model.ingredients.Ingredients;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pbl.demo.model.campaign.Campaign;
 
 
@@ -32,25 +34,25 @@ public class IngredientsInCampaign {
     @JoinColumn(name = "ingredientID")
     private Ingredients ingredients;
     
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @FutureOrPresent(message = "La fecha debe ser hoy o en el futuro")
-    private Date initDate;
+    @NotNull(message = "The initDate can not be null. It has to be in this format: yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate initDate;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @FutureOrPresent(message = "La fecha debe ser hoy o en el futuro")
-    private Date endDate;
+    @NotNull(message = "The endDate can not be null. It has to be in this format: yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
     public IngredientsInCampaign(){
     }
 
-    public IngredientsInCampaign(Campaign campaign, Ingredients ingredients, Date initDate, Date endDate) {
+    public IngredientsInCampaign(Campaign campaign, Ingredients ingredients, LocalDate initDate, LocalDate endDate) {
         this.campaign = campaign;
         this.ingredients = ingredients;
         this.initDate = initDate;
         this.endDate = endDate;
     }
 
-    public IngredientsInCampaign(Date initDate, Date endDate) {
+    public IngredientsInCampaign(LocalDate initDate, LocalDate endDate) {
         this.initDate = initDate;
         this.endDate = endDate;
     }
@@ -71,19 +73,19 @@ public class IngredientsInCampaign {
         this.ingredients = ingredients;
     }
 
-    public Date getInitDate() {
+    public LocalDate getInitDate() {
         return initDate;
     }
 
-    public void setInitDate(Date initDate) {
+    public void setInitDate(LocalDate initDate) {
         this.initDate = initDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

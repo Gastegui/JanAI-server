@@ -26,8 +26,8 @@ public class FoodGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupID;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
+    @NotNull(message = "The groupName can not be null")
+    @Size(min = 1, max = 50, message = "The groupName must be between 1 and 50 characters long")
     private String groupName;
 
     @OneToMany(mappedBy = "foodGroup", cascade = CascadeType.ALL, orphanRemoval = true)

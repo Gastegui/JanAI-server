@@ -68,6 +68,13 @@ public class CampaignController {
             "application/json", "application/xml" })
     public ResponseEntity<Campaign> addCampaign(@RequestParam int adminID, @Valid @RequestBody Campaign campaign, BindingResult result) {
         
+
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+
         Optional<Campaign> foundCampaign = cmpRepo.findByCampName(campaign.getCampName());
         if (foundCampaign.isPresent()) {
             return ResponseEntity.badRequest().build();

@@ -53,6 +53,12 @@ public class IngredientsInCampaignController {
             "application/json", "application/xml" })
     public ResponseEntity<IngredientsInCampaign> addIngredientInCampaign(@RequestParam int campaignID, @RequestParam int ingredientID, @Valid @RequestBody IngredientsInCampaign ingredientCampaign, BindingResult result) {
         
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+
         Optional<Campaign> foundCampaign = cmpRepo.findById(campaignID);
         Optional<Ingredients> ingredient = ingRepo.findById(ingredientID);
         if (!foundCampaign.isPresent() || !ingredient.isPresent()) {

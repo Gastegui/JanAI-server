@@ -28,70 +28,70 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
 
-    @NotNull(message = "El nombre no puede ser nulo")
-    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
+    @NotNull(message = "The name can not be null")
+    @Size(min = 1, max = 50, message = "The name must be between 1 and 50 characters long")
     private String uname;
 
-    @NotNull(message = "El segundo nombre no puede ser nulo")
-    @Size(min = 1, max = 100, message = "El segundo nombre debe tener entre 1 y 100 caracteres")
+    @NotNull(message = "Second name can not be null")
+    @Size(min = 1, max = 50, message = "Second name must have between 1 and 50 characters")
     private String secondName;
 
-    @NotNull(message = "El género no puede ser nulo")
-    @Pattern(regexp = "M|F", message = "El género debe ser 'M' o 'F'")
+    @NotNull(message = "The gender can not be null")
+    @Pattern(regexp = "M|F", message = "The gender must be 'M' o 'F'")
     private String gender;
 
-    @NotNull(message = "La edad no puede ser nula")
-    @Min(value = 0, message = "La edad debe ser un valor positivo")
-    @Max(value = 150, message = "La edad no puede ser mayor a 150")
+    @NotNull(message = "Age can not be zero")
+    @Min(value = 0, message = "Age should be a positive value")
+    @Max(value = 99, message = "The age cannot be more than 99")
     private int age;
 
-    @NotNull(message = "La altura no puede ser nula")
-    @Min(value = 0, message = "La altura debe ser un valor positivo")
+    @NotNull(message = "The height can not be zero")
+    @Min(value = 0, message = "The height should be a positive value")
     private int height;
 
-    @NotNull(message = "El nombre de usuario no puede ser nulo")
-    @Size(min = 1, max = 50, message = "El nombre de usuario debe tener entre 5 y 50 caracteres")
+    @NotNull(message = "Username can not be null")
+    @Size(min = 1, max = 50, message = "The name must be between 1 and 50 characters long")
     private String username;
 
-    @NotNull(message = "El correo electrónico no puede ser nulo")
-    @Email(message = "El correo electrónico debe tener un formato válido")
+    @NotNull(message = "The e-mail can not be null")
+    @Email(message = "The e-mail must be in a valid format")
     private String email;
 
-    @NotNull(message = "La contraseña no puede ser nula")
-    @Size(min = 1, message = "La contraseña debe tener al menos 6 caracteres")
+    @NotNull(message = "The password can not be null")
+    @Size(min = 6, message = "The password must be at least 6 characters long")
     private String userPass;
 
-    @NotNull(message = "El nivel de actividad no puede ser nulo")
-    @Pattern(regexp = "Sedentary|Light|Moderate|Active|Very Active", message = "El nivel de actividad debe ser uno de los valores: 'Sedentary', 'Light', 'Moderate', 'Active', 'Very Active'")
+    @NotNull(message = "The activity level can not be null")
+    @Pattern(regexp = "Sedentary|Light|Moderate|Active|Very Active", message = "Activity level must be one of the values: 'Sedentary', 'Light', 'Moderate', 'Active', 'Very Active'")
     private String activityLevel;
 
-    @NotNull(message = "El estado de premium no puede ser nulo")
+    @NotNull(message = "Premium status cannot be null. It has to be 'true' or 'false'")
     private Boolean premium;
 
-    @NotNull(message = "El objetivo no puede ser nulo")
-    @Pattern(regexp = "Lose weight|Gain weight|Keep fit", message = "El objetivo debe ser uno de los valores: 'Lose weight', 'Gain weight', 'Keep fit'")
+    @NotNull(message = "The objective can not be null")
+    @Pattern(regexp = "Lose weight|Gain weight|Keep fit", message = "Objective level must be one of the values: 'Lose weight', 'Gain weight', 'Keep fit'")
     private String objective;
 
-    @NotNull(message = "El tamaño del cuello no puede ser nulo NECK")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0 NECK")
+    @NotNull(message = "The neck can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The neck measurement must be greater than 0")
     private float neck;
 
-    @NotNull(message = "El tamaño de la cintura no puede ser nulo WAIST")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de la cintura debe ser mayor que 0 WAIST")
+    @NotNull(message = "The waist can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The waist measurement must be greater than 0")
     private float waist;
 
-    @NotNull(message = "El tamaño de las caderas no puede ser nulo HIPS")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    @NotNull(message = "The hips can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The hips measurement must be greater than 0")
     private float hips;
 
     
-    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    @DecimalMin(value = "0.0", message = "The waterIntake measurement must be greater than 0")
     private Float waterIntake;
 
-    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    @DecimalMin(value = "0.0", message = "The waterCounter measurement must be greater than 0")
     private Integer waterCounter;
     
-    @DecimalMin(value = "0.0", message = "El tamaño de las caderas debe ser mayor que 0 HIPS")
+    @DecimalMin(value = "0.0", message = "The finalDailyCalorieIntake measurement must be greater than 0")
     private Float finalDailyCalorieIntake;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)

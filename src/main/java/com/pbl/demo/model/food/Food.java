@@ -24,28 +24,28 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int foodID;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
+    @NotNull(message = "The foodName can not be null")
+    @Size(min = 1, max = 50, message = "The foodName must be between 1 and 50 characters long")
     private String foodName;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
+    @NotNull(message = "The proteins can not be nullo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The size of the proteins must be greater than 0")
     private float proteins;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
+    @NotNull(message = "The carbs can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The size of the carbs must be greater than 0")
     private float carbs;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
+    @NotNull(message = "The fats can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The size of the fats must be greater than 0")
     private float fats;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
+    @NotNull(message = "The fiber can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The size of the fiber must be greater than 0")
     private float fiber;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño de las caderas debe ser mayor que 0")
+    @NotNull(message = "The calories can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The size of the calories must be greater than 0")
     private float calories;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -31,19 +31,19 @@ public class WeightGoals {
     @JoinColumn(name = "userID")
     private UserData userData;
 
-    @NotNull(message = "El nombre no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
+    @NotNull(message = "The weight can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The weight measurement must be greater than 0")
     private Float weight;
 
-    @NotNull(message = "El nombre no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
+    @NotNull(message = "The goalWeight can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The goalWeight measurement must be greater than 0")
     private Float goalWeight;
 
-    @NotNull(message = "El nombre no puede ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El tamaño del cuello debe ser mayor que 0")
+    @NotNull(message = "The durationToAchieveGoalWeight can not be null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The durationToAchieveGoalWeight must be greater than 0")
     private int durationToAchieveGoalWeight;
 
-    @NotNull(message = "La fecha no puede ser nulo")
+    @NotNull(message = "The registerDate can not be null. It has to be in this format: yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate registerDate;
 

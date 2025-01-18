@@ -25,27 +25,27 @@ public class Restrictions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restrictionID;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The userData can not be null")
     @ManyToOne
     @JoinColumn(name = "userID")
     private UserData userData;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The foodGroup can not be null")
     @ManyToOne
     @JoinColumn(name = "groupID")
     private FoodGroup foodGroup;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The foodClass can not be null")
     @ManyToOne
     @JoinColumn(name = "classID")
     private FoodClass foodClass;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The ingredient can not be null")
     @ManyToOne
     @JoinColumn(name = "ingredientID")
     private Ingredients ingredient;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The foodType can not be null")
     @ManyToOne
     @JoinColumn(name = "typeID")
     private FoodType foodType;

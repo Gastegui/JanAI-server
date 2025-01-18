@@ -27,11 +27,11 @@ public class Ingredients {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ingredientID;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
-    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
+    @NotNull(message = "The ingName can not be null")
+    @Size(min = 1, max = 50, message = "ingName must have between 1 and 50 characters long")
     private String ingName;
 
-    @NotNull(message = "El tipo de alimento no puede ser nulo")
+    @NotNull(message = "The groupID can not be null")
     @ManyToOne
     @JoinColumn(name = "groupID")
     private FoodGroup groupID;
