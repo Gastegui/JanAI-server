@@ -6,6 +6,7 @@ import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,8 +31,8 @@ class IngredientsInCampaignTest {
         // Arrange
         Campaign campaign = new Campaign();
         Ingredients ingredients = new Ingredients();
-        Date initDate = new Date();
-        Date endDate = new Date();
+        LocalDate initDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
 
         // Act
         IngredientsInCampaign ingredientsInCampaign = new IngredientsInCampaign(campaign, ingredients, initDate, endDate);
@@ -46,8 +47,8 @@ class IngredientsInCampaignTest {
     @Test
     void testConstructorWithPartialParameters() {
         // Arrange
-        Date initDate = new Date();
-        Date endDate = new Date();
+        LocalDate initDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
 
         // Act
         IngredientsInCampaign ingredientsInCampaign = new IngredientsInCampaign(initDate, endDate);
@@ -65,8 +66,8 @@ class IngredientsInCampaignTest {
         IngredientsInCampaign ingredientsInCampaign = new IngredientsInCampaign();
         Campaign campaign = new Campaign();
         Ingredients ingredients = new Ingredients();
-        Date initDate = new Date();
-        Date endDate = new Date();
+        LocalDate initDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
 
         // Act
         ingredientsInCampaign.setCampaign(campaign);
@@ -110,8 +111,8 @@ class IngredientsInCampaignTest {
     @Test
     void testInitDateAndEndDate() {
         // Arrange
-        Date initDate = new Date();
-        Date endDate = new Date();
+        LocalDate initDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
         IngredientsInCampaign ingredientsInCampaign = new IngredientsInCampaign();
 
         // Act
