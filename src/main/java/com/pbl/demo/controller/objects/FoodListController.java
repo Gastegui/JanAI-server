@@ -65,11 +65,11 @@ public class FoodListController {
         double totalCalories = 0.0;
 
         for (FoodList foodEntry : foodList) {
-            totalProteins += foodEntry.getFood().getProteins() * foodEntry.getGrams();
-            totalCarbs += foodEntry.getFood().getCarbs() * foodEntry.getGrams();
-            totalFats += foodEntry.getFood().getFats() * foodEntry.getGrams();
-            totalFiber += foodEntry.getFood().getFiber() * foodEntry.getGrams();
-            totalCalories += foodEntry.getFood().getCalories() * foodEntry.getGrams();
+            totalProteins += (foodEntry.getFood().getProteins() * foodEntry.getGrams())/100;
+            totalCarbs += (foodEntry.getFood().getCarbs() * foodEntry.getGrams())/100;
+            totalFats += (foodEntry.getFood().getFats() * foodEntry.getGrams())/100;
+            totalFiber += (foodEntry.getFood().getFiber() * foodEntry.getGrams())/100;
+            totalCalories += (foodEntry.getFood().getCalories() * foodEntry.getGrams())/100;
         }
 
         totalProteins = Math.round(totalProteins * 100.0) / 100.0;
