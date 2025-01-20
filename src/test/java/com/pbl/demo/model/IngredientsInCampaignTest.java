@@ -7,7 +7,6 @@ import com.pbl.demo.model.ingredients_in_campaign.IngredientsInCampaign;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 

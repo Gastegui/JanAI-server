@@ -97,17 +97,10 @@ public class FoodListController {
         if (!foundFood.isPresent() || !foundUserData.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
-            //boolean exist = foodListRepo.findFoodListByFoodIDAndUserID(foundCampaign.get().getCampaignID(), ingredient.get().getIngredientID());
-            //if(!exist)
-            //{
                 foodList.setFood(foundFood.get());
                 foodList.setUserData(foundUserData.get());
                 foodListRepo.save(foodList);
                 return new ResponseEntity<>(foodList, HttpStatus.CREATED);
-            //}else{
-                //return ResponseEntity.badRequest().build();
-            //}
-            
         }
     }
 }
