@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ class IngredientsInCampaignControllerTest {
 
     @Mock
     private IngredientsRepository ingRepo;
+
+    @Mock
+    private BindingResult result;
 
     @InjectMocks
     private IngredientsInCampaignController controller;
@@ -69,35 +73,6 @@ class IngredientsInCampaignControllerTest {
         verify(ingCmpRepo).findAll();
     }
 
-    @Test
-    void testAddIngredientInCampaign_Success() {
-        int campaignID = 1;
-        int ingredientID = 10;
-
-        Campaign campaign = new Campaign();
-        campaign.setCampaignID(campaignID);
-
-        Ingredients ingredient = new Ingredients();
-        ingredient.setIngredientID(ingredientID);
-
-        IngredientsInCampaign ingredientCampaign = new IngredientsInCampaign();
-
-        when(cmpRepo.findById(campaignID)).thenReturn(Optional.of(campaign));
-        when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
-        when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(false);
-
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(campaign, ingredientCampaign.getCampaign());
-        assertEquals(ingredient, ingredientCampaign.getIngredients());
-
-        verify(cmpRepo).findById(campaignID);
-        verify(ingRepo).findById(ingredientID);
-        verify(ingCmpRepo).findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID);
-        verify(ingCmpRepo).save(ingredientCampaign);
-    }
 
     @Test
     void testAddIngredientInCampaign_Duplicate() {
@@ -116,7 +91,7 @@ class IngredientsInCampaignControllerTest {
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
         when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(true);
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -135,7 +110,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.empty());
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.empty());
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, new IngredientsInCampaign(), null);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, new IngredientsInCampaign(), result);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -156,7 +131,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.empty());
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -177,7 +152,7 @@ class IngredientsInCampaignControllerTest {
         when(cmpRepo.findById(campaignID)).thenReturn(Optional.of(campaign));
         when(ingRepo.findById(ingredientID)).thenReturn(Optional.empty());
 
-        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, null);
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -185,5 +160,88 @@ class IngredientsInCampaignControllerTest {
         verify(cmpRepo).findById(campaignID);
         verify(ingRepo).findById(ingredientID);
         verify(ingCmpRepo, never()).save(any());
+    }
+
+    @Test
+    void testAddIngredientInCampaign_ValidationErrors() {
+        // Arrange
+        int campaignID = 1;
+        int ingredientID = 1;
+        IngredientsInCampaign ingredientCampaign = new IngredientsInCampaign();
+        when(result.hasErrors()).thenReturn(true);
+
+        // Act
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getHeaders().containsKey("Validation-Error"));
+    }
+
+    @Test
+    void testAddIngredientInCampaign_CampaignOrIngredientNotFound() {
+        // Arrange
+        int campaignID = 1;
+        int ingredientID = 1;
+        IngredientsInCampaign ingredientCampaign = new IngredientsInCampaign();
+        
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findById(campaignID)).thenReturn(Optional.empty());
+        when(ingRepo.findById(ingredientID)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddIngredientInCampaign_IngredientAlreadyInCampaign() {
+        // Arrange
+        int campaignID = 1;
+        int ingredientID = 1;
+        IngredientsInCampaign ingredientCampaign = new IngredientsInCampaign();
+        Campaign campaign = new Campaign();
+        Ingredients ingredient = new Ingredients();
+        campaign.setCampaignID(campaignID);
+        ingredient.setIngredientID(ingredientID);
+
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findById(campaignID)).thenReturn(Optional.of(campaign));
+        when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
+        when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(true);
+
+        // Act
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddIngredientInCampaign_Success() {
+        // Arrange
+        int campaignID = 1;
+        int ingredientID = 1;
+        IngredientsInCampaign ingredientCampaign = new IngredientsInCampaign();
+        Campaign campaign = new Campaign();
+        Ingredients ingredient = new Ingredients();
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findById(campaignID)).thenReturn(Optional.of(campaign));
+        when(ingRepo.findById(ingredientID)).thenReturn(Optional.of(ingredient));
+        when(ingCmpRepo.findIngredientsInCampaignByCampaignIDAndIngredientID(campaignID, ingredientID)).thenReturn(false);
+
+        // Act
+        ResponseEntity<IngredientsInCampaign> response = controller.addIngredientInCampaign(campaignID, ingredientID, ingredientCampaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(ingredientCampaign, response.getBody());
+        verify(ingCmpRepo, times(1)).save(ingredientCampaign);
+        assertEquals(campaign, ingredientCampaign.getCampaign());
+        assertEquals(ingredient, ingredientCampaign.getIngredients());
     }
 }

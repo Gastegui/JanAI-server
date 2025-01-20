@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ class CampaignControllerTest {
 
     @Mock
     private AdministratorRepository adminRepo;
+
+    @Mock
+    private BindingResult result;
 
     @BeforeEach
     void setUp() {
@@ -132,7 +136,7 @@ class CampaignControllerTest {
         when(cmpRepo.findByCampName(existingCampaign.getCampName())).thenReturn(Optional.of(existingCampaign));
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign, null);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, existingCampaign, result);
         
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -152,10 +156,84 @@ class CampaignControllerTest {
         when(adminRepo.findById(adminId)).thenReturn(Optional.of(admin));
 
         // Act
-        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, newCampaign, null);
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminId, newCampaign, result);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
+    }
+
+    @Test
+    void testAddCampaign_ValidationErrors() {
+        // Arrange
+        int adminID = 1;
+        Campaign campaign = new Campaign();
+        when(result.hasErrors()).thenReturn(true);
+
+        // Act
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminID, campaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getHeaders().containsKey("Validation-Error"));
+    }
+
+    @Test
+    void testAddCampaign_DuplicateCampaignName() {
+        // Arrange
+        int adminID = 1;
+        Campaign campaign = new Campaign();
+        campaign.setCampName("Duplicate Name");
+        
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findByCampName(campaign.getCampName())).thenReturn(Optional.of(new Campaign()));
+
+        // Act
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminID, campaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddCampaign_AdminNotFound() {
+        // Arrange
+        int adminID = 1;
+        Campaign campaign = new Campaign();
+        campaign.setCampName("Unique Name");
+        
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findByCampName(campaign.getCampName())).thenReturn(Optional.empty());
+        when(adminRepo.findById(adminID)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminID, campaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void testAddCampaign_Success() {
+        // Arrange
+        int adminID = 1;
+        Campaign campaign = new Campaign();
+        campaign.setCampName("Unique Name");
+        Administrator admin = new Administrator();
+        
+        when(result.hasErrors()).thenReturn(false);
+        when(cmpRepo.findByCampName(campaign.getCampName())).thenReturn(Optional.empty());
+        when(adminRepo.findById(adminID)).thenReturn(Optional.of(admin));
+
+        // Act
+        ResponseEntity<Campaign> response = campaignController.addCampaign(adminID, campaign, result);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(campaign, response.getBody());
+        verify(cmpRepo, times(1)).save(campaign);
+        assertEquals(admin, campaign.getAdministrator());
     }
 }

@@ -78,7 +78,7 @@ public ResponseEntity<List<FoodClass>> getUsersByName(@RequestParam int userID) 
     return new ResponseEntity<>(foodClassList, HttpStatus.OK);
 }
 
-private void filterInvalidFoodClasses(int userID, List<FoodClass> foodClasses, List<FoodClass> foodClassList) {
+public void filterInvalidFoodClasses(int userID, List<FoodClass> foodClasses, List<FoodClass> foodClassList) {
     for (FoodClass foodClass : foodClasses) {
         if (!foodClassList.contains(foodClass)) {
             continue;
@@ -93,7 +93,7 @@ private void filterInvalidFoodClasses(int userID, List<FoodClass> foodClasses, L
     }
 }
 
-private boolean shouldRemoveFoodClass(List<FoodType> restrictedFoodTypes, List<FoodType> allFoodTypes) {
+public boolean shouldRemoveFoodClass(List<FoodType> restrictedFoodTypes, List<FoodType> allFoodTypes) {
     // If all types are restricted, remove the class
     if (restrictedFoodTypes.size() == allFoodTypes.size()) {
         return true;
@@ -131,7 +131,7 @@ public ResponseEntity<List<FoodType>> getUsersByType(@RequestParam int userID, @
 }
 
 
-private void filterInvalidFoodTypes(int userID, List<FoodType> restrictedFoodTypes, List<FoodType> foodTypeList) {
+public void filterInvalidFoodTypes(int userID, List<FoodType> restrictedFoodTypes, List<FoodType> foodTypeList) {
     for (FoodType foodType : restrictedFoodTypes) {
         if (!foodTypeList.contains(foodType)) {
             continue;
@@ -146,7 +146,7 @@ private void filterInvalidFoodTypes(int userID, List<FoodType> restrictedFoodTyp
     }
 }
 
-private boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<FoodGroup> allFoodGroups) {
+public boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<FoodGroup> allFoodGroups) {
     // If all groups are restricted, remove the type
     if (restrictedFoodGroups.size() == allFoodGroups.size()) {
         return true;
@@ -182,7 +182,7 @@ public ResponseEntity<List<FoodGroup>> getUsersByGroup(@RequestParam int userID,
     return new ResponseEntity<>(foodGroupList, HttpStatus.OK);
 }
 
-private void filterInvalidFoodGroups(int userID, List<FoodGroup> restrictedFoodGroups, List<FoodGroup> foodGroupList) {
+public void filterInvalidFoodGroups(int userID, List<FoodGroup> restrictedFoodGroups, List<FoodGroup> foodGroupList) {
     for (FoodGroup foodGroup : restrictedFoodGroups) {
         if (!foodGroupList.contains(foodGroup)) {
             continue;
@@ -197,7 +197,7 @@ private void filterInvalidFoodGroups(int userID, List<FoodGroup> restrictedFoodG
     }
 }
 
-private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, List<Ingredients> allIngredients) {
+public boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, List<Ingredients> allIngredients) {
     // If all ingredients are restricted, remove the group
     if (restrictedIngredients.size() == allIngredients.size()) {
         return true;
@@ -278,5 +278,7 @@ private boolean shouldRemoveFoodGroup(List<Ingredients> restrictedIngredients, L
             return ResponseEntity.notFound().build();
         }
     }
+
+    
 
 }

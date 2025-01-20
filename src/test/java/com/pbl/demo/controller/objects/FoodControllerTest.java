@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import com.pbl.demo.model.food.Food;
 import com.pbl.demo.model.food.FoodRepository;
@@ -24,6 +25,9 @@ class FoodControllerTest {
 
     @Mock
     private FoodRepository foodRepo;
+
+    @Mock
+    private BindingResult result;
 
     @BeforeEach
     void setUp() {
@@ -144,6 +148,46 @@ class FoodControllerTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(food, response.getBody());
+    }
+
+    @Test
+    void addFood_Success(){
+        Food foundFoods = new Food();
+        String name = "Fried Chicken";
+
+
+        when(result.hasErrors()).thenReturn(false);
+        when(foodRepo.findByFoodName(name)).thenReturn(Optional.empty());
+
+        ResponseEntity<Food> response = foodController.addFood(foundFoods, result);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(foundFoods, response.getBody());
+    }
+
+    @Test
+    void addFood_FoodExists(){
+        Food foundFoods = new Food();
+        foundFoods.setFoodName("Fried Chicken");
+
+
+        when(result.hasErrors()).thenReturn(false);
+        when(foodRepo.findByFoodName(foundFoods.getFoodName())).thenReturn(Optional.of(new Food()));
+
+        ResponseEntity<Food> response = foodController.addFood(foundFoods, result);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void addFood_ValidationErrors(){
+        Food foundFoods = new Food();
+        when(result.hasErrors()).thenReturn(true);
+
+        ResponseEntity<Food> response = foodController.addFood(foundFoods, result);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getHeaders().containsKey("Validation-Error"));
     }
 }
 
