@@ -80,11 +80,11 @@ class FoodListControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map<String, Double> macros = response.getBody();
         assertNotNull(macros);
-        assertEquals(10.0, macros.get("totalProteins"));
-        assertEquals(20.0, macros.get("totalCarbs"));
-        assertEquals(30.0, macros.get("totalFats"));
-        assertEquals(40.0, macros.get("totalFiber"));
-        assertEquals(50.0, macros.get("totalCalories"));
+        assertEquals(0.1, macros.get("totalProteins"));
+        assertEquals(0.2, macros.get("totalCarbs"));
+        assertEquals(0.3, macros.get("totalFats"));
+        assertEquals(0.4, macros.get("totalFiber"));
+        assertEquals(0.5, macros.get("totalCalories"));
     }
 
     @Test

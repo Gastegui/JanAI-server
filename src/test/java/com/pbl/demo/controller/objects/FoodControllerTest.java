@@ -69,7 +69,7 @@ class FoodControllerTest {
         when(foodRepo.findByFoodName("Pizza")).thenReturn(Optional.of(food));
 
         // Act
-        ResponseEntity<Food> response = foodController.addFood(food, null);
+        ResponseEntity<Food> response = foodController.addFood(food, result);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -85,7 +85,7 @@ class FoodControllerTest {
         when(foodRepo.save(food)).thenReturn(food);
 
         // Act
-        ResponseEntity<Food> response = foodController.addFood(food, null);
+        ResponseEntity<Food> response = foodController.addFood(food, result);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
