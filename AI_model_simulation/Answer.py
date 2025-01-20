@@ -12,16 +12,16 @@ class Answer(threading.Thread):
         self.userID = 0
 
     def run(self):
-        while not self._stop_event.is_set():
+        while not self._stop_event.is_set(): #and not self.query.isEmpty()
             try:
                 item = self.query.remove()
 
-                if item != None:
-                    time.sleep(1/2)
-                    self.answer.add(item)
-                if self._stop_event.is_set():
+                #if item != -1:
+                time.sleep(1/2)
+                self.answer.add(item)
+                """else:
                     self.interrupt()
-                    break
+                    break"""
 
             except InterruptedError as e:
                 print(f"Error in ANSWER thread {self.name}: {e}")

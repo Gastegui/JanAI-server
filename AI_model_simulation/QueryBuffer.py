@@ -11,8 +11,8 @@ class QueryBuffer:
         self.spaces = threading.Semaphore(size)
         self.ready = threading.Semaphore(0)
         self.waiting = threading.Semaphore(0)
-        self.bq = queue.Queue(maxsize=size)
         self.modelReady = threading.Semaphore(0)
+        self.bq = queue.Queue(maxsize=size)
         self.waitingCount = 0
 
         self.add_timeout = 2
@@ -38,7 +38,7 @@ class QueryBuffer:
         while not self.bq.empty():
             time.sleep(0.1)  # Check periodically
         print("Queue is now empty. Additions are allowed again.")
-        self.start_timer()
+        #self.start_timer()
 
     def add(self, reqData):
         self.spaces.acquire()
@@ -58,6 +58,8 @@ class QueryBuffer:
             self.waiting.acquire()            
 
         self.bq.put(reqData)
+        if self.bq.qsize() == 1:
+            self.start_timer()
      
         print(str(reqData[0]) + " ADD QUERY >  " + str(reqData[2]) + "\n")
 
@@ -72,8 +74,7 @@ class QueryBuffer:
             self.stop_timer()
             print("Releasing the threads that are ready..." + str(self.bq.qsize()))
             self.ready.release(self.bq.qsize()) #TODO: Hau beste modu batera jarri
-            self.modelReady.release()
-
+            #self.modelReady.release()
             self.mutex.release()
         else:
             
@@ -81,7 +82,8 @@ class QueryBuffer:
             self.ready.acquire()
 
     def remove(self):
-        item = None
+        item = [-1, -1, -1]
+        #self.modelReady.acquire()
         if not self.bq.empty(): #TODO: kondizio hau mutex batekin babestu
             self.items.acquire()
             try:
@@ -103,8 +105,7 @@ class QueryBuffer:
                 self.waiting.release(self.waitingCount) #maxsize of the queue
                 self.waitingCount = 0
             print("******************************************************************\n******************************************************************")
-            self.start_timer()
-            self.modelReady.acquire()
+            
 
         return item
 
@@ -113,3 +114,6 @@ class QueryBuffer:
 
     def isNotEmpty(self):
         return not (len(self.bq) == 0)
+
+    def isEmpty(self):
+        return self.bq.empty()

@@ -25,6 +25,7 @@ class AnswerBuffer:
         item = 0
 
         with self.mutex:
+            #self.items.acquire()
             while True:
                 index = self.findRequestByID(reqData)
                 if index is not None:
