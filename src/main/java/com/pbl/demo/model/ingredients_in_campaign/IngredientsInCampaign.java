@@ -10,6 +10,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,10 +33,12 @@ public class IngredientsInCampaign {
     private Ingredients ingredients;
     
     @NotNull(message = "The initDate can not be null. It has to be in this format: yyyy-MM-dd")
+    @FutureOrPresent(message = "The initDate must be today or a future date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate initDate;
 
     @NotNull(message = "The endDate can not be null. It has to be in this format: yyyy-MM-dd")
+    @FutureOrPresent(message = "The initDate must be today or a future date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

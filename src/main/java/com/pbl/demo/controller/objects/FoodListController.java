@@ -1,7 +1,6 @@
 package com.pbl.demo.controller.objects;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +23,8 @@ import com.pbl.demo.model.food_list.FoodList;
 import com.pbl.demo.model.food_list.FoodListRepository;
 import com.pbl.demo.model.user_data.UserData;
 import com.pbl.demo.model.user_data.UserDataRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/foodList")
@@ -47,11 +49,7 @@ public class FoodListController {
 
         // Filtrar los alimentos por userID y fecha actual
         List<FoodList> foodList = foodListRepo.findByUserId(userID).stream()
-                .filter(foodEntry -> {
-                    LocalDate consumptionDate = foodEntry.getConsumptionDate().toInstant()
-                            .atZone(ZoneId.systemDefault()).toLocalDate();
-                    return consumptionDate.isEqual(today);
-                })
+                .filter(foodEntry -> foodEntry.getConsumptionDate().isEqual(today))
                 .toList();
 
         if (foodList.isEmpty()) {
@@ -91,7 +89,15 @@ public class FoodListController {
 
     @PostMapping(value = "/add", consumes = { "application/json", "application/xml" }, produces = {
         "application/json", "application/xml" })
-    public ResponseEntity<FoodList> addFoodList(@RequestParam int foodID, @RequestParam int userID, @RequestBody FoodList foodList) {
+    public ResponseEntity<FoodList> addFoodList(@RequestParam int foodID, @RequestParam int userID, @Valid @RequestBody FoodList foodList, BindingResult result) {
+        
+        if (result.hasErrors()) {
+            StringBuilder errorMessages = new StringBuilder("Error: ");
+            result.getAllErrors().forEach(error -> errorMessages.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.badRequest().header("Validation-Error", errorMessages.toString()).build();
+        }
+        
+        
         Optional<Food> foundFood = foodRepo.findById(foodID);
         Optional<UserData> foundUserData = userDataRepo.findById(userID);
         if (!foundFood.isPresent() || !foundUserData.isPresent()) {

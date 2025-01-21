@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -69,7 +70,7 @@ class FoodListControllerTest {
         FoodList foodList = new FoodList();
         foodList.setFood(food);
         foodList.setGrams(100f);
-        foodList.setConsumptionDate(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        foodList.setConsumptionDate(today);
 
         when(foodListRepo.findByUserId(userID)).thenReturn(List.of(foodList));
 
@@ -92,6 +93,7 @@ class FoodListControllerTest {
         // Arrange
         int foodID = 1;
         int userID = 1;
+        BindingResult result = mock(BindingResult.class);
 
         when(foodRepo.findById(foodID)).thenReturn(Optional.empty());
         when(userDataRepo.findById(userID)).thenReturn(Optional.empty());
@@ -99,7 +101,7 @@ class FoodListControllerTest {
         FoodList foodList = new FoodList();
 
         // Act
-        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList);
+        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList, result);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -113,14 +115,14 @@ class FoodListControllerTest {
 
         Food food = new Food();
         UserData userData = new UserData();
-
+        BindingResult result = mock(BindingResult.class);
         when(foodRepo.findById(foodID)).thenReturn(Optional.of(food));
         when(userDataRepo.findById(userID)).thenReturn(Optional.of(userData));
 
         FoodList foodList = new FoodList();
 
         // Act
-        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList);
+        ResponseEntity<FoodList> response = controller.addFoodList(foodID, userID, foodList, result);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
