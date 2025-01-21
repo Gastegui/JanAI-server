@@ -66,8 +66,8 @@ create table campaign(
 create table ingredientsInCampaign(
 	campaignID bigint,
     ingredientID bigint,
-    init_date date,
-    end_date date,
+    initDate date,
+    endDate date,
     PRIMARY KEY (campaignID, ingredientID),
     FOREIGN KEY (campaignID) REFERENCES campaign(campaignID),
     FOREIGN KEY (ingredientID) REFERENCES ingredients(ingredientID)
@@ -120,6 +120,7 @@ create table foodList(
     userID bigint,
     consumptionDate date,
     meal char(255),
+    grams float,
     PRIMARY KEY (foodID, userID, consumptionDate, meal),
     FOREIGN KEY (userID) REFERENCES userData(userID),
     FOREIGN KEY (foodID) REFERENCES food(foodID)
