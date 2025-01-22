@@ -1,7 +1,6 @@
 import threading
-from QueryBuffer import QueryBuffer
-from AnswerBuffer import AnswerBuffer
 import time
+import random
 
 class Answer(threading.Thread):
     def __init__(self, QBuffer, ABuffer):
@@ -16,7 +15,7 @@ class Answer(threading.Thread):
             try:
                 item = self.query.remove()
                 if item != None:
-                    time.sleep(1)
+                    time.sleep(random.randint(1, 2))
                     self.answer.add(item)
                 
             except InterruptedError as e:
