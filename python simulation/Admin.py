@@ -7,10 +7,10 @@ class Admin(threading.Thread):
         super().__init__(name=f"Admin {i}")
         self.janai = janai
         self.rand = random.Random()
-        self.interrupted = False
+        self.stop_event = threading.Event()
 
     def run(self):
-        while not self.interrupted:
+        while not self.stop_event.is_set():
             try:
                 time.sleep(self.rand.randint(10, 15))  # No usa la aplicación
                 # Login y comienza el mantenimiento del servidor
@@ -27,10 +27,11 @@ class Admin(threading.Thread):
 
             except Exception as e:
                 print(f"{self.name}: Interrupted with exception {e}")
-                self.interrupt()
+                
 
     def login(self):
         print(f"{self.name} has successfully logged in!!!")
+
 
     def start_maintenance(self):
         print(f"{self.name} has started the server's maintenance.")
@@ -41,5 +42,6 @@ class Admin(threading.Thread):
     def logoff(self):
         print(f"{self.name} has logged off :(")
 
+
     def interrupt(self):
-        self.interrupted = True
+        self.stop_event.set()

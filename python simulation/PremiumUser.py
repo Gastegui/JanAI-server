@@ -10,6 +10,7 @@ class PremiumUser(threading.Thread):
         self.rand = random.Random()
         self.action = 0
         self.meals_registered = 0
+        self.stop_event = threading.Event()
         self.macros = UserMacros(
             recommended_calories=self.rand.randint(1800, 2600),
             recommended_carbs=self.rand.randint(235, 335),
@@ -19,7 +20,7 @@ class PremiumUser(threading.Thread):
         )
 
     def run(self):
-        while True:
+        while not self.stop_event.is_set():
             try:
                 time.sleep(self.rand.randint(0, 2000) / 1000)  # Not using the app
                 # Login and start using it, randomly choose what to do
@@ -42,8 +43,12 @@ class PremiumUser(threading.Thread):
     def login(self):
         print(f"{self.name} has successfully logged in!!!")
 
+    def interrupt(self):
+        self.stop_event.set()
+
     def logoff(self):
         print(f"{self.name} has logged off :(")
+        
 
     def check_profile(self):
         print(f"{self.name} is checking its daily progress:")
@@ -58,3 +63,4 @@ class PremiumUser(threading.Thread):
         self.macros.consumed_fats += self.rand.randint(17, 28)
         self.macros.consumed_fiber += self.rand.randint(8, 16)
         self.macros.consumed_proteins += self.rand.randint(15, 70)
+

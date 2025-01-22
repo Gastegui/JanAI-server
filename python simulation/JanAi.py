@@ -51,5 +51,3 @@ class JanAi:
                 self.server_access.release()
         finally:
             self.mutex.release()
-
-    
