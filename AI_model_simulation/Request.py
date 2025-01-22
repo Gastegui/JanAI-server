@@ -16,23 +16,17 @@ class Request(threading.Thread):
         #Erantzunak buzoietan sartu. Beittu in bida danak aber bere erantzuna aber allau dan. Modeloak erabiltzailean erantzuna bakarrik emun biharko euen.
 
     def run(self):
-        #while not self._stop_event.is_set() or self.end:
         try:
-            self.reqData.append(self.userID)
-            self.reqData.append(self.reqID)
-            rand = random.randint(1, 50)
-            self.reqData.append(rand)
+            self.reqData = [self.userID, self.reqID, random.randint(1, 50)]
             
             self.query.add(self.reqData)
 
             item = self.answer.remove(self.reqData) #TODO: Begiratu linea hau zuzenena dan (sintaxis). Ahal bada objetua izan objetua jarri
-            if item != None:
-                print(str(item[0]) + " RECEIVED ANSWER FROM ANSWERBUFFER: " + str(item[2]) + "\n")
+            print(str(item[0]) + " RECEIVED ANSWER FROM ANSWERBUFFER: " + str(item[2]) + "\n")
 
         except InterruptedError as e:
             print(f"Error in REQUEST thread {self.name}: {e}")
             self.end = True
-            #break
 
     def interrupt(self):
         self._stop_event.set()

@@ -16,16 +16,16 @@ class Answer(threading.Thread):
             try:
                 item = self.query.remove()
 
-                #if item != -1:
-                time.sleep(1/2)
-                self.answer.add(item)
-                """else:
+                if item == None:
                     self.interrupt()
-                    break"""
+                    break
+                elif item[0] != -1:
+                    time.sleep(0.5)
+                    self.answer.add(item)
+                
 
             except InterruptedError as e:
                 print(f"Error in ANSWER thread {self.name}: {e}")
-                self.end = True
                 break
 
     def interrupt(self):

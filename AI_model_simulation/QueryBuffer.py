@@ -11,7 +11,6 @@ class QueryBuffer:
         self.spaces = threading.Semaphore(size)
         self.ready = threading.Semaphore(0)
         self.waiting = threading.Semaphore(0)
-        self.modelReady = threading.Semaphore(0)
         self.bq = queue.Queue(maxsize=size)
         self.waitingCount = 0
 
@@ -19,6 +18,7 @@ class QueryBuffer:
         self.allow_additions = True
         self.timer_thread = None
         self.released = False
+        self.end = False
 
     def start_timer(self):
         self.allow_additions = True
@@ -29,6 +29,11 @@ class QueryBuffer:
         self.allow_additions = False
         self.timer_thread.cancel()
 
+    def kill_buffer(self):
+        self.allow_additions = False
+        self.timer_thread.cancel()
+        self.end = True
+
     def stop_additions(self):
         self.allow_additions = False
         print("REQUESTS ARE NOT ALLOWER UNTIL QUEUE IS EMPTY AGAIN ------------------------------------------------------- queue size: " + str(self.bq.qsize()))
@@ -36,9 +41,8 @@ class QueryBuffer:
 
     def _wait_for_empty(self):
         while not self.bq.empty():
-            time.sleep(0.1)  # Check periodically
+            time.sleep(0.1)
         print("Queue is now empty. Additions are allowed again.")
-        #self.start_timer()
 
     def add(self, reqData):
         self.spaces.acquire()
@@ -67,13 +71,12 @@ class QueryBuffer:
         self.items.release()
 
         self.mutex.acquire()
-        if (self.bq.full() and not self.released) or (not self.allow_additions and not self.released): #or timeout reached
+        if (self.bq.full() and not self.released) or (not self.allow_additions and not self.released and not self.bq.empty()): #or timeout reached
             self.released = True
-            #print("THE VALUE OF BOOLEAN RELEASED: -------------------------------------- " + str(self.released))
 
             self.stop_timer()
             print("Releasing the threads that are ready..." + str(self.bq.qsize()))
-            self.ready.release(self.bq.qsize()) #TODO: Hau beste modu batera jarri
+            self.ready.release(self.bq.qsize()) #TODO: Hau beste modu batera jarri n must be one or more
             #self.modelReady.release()
             self.mutex.release()
         else:
@@ -83,8 +86,7 @@ class QueryBuffer:
 
     def remove(self):
         item = [-1, -1, -1]
-        #self.modelReady.acquire()
-        if not self.bq.empty(): #TODO: kondizio hau mutex batekin babestu
+        if not self.bq.empty() and not self.end: #TODO: kondizio hau mutex batekin babestu. Bihar da answer bakarra badau?
             self.items.acquire()
             try:
                 self.mutex.acquire()
@@ -98,14 +100,16 @@ class QueryBuffer:
             self.mutex.release()
             self.spaces.release()
             
-        else:
+        elif self.bq.empty() and not self.end:
+            self.stop_timer()
             if self.waitingCount >= 1:
                 self.released = False
                 print("RELEASING " + str(self.waitingCount) + " WAITING THREADS")
                 self.waiting.release(self.waitingCount) #maxsize of the queue
                 self.waitingCount = 0
-            print("******************************************************************\n******************************************************************")
-            
+            #print("******************************************************************\n******************************************************************")
+        else:
+            return None
 
         return item
 

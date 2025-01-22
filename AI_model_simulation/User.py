@@ -9,15 +9,14 @@ class User():
         self.answer = ABuffer
         self.reqs = []
         self.userID = id
+        self.request = None
 
     def sendRequests(self):
         reqNum = random.randint(1, 5)
-        print("USER " + str(self.userID) + " GENERATED " + str(reqNum) + " REQUESTS")
         for i in range(reqNum):
-            self.reqs.append(Request(self.query, self.answer, self.userID, i)) 
-            
+            self.reqs.append(Request(self.query, self.answer, self.userID, i))
+
         for requests in self.reqs:
-            time.sleep(1)
             requests.start()
 
     def interruptRequests(self):
@@ -27,6 +26,4 @@ class User():
 
     def joinThreads(self):
         for requests in self.reqs:
-            requests.join()
-
-            
+            requests.join(timeout=1)

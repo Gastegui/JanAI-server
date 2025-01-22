@@ -28,7 +28,7 @@ class App:
         
 
     def interrupt_threads(self):
-        self.QBuffer.stop_timer()
+        self.QBuffer.kill_buffer()
         for user in self.users:
             user.interruptRequests()
             try:
@@ -38,7 +38,7 @@ class App:
 
         self.model.interruptAnswer()
         try:
-            user.joinThreads()
+            self.model.joinThreads()
         except InterruptedError as e:
             e.with_traceback()
         
@@ -49,7 +49,7 @@ class App:
         self.start_threads()
 
         try:
-            time.sleep(10)
+            time.sleep(20)
         except InterruptedError as e:
             e.with_traceback()
 

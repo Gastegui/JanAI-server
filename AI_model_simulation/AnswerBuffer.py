@@ -18,7 +18,7 @@ class AnswerBuffer:
             print(str(item[0]) + " ADD ANSWER >  " + str(item[2]) + "\n")
             self.condition.notify_all()
 
-        self.items.release()
+        #self.items.release()
 
     def remove(self, reqData): #TODO: removerako erantzunak buzoietan jarriko dia. Erabiltzaileak bere erantzunak jasoteko in bida. Monitore batekin ahal da iñ buzoi danak beiketako beria topau arte(ez efizientia)
         #Bestela remove-ian semaforo bat sartu erabiltzaile batek bere erantzuna bakarrik hartzeko.
