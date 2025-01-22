@@ -13,7 +13,7 @@ class User():
 
     def sendRequests(self):
         reqNum = random.randint(1, 5)
-        for i in range(reqNum):
+        for i in range(2):
             self.reqs.append(Request(self.query, self.answer, self.userID, i))
 
         for requests in self.reqs:
@@ -26,4 +26,4 @@ class User():
 
     def joinThreads(self):
         for requests in self.reqs:
-            requests.join(timeout=1)
+            requests.join()

@@ -34,37 +34,13 @@ class AnswerBuffer:
                     self.spaces.release()
                     return item
 
-                print(f"Request {reqData} not found. Waiting...")
+                #print(f"Request {reqData} not found. Waiting...")
                 self.condition.wait()
-        """
-        try:
-            self.mutex.acquire()
-        except InterruptedError:
-            self.items.release()
-            print("Something went wrong on the remove function")
-
-        self.items.acquire()
-
-        
-        while index == None:
-            self.waitingReqs.acquire()
-            print(str(self.list))
-            index = self.findRequestByID(reqData)
-
-        #itemIndex = self.findRequestByID(reqData)
-        #if itemIndex != None:
-        item = self.list.pop(index)
-
-        print(str(item[0]) + " TAKE ANSWER < " + str(item[2]) + "\n")
-
-        self.mutex.release()
-        self.spaces.release()
-        return item"""
 
     def findRequestByID(self, reqData):
         for i in range(len(self.list)):
             if self.list[i][0] == reqData[0] and self.list[i][1] == reqData[1]:
-                print(f"INDEX OF ORIGINAL ELEMENT: {i} {reqData}")
+                #print(f"INDEX OF ORIGINAL ELEMENT: {i} {reqData}")
                 return i
         return None
 

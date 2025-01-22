@@ -18,17 +18,14 @@ class App:
         for i in range(5):
             self.users.append(User(self.QBuffer, self.ABuffer, i))
 
-    def start_threads(self):
-        #self.QBuffer.start_timer()
-        
+    def start_threads(self):        
         for user in self.users:
             user.sendRequests()
         
         self.model.answerRequests()
-        
 
     def interrupt_threads(self):
-        self.QBuffer.kill_buffer()
+        #self.QBuffer.kill_buffer()
         for user in self.users:
             user.interruptRequests()
             try:
