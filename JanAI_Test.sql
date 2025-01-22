@@ -118,151 +118,94 @@ INSERT INTO foodClass(classID, className) VALUES
 -- Insert data into foodType table
 INSERT INTO foodType(typeID, classID, typeName) VALUES
   (0, 0, ' '),
-  (1, 1, 'Appetizer'),
-  (2, 1, 'Breakfast'),
-  (3, 1, 'Dessert'),
-  (4, 1, 'Main Dish'),
-  (5, 1, 'Meat'),
-  (6, 1, 'Pasta'),
-  (7, 1, 'Sandwich'),
-  (8, 1, 'Snacks'),
-  (9, 1, 'Soup'),
-  (10, 2, 'Appetizer'),
-  (11, 2, 'Breakfast'),
-  (12, 2, 'Dessert'),
-  (13, 2, 'Dip'),
-  (14, 2, 'Fruit'),
-  (15, 2, 'Grain'),
-  (16, 2, 'Main Dish'),
-  (17, 2, 'Pasta'),
-  (18, 2, 'Salad'),
-  (19, 2, 'Snacks'),
-  (20, 2, 'Soup'),
-  (21, 2, 'Sweetener');
+  (1, 1, 'Appetizer'), # Animal
+  (2, 1, 'Dessert'), # Animal
+  (3, 1, 'Meat'), # Animal
+  (4, 1, 'Fish'), # Animal
+  (5, 2, 'Dip'), # Plant-based
+  (6, 2, 'Fruit'), # Plant-based
+  (7, 2, 'Grain'), # Plant-based
+  (8, 2, 'Vegetables'), # Plant-based
+  (9, 2, 'Sweetener'); # Plant-based
 
 -- Insert data into foodGroup table
 INSERT INTO foodGroup(groupID, typeID, groupName) VALUES
   (0, 0, ' '),
-  (1, 1, 'Protein'),
-  (2, 1, 'Red Meat'),
-  (3, 1, 'Seafood'),
-  (4, 2, 'Protein'),
-  (5, 3, 'Dairy'),
-  (6, 4, 'Seafood'),
-  (7, 5, 'Poultry'),
-  (8, 5, 'Protein'),
-  (9, 5, 'Red Meat'),
-  (10, 5, 'Seafood'),
-  (11, 6, 'Dairy'),
-  (12, 6, 'Protein'),
-  (13, 6, 'Red Meat'),
-  (14, 7, 'Red Meat'),
-  (15, 7, 'Seafood'),
-  (16, 8, 'Dairy'),
-  (17, 8, 'Seafood'),
-  (18, 9, 'Seafood'),
-  (19, 10, 'Grains'),
-  (20, 10, 'Vegetables'),
-  (21, 11, 'Grains'),
-  (22, 12, 'Fruits'),
-  (23, 12, 'Grains'),
-  (24, 12, 'Nuts'),
-  (25, 12, 'Sugars'),
-  (26, 12, 'Vegetables'),
-  (27, 13, 'Fruits'),
-  (28, 13, 'Legumes'),
-  (29, 14, 'Fruits'),
-  (30, 15, 'Grains'),
-  (31, 16, 'Grains'),
-  (32, 17, 'Vegetables'),
-  (33, 18, 'Vegetables'),
-  (34, 19, 'Grains'),
-  (35, 19, 'Legumes'),
-  (36, 19, 'Nuts'),
-  (37, 19, 'Vegetables'),
-  (38, 20, 'Grains'),
-  (39, 20, 'Protein'),
-  (40, 20, 'Vegetables'),
-  (41, 21, 'Sugars');
+  (1, 1, 'Protein'), # Appetizer
+  (2, 3, 'Red Meat'), # Meat
+  (3, 4, 'Seafood'), # Fish
+  (4, 2, 'Dairy'), # Dessert
+  (5, 3, 'Poultry'), # Meat
+  (6, 7, 'Grains'), # Grain
+  (7, 8, 'Vegetables'), # Vegetables
+  (8, 6, 'Fruits'), # Fruit
+  (9, 2, 'Nuts'), # Dessert
+  (10, 9, 'Sugars'), # Sweetener
+  (11, 5, 'Legumes'); # Dip
 
 -- Insert data into ingredients table
 INSERT INTO ingredients(ingredientID, ingName, groupID) VALUES
   (0, ' ', 0),
-  (1, 'Eggs', 1),
-  (2, 'Pork', 2),
-  (3, 'Snails', 3),
-  (4, 'Squid', 3),
-  (5, 'Mussels', 3),
-  (6, 'Oysters', 3),
-  (7, 'Fish', 3),
-  (8, 'Scallops', 3),
-  (9, 'Tuna', 3),
-  (10, 'Eggs', 4),
-  (11, 'Cream', 5),
-  (12, 'Cream Cheese', 5),
-  (13, 'Mascarpone', 5),
-  (14, 'Ricotta Cheese', 5),
-  (15, 'Yogurt', 5),
-  (16, 'Shrimp', 6),
-  (17, 'Chicken', 7),
-  (18, 'Duck', 7),
-  (19, 'Turkey', 7),
-  (20, 'Eggs', 8),
-  (21, 'Beef', 9),
-  (22, 'Duck Liver', 9),
-  (23, 'Ham', 9),
-  (24, 'Pork', 9),
-  (25, 'Sausage', 9),
-  (26, 'Crab', 10),
-  (27, 'Fish', 10),
-  (28, 'Salmon', 10),
-  (29, 'Cheese', 11),
-  (30, 'Eggs', 12),
-  (31, 'Beef', 13),
-  (32, 'Pork', 14),
-  (33, 'Lobster', 15),
-  (34, 'Cheese', 16),
-  (35, 'Octopus', 17),
-  (36, 'Clams', 18),
-  (37, 'Lobster', 18),
-  (38, 'Dough', 19),
-  (39, 'Bread', 19),
-  (40, 'Potatoes', 20),
-  (41, 'Vegetables', 20),
-  (42, 'Bread', 21),
-  (43, 'Flour', 21),
-  (44, 'Strawberries', 22),
-  (45, 'Flour', 23),
-  (46, 'Almond Flour', 24),
-  (47, 'Chocolate', 25),
-  (48, 'Cocoa', 25),
-  (49, 'Carrots', 26),
-  (50, 'Avocado', 27),
-  (51, 'Chickpeas', 28),
-  (52, 'Apple', 29),
-  (53, 'Bread', 30),
-  (54, 'Dough', 31),
-  (55, 'Rice', 31),
-  (56, 'Rice Noodles', 31),
-  (57, 'Tortilla', 31),
-  (58, 'Potatoes', 32),
-  (59, 'Cucumbers', 33),
-  (60, 'Lettuce', 33),
-  (61, 'Seaweed', 33),
-  (62, 'Tomatoes', 33),
-  (63, 'Tortilla Chips', 34),
-  (64, 'Soybeans', 35),
-  (65, 'Chickpeas', 35),
-  (66, 'Walnuts', 36),
-  (67, 'Tomatoes', 37),
-  (68, 'Potatoes', 37),
-  (69, 'Onions', 37),
-  (70, 'Potatoes', 37),
-  (71, 'Rice Noodles', 38),
-  (72, 'Wheat Noodles', 38),
-  (73, 'Tofu', 39),
-  (74, 'Onions', 40),
-  (75, 'Sugar', 41);
+  (1, 'Eggs', 1), # Protein
+  (2, 'Pork', 2), # Red Meat
+  (3, 'Snails', 3), # Seafood
+  (4, 'Squid', 3), # Seafood
+  (5, 'Mussels', 3), # Seafood
+  (6, 'Oysters', 3), # Seafood
+  (7, 'Fish', 3), # Seafood
+  (8, 'Scallops', 3), # Seafood
+  (9, 'Tuna', 3), # Seafood
+  (10, 'Cream', 4), # Dairy
+  (11, 'Cream Cheese', 4), # Dairy
+  (12, 'Mascarpone', 4), # Dairy
+  (13, 'Ricotta Cheese', 4), # Dairy
+  (14, 'Yogurt', 4), # Dairy
+  (15, 'Shrimp', 3), # Seafood
+  (16, 'Chicken', 5), # Poultry
+  (17, 'Duck', 5), # Poultry
+  (18, 'Turkey', 5), # Poultry
+  (19, 'Beef', 2), # Red meat
+  (20, 'Duck Liver', 2), # Red meat
+  (21, 'Ham', 2), # Red meat
+  (22, 'Pork', 2), # Red meat
+  (23, 'Sausage', 2), # Red meat
+  (24, 'Crab', 3), # Seafood
+  (25, 'Fish', 3), # Seafood
+  (26, 'Salmon', 3), # Seafood
+  (27, 'Cheese', 4), # Dairy
+  (28, 'Beef', 2), # Red meat
+  (29, 'Lobster', 3), # Seafood
+  (30, 'Octopus', 3), # Seafood
+  (31, 'Clams', 3), # Seafood
+  (32, 'Lobster', 3), # Seafood
+  (33, 'Dough', 6), # Grains
+  (34, 'Bread', 6), # Grains
+  (35, 'Potatoes', 7), # Vegetables
+  (36, 'Vegetables', 7), # Vegetables
+  (37, 'Flour', 6), # Grains
+  (38, 'Strawberries', 8), # Fruits
+  (39, 'Almond Flour', 9), # Nuts
+  (40, 'Chocolate', 10), # Sugars
+  (41, 'Cocoa', 10), # Sugars
+  (42, 'Carrots', 7), # Vegetables
+  (43, 'Avocado', 8), # Fruits
+  (44, 'Chickpeas', 11), # Legumes
+  (45, 'Apple', 8), # Fruits
+  (46, 'Rice', 6), # Grains
+  (47, 'Rice Noodles', 6), # Grains
+  (48, 'Tortilla', 6), # Grains
+  (49, 'Cucumbers', 7), # Vegetables
+  (50, 'Lettuce', 7), # Vegetables
+  (51, 'Seaweed', 7), # Vegetables
+  (52, 'Tomatoes', 7), # Vegetables
+  (53, 'Tortilla Chips', 6), # Grains
+  (54, 'Soybeans', 11), # Legumes
+  (55, 'Chickpeas', 11), # Legumes
+  (56, 'Walnuts', 9), # Nuts
+  (57, 'Onions', 7), # Vegetables
+  (58, 'Wheat Noodles', 6), # Grains
+  (59, 'Tofu', 1), # Protein
+  (60, 'Sugar', 10); # Sugars;
 
 -- Insert data into administrator table
 INSERT INTO administrator (uname, surname, username, email, userPass) VALUES
@@ -290,98 +233,98 @@ INSERT INTO hasIngredients(foodID, ingredientID) VALUES
   (7, 7),  
   (8, 8),  
   (9, 9),  
-  (10, 10),  
-  (11, 10),  
-  (12, 10), 
-  (13, 11),  
-  (14, 11),  
-  (15, 11),  
-  (16, 12),  
-  (17, 13),  
-  (18, 14),  
-  (19, 15),  
-  (20, 16),  
-  (21, 17),  
-  (22, 17),  
-  (23, 17),  
-  (24, 18),  
-  (25, 19),  
-  (26, 20),  
-  (27, 21),  
-  (28, 21),  
-  (29, 21),  
-  (30, 21),  
-  (31, 21),  
-  (32, 21),  
-  (33, 21),  
-  (34, 21),  
-  (35, 22),  
-  (36, 23),  
-  (37, 24),  
-  (38, 24),  
-  (39, 25),  
-  (40, 26),  
-  (41, 27),  
-  (42, 27),  
-  (43, 28),  
-  (44, 29),  
-  (45, 29),  
-  (46, 30),  
-  (47, 31),  
-  (48, 31),  
-  (49, 32),  
-  (50, 33),  
-  (51, 34),  
-  (52, 34),  
-  (53, 35),  
-  (54, 36),  
-  (55, 37),  
-  (56, 38),  
-  (57, 39),  
-  (58, 40),  
-  (59, 41),  
-  (60, 42),  
-  (61, 43),  
-  (62, 43),  
-  (63, 44),  
-  (64, 45),  
-  (65, 45),  
-  (66, 45),  
-  (67, 46),  
-  (68, 47),  
-  (69, 47),  
-  (70, 48),  
-  (71, 49),  
-  (72, 50),  
-  (73, 51),  
-  (74, 52),  
-  (75, 53),  
-  (76, 54),  
-  (77, 55),  
-  (78, 55),  
-  (79, 55),  
-  (80, 55),  
-  (81, 56),  
-  (82, 57),  
-  (83, 58),  
-  (84, 59),  
-  (85, 60),  
-  (86, 61),  
-  (87, 62),  
-  (88, 63),  
-  (89, 64),  
-  (90, 65),  
-  (91, 66),  
-  (92, 67),  
-  (93, 68),  
-  (94, 69),  
-  (95, 70),  
-  (96, 71),  
-  (97, 72),  
-  (98, 73),  
-  (99, 73),  
-  (100, 74),  
-  (101, 75);
+  (10, 1),  
+  (11, 1),  
+  (12, 1), 
+  (13, 10),  
+  (14, 10),  
+  (15, 10),  
+  (16, 11),  
+  (17, 12),  
+  (18, 13),  
+  (19, 14),  
+  (20, 15),  
+  (21, 16),  
+  (22, 16),  
+  (23, 16),  
+  (24, 17),  
+  (25, 18),  
+  (26, 1),  
+  (27, 19),  
+  (28, 19),  
+  (29, 19),  
+  (30, 19),  
+  (31, 19),  
+  (32, 19),  
+  (33, 19),  
+  (34, 19),  
+  (35, 20),  
+  (36, 21),  
+  (37, 22),  
+  (38, 22),  
+  (39, 23),  
+  (40, 24),  
+  (41, 25),  
+  (42, 25),  
+  (43, 26),  
+  (44, 27),  
+  (45, 27),  
+  (46, 1),  
+  (47, 28),  
+  (48, 28),  
+  (49, 2),  
+  (50, 29),  
+  (51, 27),  
+  (52, 27),  
+  (53, 30),  
+  (54, 31),  
+  (55, 32),  
+  (56, 33),  
+  (57, 34),  
+  (58, 35),  
+  (59, 36),  
+  (60, 34),  
+  (61, 37),  
+  (62, 37),  
+  (63, 38),  
+  (64, 37),  
+  (65, 37),  
+  (66, 37),  
+  (67, 39),  
+  (68, 40),  
+  (69, 40),  
+  (70, 41),  
+  (71, 42),  
+  (72, 43),  
+  (73, 44),  
+  (74, 45),  
+  (75, 34),  
+  (76, 33),  
+  (77, 46),  
+  (78, 46),  
+  (79, 46),  
+  (80, 46),  
+  (81, 47),  
+  (82, 48),  
+  (83, 35),  
+  (84, 49),  
+  (85, 50), 
+  (86, 51), 
+  (87, 52),  
+  (88, 53),  
+  (89, 54),  
+  (90, 55),  
+  (91, 56),  
+  (92, 52),  
+  (93, 35),  
+  (94, 57),  
+  (95, 35),  
+  (96, 47),  
+  (97, 58),  
+  (98, 59),  
+  (99, 59),  
+  (100, 57),  
+  (101, 60);
 
 -- Insert data into user_data table
 INSERT INTO userData VALUES

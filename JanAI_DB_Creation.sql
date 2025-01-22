@@ -54,7 +54,7 @@ create table administrator(
 );
 
 create table campaign(
-	campaignID bigint,
+	campaignID bigint auto_increment,
     campName char(255),
     adminID bigint,
     town char(255),
