@@ -23,6 +23,7 @@ import jakarta.validation.constraints.NotNull;
 @IdClass(FoodList.class)
 @Table(name = "foodList")
 public class FoodList {
+
     @Id
     @ManyToOne
     @JoinColumn(name = "foodID")
@@ -31,11 +32,13 @@ public class FoodList {
     @ManyToOne
     @JoinColumn(name = "userID")
     private UserData userData;
+
     @Id
     @NotNull(message = "The typeName can not be null")
     @FutureOrPresent(message = "The registerDate must be today or a future date")
     @Column(name = "consumptionDate")
     private LocalDate consumptionDate;
+    
     @Id
     @NotNull(message = "The meal can not be null")
     @Size(min = 1, max = 50, message = "The meal must be between 1 and 50 characters long")

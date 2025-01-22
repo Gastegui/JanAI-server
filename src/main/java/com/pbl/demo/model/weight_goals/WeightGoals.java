@@ -44,7 +44,6 @@ public class WeightGoals {
     private int durationToAchieveGoalWeight;
 
     @NotNull(message = "The registerDate can not be null. It has to be in this format: yyyy-MM-dd")
-    @FutureOrPresent(message = "The registerDate must be today or a future date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate registerDate;
 
