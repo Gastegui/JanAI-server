@@ -21,7 +21,6 @@ class User():
     def interruptRequests(self):
         for requests in self.reqs:
             requests.interrupt()
-            #print("USER request is alive: " + str(requests.is_alive()))
 
     def joinThreads(self):
         for requests in self.reqs:

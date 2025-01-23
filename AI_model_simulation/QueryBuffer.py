@@ -29,7 +29,7 @@ class QueryBuffer:
 
         with self.mutex:
             if self.bq.empty():
-                self.spaces.release(5)
+                self.spaces.release(self.bq.maxsize)
                 self.modelReady.wait(timeout=10)
             if self.end == True:
                 return None

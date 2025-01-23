@@ -42,7 +42,7 @@ class App:
         self.start_threads()
 
         try:
-            time.sleep(30) #decrease timeout
+            time.sleep(30)
         except InterruptedError as e:
             e.with_traceback()
 

@@ -13,7 +13,6 @@ class Model():
 
     def interruptAnswer(self):
         self.mainAnswer.interrupt()
-        #print("MODEL answer is alive: " + str(self.mainAnswer.is_alive()))
 
     def joinThreads(self):
         self.mainAnswer.join(timeout=1)
