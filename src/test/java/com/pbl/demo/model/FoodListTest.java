@@ -7,7 +7,6 @@ import com.pbl.demo.model.user_data.UserData;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +30,6 @@ class FoodListTest {
         // Arrange
         UserData userData = new UserData();
         Food food = new Food();
-        //Date consumptionDate = new Date();
         
         LocalDate consumptionDate = LocalDate.now();
         String meal = "Breakfast";
@@ -49,9 +47,7 @@ class FoodListTest {
 
     @Test
     void testConstructorWithPartialParameters() {
-        // Arrange
-        //Date consumptionDate = new Date();
-        
+        // Arrange        
         LocalDate consumptionDate = LocalDate.now();
         String meal = "Dinner";
         Float grams = 200.0f;
@@ -72,7 +68,7 @@ class FoodListTest {
         FoodList foodList = new FoodList();
         UserData userData = new UserData();
         Food food = new Food();
-        //Date consumptionDate = new Date();
+
         LocalDate consumptionDate = LocalDate.now();
         String meal = "Lunch";
 
@@ -118,7 +114,6 @@ class FoodListTest {
     @Test
     void testConsumptionDateAndMeal() {
         // Arrange
-        //Date consumptionDate = new Date();
         LocalDate consumptionDate = LocalDate.now();
         String meal = "Snack";
         FoodList foodList = new FoodList();

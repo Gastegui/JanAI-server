@@ -97,13 +97,7 @@ public boolean shouldRemoveFoodClass(List<FoodType> restrictedFoodTypes, List<Fo
     // If all types are restricted, remove the class
     if (restrictedFoodTypes.size() == allFoodTypes.size()) {
         filterInvalidFoodTypes(userID, restrictedFoodTypes, allFoodTypes);
-        if(!allFoodTypes.isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-        }
-        
+        return allFoodTypes.isEmpty();
     }
 
     // If any restricted type has a type ID of 0, remove the class
@@ -166,12 +160,7 @@ public boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<F
     // If all groups are restricted, remove the type
     if (restrictedFoodGroups.size() == allFoodGroups.size()) {
         filterInvalidFoodGroups(userID, restrictedFoodGroups, allFoodGroups);
-        if(!allFoodGroups.isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return allFoodGroups.isEmpty();
     }
 
     return false;
