@@ -247,7 +247,7 @@ class RestrictionsControllerTest {
     @Test
     void testShouldRemoveFoodClass_AllTypesRestricted_ReturnsTrue() {
         FoodClass invaliFoodClass = new FoodClass();
-        
+        int userID = 1;
         // Mock data
         List<FoodType> restrictedTypes = Arrays.asList(
                 new FoodType(1, "Type1", invaliFoodClass),
@@ -259,14 +259,15 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertTrue(controller.shouldRemoveFoodClass(restrictedTypes, allTypes));
+        assertTrue(controller.shouldRemoveFoodClass(restrictedTypes, allTypes, userID));
     }
 
     @Test
     void testShouldRemoveFoodClass_TypeWithZeroID_ReturnsTrue() {
         FoodClass invalidClass = new FoodClass();
         FoodClass validClass = new FoodClass();
-        
+        int userID = 1;
+
         // Mock data
         List<FoodType> restrictedTypes = Collections.singletonList(new FoodType(0, "Type0", invalidClass));
         List<FoodType> allTypes = Arrays.asList(
@@ -275,13 +276,13 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertTrue(controller.shouldRemoveFoodClass(restrictedTypes, allTypes));
+        assertTrue(controller.shouldRemoveFoodClass(restrictedTypes, allTypes, userID));
     }
 
     @Test
     void testShouldRemoveFoodClass_NotAllTypesRestricted_ReturnsFalse() {
         FoodClass validClass = new FoodClass();
-        
+        int userID = 1;
         // Mock data
         List<FoodType> restrictedTypes = Collections.singletonList(new FoodType(1, "Type1", validClass));
         List<FoodType> allTypes = Arrays.asList(
@@ -290,13 +291,13 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertFalse(controller.shouldRemoveFoodClass(restrictedTypes, allTypes));
+        assertFalse(controller.shouldRemoveFoodClass(restrictedTypes, allTypes, userID));
     }
 
     @Test
     void testShouldRemoveFoodClass_EmptyRestrictedTypes_ReturnsFalse() {
         FoodClass validClass = new FoodClass();
-        
+        int userID = 1;
         // Mock data
         List<FoodType> restrictedTypes = Collections.emptyList();
         List<FoodType> allTypes = Arrays.asList(
@@ -305,7 +306,7 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertFalse(controller.shouldRemoveFoodClass(restrictedTypes, allTypes));
+        assertFalse(controller.shouldRemoveFoodClass(restrictedTypes, allTypes, userID));
     }
 
     @Test
@@ -408,7 +409,7 @@ class RestrictionsControllerTest {
     @Test
     void testShouldRemoveFoodType_AllGroupsRestricted_ReturnsTrue() {
         FoodType fType = new FoodType();
-        
+        int userID = 1;
         // Mock data
         List<FoodGroup> restrictedGroups = Arrays.asList(
                 new FoodGroup(1, "Group1", fType),
@@ -420,12 +421,13 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertTrue(controller.shouldRemoveFoodType(restrictedGroups, allGroups));
+        assertTrue(controller.shouldRemoveFoodType(restrictedGroups, allGroups, userID));
     }
 
     @Test
     void testShouldRemoveFoodType_GroupWithZeroID_ReturnsTrue() {
         FoodType fType = new FoodType();
+        int userID = 1;
         // Mock data
         List<FoodGroup> restrictedGroups = Collections.singletonList(new FoodGroup(0, "Group0", fType));
         List<FoodGroup> allGroups = Arrays.asList(
@@ -434,13 +436,13 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertTrue(controller.shouldRemoveFoodType(restrictedGroups, allGroups));
+        assertTrue(controller.shouldRemoveFoodType(restrictedGroups, allGroups, userID));
     }
 
     @Test
     void testShouldRemoveFoodType_NotAllGroupsRestricted_ReturnsFalse() {
         FoodType fType = new FoodType();
-        
+        int userID = 1;
         // Mock data
         List<FoodGroup> restrictedGroups = Collections.singletonList(new FoodGroup(1, "Group1", fType));
         List<FoodGroup> allGroups = Arrays.asList(
@@ -449,13 +451,13 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertFalse(controller.shouldRemoveFoodType(restrictedGroups, allGroups));
+        assertFalse(controller.shouldRemoveFoodType(restrictedGroups, allGroups, userID));
     }
 
     @Test
     void testShouldRemoveFoodType_EmptyRestrictedGroups_ReturnsFalse() {
         FoodType fType = new FoodType();
-        
+        int userID = 1;
         // Mock data
         List<FoodGroup> restrictedGroups = Collections.emptyList();
         List<FoodGroup> allGroups = Arrays.asList(
@@ -464,7 +466,7 @@ class RestrictionsControllerTest {
         );
 
         // Execute and Verify
-        assertFalse(controller.shouldRemoveFoodType(restrictedGroups, allGroups));
+        assertFalse(controller.shouldRemoveFoodType(restrictedGroups, allGroups, userID));
     }
 
     @Test

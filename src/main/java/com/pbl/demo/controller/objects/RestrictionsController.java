@@ -87,16 +87,23 @@ public void filterInvalidFoodClasses(int userID, List<FoodClass> foodClasses, Li
         List<FoodType> restrictedFoodTypes = restrictRepo.findDistinctTypeIDsByClassID(foodClass.getClassID(), userID);
         List<FoodType> allFoodTypes = foodTypeRepo.findByClassID(foodClass.getClassID());
 
-        if (shouldRemoveFoodClass(restrictedFoodTypes, allFoodTypes)) {
+        if (shouldRemoveFoodClass(restrictedFoodTypes, allFoodTypes, userID)) {
             foodClassList.remove(foodClass);
         }
     }
 }
 
-public boolean shouldRemoveFoodClass(List<FoodType> restrictedFoodTypes, List<FoodType> allFoodTypes) {
+public boolean shouldRemoveFoodClass(List<FoodType> restrictedFoodTypes, List<FoodType> allFoodTypes, int userID) {
     // If all types are restricted, remove the class
     if (restrictedFoodTypes.size() == allFoodTypes.size()) {
-        return true;
+        filterInvalidFoodTypes(userID, restrictedFoodTypes, allFoodTypes);
+        if(!allFoodTypes.isEmpty()){
+            return false;
+        }
+        else{
+            return true;
+        }
+        
     }
 
     // If any restricted type has a type ID of 0, remove the class
@@ -140,21 +147,29 @@ public void filterInvalidFoodTypes(int userID, List<FoodType> restrictedFoodType
         List<FoodGroup> restrictedFoodGroups = restrictRepo.findDistinctGruopIDsByTypeID(foodType.getTypeId(), userID);
         List<FoodGroup> allFoodGroups = foodGroupRepo.findByTypeID(foodType.getTypeId());
 
-        if (shouldRemoveFoodType(restrictedFoodGroups, allFoodGroups)) {
+        if (shouldRemoveFoodType(restrictedFoodGroups, allFoodGroups, userID)) {
             foodTypeList.remove(foodType);
         }
     }
 }
 
-public boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<FoodGroup> allFoodGroups) {
-    // If all groups are restricted, remove the type
-    if (restrictedFoodGroups.size() == allFoodGroups.size()) {
-        return true;
-    }
+public boolean shouldRemoveFoodType(List<FoodGroup> restrictedFoodGroups, List<FoodGroup> allFoodGroups, int userID) {
+    
 
     // If any restricted group has a group ID of 0, remove the type
     for (FoodGroup group : restrictedFoodGroups) {
         if (group.getGroupID() == 0) {
+            return true;
+        }
+    }
+
+    // If all groups are restricted, remove the type
+    if (restrictedFoodGroups.size() == allFoodGroups.size()) {
+        filterInvalidFoodGroups(userID, restrictedFoodGroups, allFoodGroups);
+        if(!allFoodGroups.isEmpty()){
+            return false;
+        }
+        else{
             return true;
         }
     }
