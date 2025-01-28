@@ -3,9 +3,6 @@ from AI_model import Model
 from User import User
 from QueryBuffer import QueryBuffer
 from AnswerBuffer import AnswerBuffer
-#TODO: Start timeout when first reqeuest is added to queue
-#TODO: The model shouldn't take any requests while the query buffer is empty
-#TODO: Fix ending of program
 
 class App:
     def __init__(self):
@@ -18,17 +15,13 @@ class App:
         for i in range(5):
             self.users.append(User(self.QBuffer, self.ABuffer, i))
 
-    def start_threads(self):
-        #self.QBuffer.start_timer()
-        
+    def start_threads(self):        
         for user in self.users:
             user.sendRequests()
         
         self.model.answerRequests()
-        
 
     def interrupt_threads(self):
-        self.QBuffer.kill_buffer()
         for user in self.users:
             user.interruptRequests()
             try:
@@ -42,14 +35,14 @@ class App:
         except InterruptedError as e:
             e.with_traceback()
         
-        print(self.QBuffer.show())
-        print(self.ABuffer.show())
+        print("Query Buffer: " + str(self.QBuffer.show()))
+        print("Answer Buffer: " + str(self.ABuffer.show()))
 
     def run(self):
         self.start_threads()
 
         try:
-            time.sleep(20)
+            time.sleep(30)
         except InterruptedError as e:
             e.with_traceback()
 
